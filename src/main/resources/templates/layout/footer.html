@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="footer" th:remove="tag">
+
+
+
+  <!-- Optional JS modules -->
+  <script th:src="@{/js/datatables/datatables.min.js}"></script>
+
+  <!-- Default Datatable Buttons -->
+  <script th:src="@{/js/datatables/buttons.flash.min.js}"></script>
+  <script th:src="@{/js/datatables/jszip.min.js}"></script>
+  <script th:src="@{/js/datatables/pdfmake.min.js}"></script>
+  <script th:src="@{/js/datatables/vfs_fonts.js}"></script>
+  <script th:src="@{/js/datatables/buttons.html5.min.js}"></script>
+  <script th:src="@{/js/datatables/buttons.print.min.js}"></script>
+  <script th:src="@{/js/datatables/date-de.js}"></script>
+
+  <script th:src="@{/js/idltd/datatable_template_1.js}"></script>
+
+  <script th:inline="javascript">
+
+  $(document).ready(function () {
+
+    var csrf = {
+      header: /*[[ ${_csrf.headerName} ]]*/ 'fake-csrf-header-name',
+      token: /*[[ ${_csrf.token} ]]*/ 'fake-csrf-token'
+    };
+    var headers = {};
+    headers[csrf.header] = csrf.token;
+    $.ajaxSetup({
+      headers: headers
+    });
+
+    $(".languageSwitcher a").on({
+      click: function () {
+        $.ajax({
+          url: /*[[ @{/} ]]*/ ".",
+          data: {
+            lang: $(this).attr("data-lang")
+          },
+          type: 'POST',
+          success: function (result) {
+            location.reload();
+          }
+        });
+        return false;
+      }
+    });
+
+    /*[# th:if="${#authorization.expression('isAuthenticated()')}"]*/
+
+      $(".workplaceSwitcher a").on('click', function( event ) {
+          $.ajax({
+              url: /*[[ @{/api/set_workplace} ]]*/ "api/set_workplace",
+              data: {
+                  wp_id: $(this).attr("wp_id")
+              },
+              type: 'POST',
+              success: function (result) {
+                  location.reload();
+              }
+          });
+          return false;
+      });
+
+      // Init Select2
+      $(".select2").each(function() {
+          $(this)
+              .wrap("<div class=\"position-relative\"></div>")
+              .select2({
+                  placeholder: /*[[ #{general.undefined} ]]*/ "Undefined",
+                  dropdownParent: $(this).parent()
+              });
+      });
+
+      //check session
+    var timerId = setTimeout(function tick() {
+      $.ajax({
+        url: /*[[ @{/sessioncheck} ]]*/ "/sessioncheck",
+        type: 'POST',
+        dataType: "text",
+        success : function (data, textStatus){
+          if (data == "Active") timerId = setTimeout(tick, 60000);
+          else location.reload();
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+//          alert("Status: " + textStatus); alert("Error: " + errorThrown);
+          document.location.assign(/*[[ @{/logout} ]]*/ "/logout");
+        }
+      });
+    }, 60000);
+
+  /*[/]*/
+
+
+  });
+  </script>
+
+</span>
+
+</body>
+</html>

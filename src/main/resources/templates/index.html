@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:include="layout/header :: header(title = #{index.caption})"></head>
+
+<body> <!-- right-to-left -->
+    <div class="splash active">
+        <div class="splash-icon"></div>
+    </div>
+
+    <div class="wrapper">
+        <nav th:replace="fragments/leftmenu :: leftmenu">left menu</nav>
+
+        <div class="main">
+
+            <nav th:replace="fragments/navigation :: navigation">navigation</nav>
+
+            <main class="content pr-0 pl-0 mr-0 ml-0 mt-0" style="margin-top: 0">
+                <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="!isAuthenticated()">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{eeExpress.Consolidationofcargoes.caption}">Консолидация грузов</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{eeExpress.Consolidationofcargoes.description}"></p>
+                                        <a class="card-link" href="https://ee.express/konsolidaciya-gruzov/" th:text="#{general.Learnmore}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{eeExpress.PreservationofSafety.caption}">Обеспечение сохранности</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{eeExpress.PreservationofSafety.description}"></p>
+                                        <a class="card-link" href="https://ee.express/obespechenie-soxrannosti/" th:text="#{general.Learnmore}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{eeExpress.CargoInsurance.caption}">Страхование грузов</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{eeExpress.CargoInsurance.description}"></p>
+                                        <a class="card-link" href="https://ee.express/straxovanie-gruzov/" th:text="#{general.Learnmore}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{eeExpress.CargoShipment.caption}">Ежедневная отправка грузов</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{eeExpress.CargoShipment.description}"></p>
+                                        <a class="card-link" href="https://ee.express/otpravka-gruzov/" th:text="#{general.Learnmore}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{eeExpress.CustomsClearance.caption}">Таможенное оформление</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{eeExpress.CustomsClearance.description}"></p>
+                                        <a class="card-link" href="https://ee.express/tamozhennoe-oformlenie/" th:text="#{general.Learnmore}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{eeExpress.ManufacturerVerification.caption}">Поиск товара (проверка производителя)</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{eeExpress.ManufacturerVerification.description}"></p>
+                                        <a class="card-link" href="https://ee.express/poisk-tovara/" th:text="#{general.Learnmore}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{help.caption}">Help</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{help.description}"></p>
+                                        <a class="card-link" th:href="@{/help}" th:text="#{general.run}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="hasRole('ROLE_API')">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0" th:text="#{help.caption}">Help</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div>
+                                        <p class="card-text" th:text="#{help.description}"></p>
+                                        <a class="card-link" th:href="@{/help}" th:text="#{general.run}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+<!-- /#wrapper -->
+<footer th:replace="layout/footer :: footer">Footer</footer>
+</body>
+</html>

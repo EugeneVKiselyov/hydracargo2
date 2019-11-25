@@ -1,0 +1,66 @@
+spring:
+  profiles:
+    active: prod
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    properties.hibernate.proc.param_null_passing : true
+    open-in-view: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-dates-as-timestamps: false
+  mvc:
+    throw-exception-if-no-handler-found : true
+#  resources:
+#    add-mappings: false
+
+server :
+  compression :
+    enabled : true
+  error:
+    whitelabel:
+      enabled: false
+  servlet:
+    context-path: /hydracargo2
+    session:
+      timeout: 3600
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    dataSourceClassName : oracle.jdbc.pool.OracleDataSource
+#    driver-class-name : oracle.jdbc.OracleDriver
+    #url: jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
+    username : hydracargo2
+    password : qazzaq
+    url : jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
+    hikari:
+ #     connection-init-sql: alter session set current_schema=HYDRACARGO2
+      minimum-idle: 2
+      maximum-pool-size: 5
+      schema: HYDRACARGO2
+
+server :
+  port : 8081
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    dataSourceClassName : oracle.jdbc.pool.OracleDataSource
+    url: jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
+    username : hydracargo2
+    password : qazzaq
+    hikari:
+      connection-init-sql: alter session set current_schema=HYDRACARGO2
+      minimum-idle: 2
+      maximum-pool-size: 10
+      pool-name: HydraCargo2JPAHinkariCP
+
+server :
+  port : 8080

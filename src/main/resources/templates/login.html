@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{general.login})">
+<body class="theme-blue">
+<div class="splash active">
+    <div class="splash-icon"></div>
+</div>
+
+<main class="main h-100 w-100">
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                <div class="d-table-cell align-middle">
+
+                    <div class="text-center mt-4">
+                        <h1 class="h2" th:text="#{general.login}">Welcome</h1>
+                        <p class="lead" th:text="#{login.message}">
+                            Sign in to your account to continue
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="m-sm-4">
+                                <form th:action="@{/login}" method="post">
+                                    <div th:if="${loginError}" class="alert alert-danger alert-dismissible" role="alert">
+                                        <div class="alert-message" th:text="#{login.messageWrongPassword}">Wrong user or password</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{login.lblusername}">User</label>
+                                        <input class="form-control form-control-lg" type="text" name="username" th:placeholder="#{login.lblusername}" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{login.lblpassword}">Password</label>
+                                        <input class="form-control form-control-lg" type="password" name="password" th:placeholder="#{login.lblpassword}" />
+                                    </div>
+                                    <div>
+                                        <div class="custom-control custom-checkbox align-items-center">
+                                            <input type="checkbox" class="custom-control-input" value="remember-me" name="remember-me" checked>
+                                            <label class="custom-control-label text-small" th:text="#{login.rememberme}">Remember me next time</label>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <button  type="submit" class="btn btn-lg btn-primary" th:text="#{login.sbtbtn}">Sign in</button>
+                                        <!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="layout/footer :: footer">Footer</footer>
+
+</body>
+</html>

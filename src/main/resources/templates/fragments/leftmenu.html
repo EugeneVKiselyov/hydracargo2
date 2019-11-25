@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org "
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+
+<nav th:fragment="leftmenu" id="sidebar" class="sidebar">
+    <a class="sidebar-brand" th:href="@{/index}">
+        <svg>
+            <small class="d-none d-sm-inline"> <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                                               <span sec:authorize="!isAuthenticated()">v3.0.0.1</span>
+            </small>
+        </svg>
+    </a>
+        <div class="sidebar-content">
+            <ul class="sidebar-nav">
+                <li class="sidebar-header">
+                    Main
+                </li>
+                <li class="sidebar-item active">
+                    <a class="sidebar-link" th:href="@{/index}">
+                        <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span class="align-middle" th:text="#{general.dashboard}">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#help" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-desktop"></i> <span class="align-middle" th:text="#{help.caption}">Help</span>
+                    </a>
+                    <ul id="help" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" th:href="@{/help}" th:text="#{help.caption}">Help</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+</nav>
+</body>
+</html>
