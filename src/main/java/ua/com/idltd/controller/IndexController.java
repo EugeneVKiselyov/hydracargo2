@@ -30,7 +30,7 @@ import java.sql.SQLException;
  * Application home page, login, errors.
  */
 @RestController
-public class MainController {
+public class IndexController {
 
     private final WorkplaceRepository workplaceRepository;
     private final Currentworkplace currentworkplace;
@@ -38,7 +38,7 @@ public class MainController {
     private final DataSource dataSource;
 
     @Autowired
-    public MainController(@Qualifier("dataSource") DataSource dataSource, WorkplaceRepository workplaceRepository, Currentworkplace currentworkplace) {
+    public IndexController(@Qualifier("dataSource") DataSource dataSource, WorkplaceRepository workplaceRepository, Currentworkplace currentworkplace) {
         this.dataSource = dataSource;
         this.workplaceRepository = workplaceRepository;
         this.currentworkplace = currentworkplace;
