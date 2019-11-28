@@ -82,13 +82,12 @@
       $.ajax({
         url: /*[[ @{/sessioncheck} ]]*/ "/sessioncheck",
         type: 'POST',
-        dataType: "text",
-        success : function (data, textStatus){
-          if (data == "Active") timerId = setTimeout(tick, 60000);
+        dataType: "json",
+        success : function (data, textStatus, xhr){
+          if (xhr.status === 200) timerId = setTimeout(tick, 60000);
           else location.reload();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-//          alert("Status: " + textStatus); alert("Error: " + errorThrown);
           document.location.assign(/*[[ @{/logout} ]]*/ "/logout");
         }
       });

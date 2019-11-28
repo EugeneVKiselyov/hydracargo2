@@ -94,7 +94,7 @@ public class IndexController {
             if (!conn.isValid(30)) {
                 closesession();
                 result=new ResponseEntity<>("Fail connect to database", HttpStatus.INTERNAL_SERVER_ERROR);
-            } else result=new ResponseEntity<>("Fail connect to database", HttpStatus.OK);
+            } else result=new ResponseEntity<>("Active", HttpStatus.OK);
         } catch (SQLException e) {
             e.printStackTrace();
             closesession();
