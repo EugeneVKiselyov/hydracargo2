@@ -5,6 +5,7 @@ plugins {
     id 'war'
 }
 
+
 group = 'ua.com.idltd'
 version = '2.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'

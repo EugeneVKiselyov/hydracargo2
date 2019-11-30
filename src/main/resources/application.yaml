@@ -11,8 +11,22 @@ spring:
       write-dates-as-timestamps: false
   mvc:
     throw-exception-if-no-handler-found : true
-#  resources:
-#    add-mappings: false
+
+scheduler:
+  common:
+    fixedRate:
+      in:
+        milliseconds: 10000
+  telegram:
+    fixedRate:
+      in:
+        milliseconds: 10000
+
+telegram :
+  BOT_CREATOR_ID : 363275968
+  bot_start : true
+  BOT_TOKEN : 975119726:AAEh44GQlRseE1vWKJbCncSHNubp9qM7L_I
+  BOT_USERNAME : Zammler
 
 server :
   compression :
