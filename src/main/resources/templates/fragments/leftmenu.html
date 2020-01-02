@@ -17,17 +17,26 @@
                 <li class="sidebar-header">
                     Main
                 </li>
-                <li class="sidebar-item active">
+                <li class="sidebar-item active" id="main_li">
                     <a class="sidebar-link" th:href="@{/index}">
                         <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span class="align-middle" th:text="#{general.dashboard}">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#help" data-toggle="collapse" class="sidebar-link collapsed">
+                <li class="sidebar-item" id="help_li">
+                    <a href="#help" id="help_a" data-toggle="collapse" class="sidebar-link collapsed">
                         <i class="align-middle mr-2 fas fa-fw fa-desktop"></i> <span class="align-middle" th:text="#{help.caption}">Help</span>
                     </a>
                     <ul id="help" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                         <li class="sidebar-item"><a class="sidebar-link" th:href="@{/help}" th:text="#{help.caption}">Help</a></li>
+                    </ul>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" id="communicationcenter_li" class="sidebar-item">
+                    <a href="#communicationcenter" id="communicationcenter_a" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-play"></i> <span class="align-middle" th:text="#{Communication.Center.Caption}">Communicztion Center</span>
+                    </a>
+                    <ul id="communicationcenter" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item" id="telegramuser_li"><a class="sidebar-link" id="telegramuser_a" th:href="@{/telegramuser}" th:text="#{Telegram.User}">Registrar</a></li>
+                        <li class="sidebar-item" id="telegram_messages_li"><a class="sidebar-link" id="telegram_messages_a" th:href="@{/telegram_messages}" th:text="#{Telegram.Messages}">Messages</a></li>
                     </ul>
                 </li>
             </ul>

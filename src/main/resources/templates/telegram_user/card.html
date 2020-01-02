@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="telegram_user_body" th:remove="tag">
+        <form id="telegram-user-detail" class="mb-2" th:action="@{/telegramuser/detail}" method="post" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="telegram-user-btn-large" class="d-none d-sm-block">
+                 <button type="submit" id="telegram-user-addbtn" class="btn btn-sm btn-primary telegram_user_btn_control" th:text="#{general.addbtn}" th:attr="mode=0">Add</button>
+                 <button type="submit" id="telegram-user-editbtn" class="btn btn-sm btn-dark telegram_user_btn_control" th:text="#{general.editbtn}" th:attr="mode=1" disabled>Edit</button>
+                 <button type="submit" id="telegram-user-delbtn" class="btn btn-sm btn-dark telegram_user_btn_control" th:text="#{general.delbtn}" th:attr="mode=2" disabled>Delete</button>
+              </div>
+              <div id="telegram-user-btn-small" class="d-block d-sm-none">
+                 <button type="submit" id="telegram-user-addbtn-sx" class="btn btn-sm btn-primary telegram_user_btn_control" th:attr="mode=0"><i data-feather="plus"></i></button>
+                 <button type="submit" id="telegram-user-editbtn-sx" class="btn btn-sm btn-dark telegram_user_btn_control" th:attr="mode=1" disabled><i data-feather="edit-2"></i></button>
+                 <button type="submit" id="telegram-user-delbtn-sx" class="btn btn-sm btn-dark telegram_user_btn_control" th:attr="mode=2" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-telegram-user" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    var vDomParam;
+
+    var tu_id_width, tu_botname_width, tu_username_width, tu_firstname_width, tu_lastname_width, tu_languagecode_width, tu_isbot_width, tu_telegramid_width, tu_startdate_width,
+        tu_enddate_width, tu_isactive_width, rol_id_width, rol_role_width, tv_registrationnumber_width;
+
+    var tu_id_class, tu_botname_class, tu_username_class, tu_firstname_class, tu_lastname_class, tu_languagecode_class, tu_isbot_class, tu_telegramid_class, tu_startdate_class,
+        tu_enddate_class, tu_isactive_class, rol_id_class, rol_role_class, tv_registrationnumber_class;
+
+    var smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    var mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam = "Blfrtp";
+    }
+    else if(smallScreenSize){
+        vDomParam = "Blfrtip";
+        tu_id_width = "5%";
+        tu_id_class = "small_size small_head_size small_footer_size";
+        tu_botname_width = "";
+        tu_botname_class = "none";
+        tu_username_width = "14%";
+        tu_username_class = "small_size small_head_size small_footer_size";
+        tu_firstname_width = "20%";
+        tu_firstname_class = "small_size small_head_size small_footer_size";
+        tu_lastname_width = "20%";
+        tu_lastname_class = "small_size small_head_size small_footer_size";
+        tu_languagecode_width = "5%";
+        tu_languagecode_class = "small_size small_head_size small_footer_size text-center";
+        tu_isbot_width = "5%";
+        tu_isbot_class = "small_size small_head_size small_footer_size text-center";
+        tu_telegramid_width = "";
+        tu_telegramid_class = "none";
+        tu_startdate_width = "";
+        tu_startdate_class = "none";
+        tu_enddate_width = "";
+        tu_enddate_class = "none";
+        tu_isactive_width = "5%";
+        tu_isactive_class = "small_size small_head_size small_footer_size text-center";
+        rol_id_width = "";
+        rol_id_class = "none";
+        rol_role_width = "10%";
+        rol_role_class = "small_size small_head_size small_footer_size";
+        tv_registrationnumber_width = "16%";
+        tv_registrationnumber_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        tu_id_width = "5%";
+        tu_id_class = "";
+        tu_botname_width = "";
+        tu_botname_class = "none";
+        tu_username_width = "14%";
+        tu_username_class = "";
+        tu_firstname_width = "20%";
+        tu_firstname_class = "";
+        tu_lastname_width = "20%";
+        tu_lastname_class = "";
+        tu_languagecode_width = "5%";
+        tu_languagecode_class = "text-center";
+        tu_isbot_width = "5%";
+        tu_isbot_class = "text-center";
+        tu_telegramid_width = "";
+        tu_telegramid_class = "none";
+        tu_startdate_width = "";
+        tu_startdate_class = "none";
+        tu_enddate_width = "";
+        tu_enddate_class = "none";
+        tu_isactive_width = "5%";
+        tu_isactive_class = "text-center";
+        rol_id_width = "";
+        rol_id_class = "none";
+        rol_role_width = "10%";
+        rol_role_class = "";
+        tv_registrationnumber_width = "16%";
+        tv_registrationnumber_class = "";
+    }
+
+    var vTelegrammUsers;
+    vTelegrammUsers = {
+        table : '#table-telegram-user',
+        button_form: "#telegram-user-detail",
+        ajax : {
+            "url": /*[[@{/telegramuser/gettable}]]*/ "telegramuser/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "tu_id",
+        switchControl : telegram_user_switchControl,
+        rowdata:{
+            tu_id: null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columnDefs:[
+            {"targets": [6],
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {             //if column data is 1 then set attr to checked, use row id as input id (plus prefix)
+                        return '<input type="checkbox" ' + ((data == 1) ? 'checked' : '') + ' id="input' + row.id + '" class="filter-ck text-center" disabled="true"/>';
+                    }
+                    return data;
+                },
+            },
+            {"targets": [10],
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {             //if column data is 1 then set attr to checked, use row id as input id (plus prefix)
+                        return '<input type="checkbox" ' + ((data == 1) ? 'checked' : '') + ' id="input' + row.id + '" class="filter-ck text-center" disabled="true"/>';
+                    }
+                    return data;
+                },
+                "className": "dt-body-center text-center"
+            }
+        ],
+        columns : [
+            /*0*/{"title": /*[[#{telegramuser.tu_id}]]*/ "tu_id", "data": "tu_id", "width": tu_id_width, "className": tu_id_class},
+            /*1*/{"title": /*[[#{telegramuser.tu_botname}]]*/ "tu_botname", "data": "tu_botname", "width": tu_botname_width, "className": tu_botname_class},
+            /*2*/{"title": /*[[#{telegramuser.tu_username}]]*/ "tu_username", "data": "tu_username", "width": tu_username_width, "className": tu_username_class},
+            /*3*/{"title": /*[[#{telegramuser.tu_firstname}]]*/ "tu_firstname", "data": "tu_firstname", "width": tu_firstname_width, "className": tu_firstname_class},
+            /*4*/{"title": /*[[#{telegramuser.tu_lastname}]]*/ "tu_lastname", "data": "tu_lastname", "width": tu_lastname_width, "className": tu_lastname_class},
+            /*5*/{"title": /*[[#{telegramuser.tu_languagecode}]]*/ "tu_languagecode", "data": "tu_languagecode", "width": tu_languagecode_width, "className": tu_languagecode_class},
+            /*6*/{"title": /*[[#{telegramuser.tu_isbot}]]*/ "tu_isbot", "data": "tu_isbot", "width": tu_isbot_width, "className": tu_isbot_class},
+            /*7*/{"title": /*[[#{telegramuser.tu_telegramid}]]*/ "tu_telegramid", "data": "tu_telegramid", "width": tu_telegramid_width, "className": tu_telegramid_class},
+            /*8*/{"title": /*[[#{telegramuser.tu_startdate}]]*/ "tu_startdate", "data": "tu_startdate", "width": tu_startdate_width, "className": tu_startdate_class},
+            /*9*/{"title": /*[[#{telegramuser.tu_enddate}]]*/ "tu_enddate", "data": "tu_enddate", "width": tu_enddate_width, "className": tu_enddate_class},
+            /*10*/{"title": /*[[#{telegramuser.tu_isactive}]]*/ "tu_isactive", "data": "tu_isactive", "width": tu_isactive_width, "className": tu_isactive_class},
+            /*11*/{"title": /*[[#{telegramuser.rol_id}]]*/ "rol_id", "data": "rol_id", "width": rol_id_width, "className": rol_id_class},
+            /*12*/{"title": /*[[#{telegramuser.rol_role}]]*/ "rol_role", "data": "rol_role", "width": rol_role_width, "className": rol_role_class},
+            /*13*/{"title": /*[[#{telegramuser.tv_registrationnumber}]]*/ "tv_registrationnumber", "data": "tv_registrationnumber", "width": tv_registrationnumber_width, "className": tv_registrationnumber_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function telegram_user_switchControl(){
+        if(vTelegrammUsers.rowdata.tu_id != null) {
+            $("#telegram-user-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#telegram-user-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#telegram-user-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#telegram-user-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#telegram-user-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#telegram-user-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#telegram-user-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#telegram-user-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.telegram_user_btn_control').on('click', function (){
+        $("#telegram-user-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+    $('#telegram-user-detail').submit(function() {
+        vTelegrammUsers.rowdata.telegram_user_table_order_column = $(vTelegrammUsers.table).DataTable().order()[0][0];
+        vTelegrammUsers.rowdata.telegram_user_table_order_type = $(vTelegrammUsers.table).DataTable().order()[0][1];
+        vTelegrammUsers.rowdata.telegram_user_table_search = $(vTelegrammUsers.table).DataTable().search();
+        vTelegrammUsers.rowdata.telegram_user_table_pagelen = $(vTelegrammUsers.table).DataTable().page.len();
+        vTelegrammUsers.rowdata.telegram_user_table_page = $(vTelegrammUsers.table).DataTable().page.info().page;
+        <!-- Recreate Contragent Ajax Filter Value -->
+
+        Object.keys(vTelegrammUsers.rowdata).forEach(function (index) {
+            $("#telegram-user-detail").append("<input name=\"" + index + "\" hidden>");
+            $("#telegram-user-detail input[name=\"" + index + "\"]").val(vTelegrammUsers.rowdata[index]);
+        });
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#communicationcenter_li').addClass('active').removeClass('collapsed');
+        $('#communicationcenter_a').attr('aria-expanded',true);
+        $('#communicationcenter').addClass('show');
+
+        $('#telegramuser_a').addClass('text-primary');
+
+        vTelegrammUsers.rowdata.tu_id = /*[[${tu_id}]]*/ null;
+
+        vTelegrammUsers.rowdata.table_order_column = /*[[${telegram_user_table_order_column}]]*/ null;
+        vTelegrammUsers.rowdata.table_order_type = /*[[${telegram_user_table_order_type}]]*/ null;
+        vTelegrammUsers.rowdata.table_search = /*[[${telegram_user_table_search}]]*/ null;
+        vTelegrammUsers.rowdata.table_pagelen = /*[[${telegram_user_table_pagelen}]]*/ null;
+        vTelegrammUsers.rowdata.table_page = /*[[${telegram_user_table_page}]]*/ null;
+
+        recreateDataTable(vTelegrammUsers);
+    });
+</script>
+
+</body>
+</html>

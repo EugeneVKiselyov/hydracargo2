@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="telegram_cars_body" th:remove="tag">
+        <form id="telegram-cars-detail" class="mb-2" th:action="@{/telegram_messages/detail}" method="post" hidden>
+                <div id="telegram-cars-btn-large" class="d-none d-sm-block">
+                        <button type="button" id="telegram-cars-addbtn" class="btn btn-sm btn-primary mr-1" th:text="#{general.addbtn}">Add</button>
+                </div>
+                <div id="telegram-cars-btn-small" class="d-block d-sm-none">
+                        <button type="button" id="telegram-cars-addbtn-sx" class="btn btn-sm btn-primary mr-1" th:attr="mode=0"><i data-feather="plus"></i></button>
+                </div>
+        </form>                
+        
+        <div><table id="table-telegram-cars" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    var vDomParam;
+
+    var tv_id_width, tv_registrationnumber_width;
+    var tv_id_class, tv_registrationnumber_class;
+
+    var smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    var mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam = "Blfrtp";
+        tv_id_width = "10%";
+        tv_id_class = "small_size small_head_size small_footer_size";
+        tv_registrationnumber_width = "90%";
+        tv_registrationnumber_class = "small_size small_head_size small_footer_size";
+    }
+    else if(smallScreenSize){
+        vDomParam = "Bfrtip";
+        tv_id_width = "10%";
+        tv_id_class = "small_size small_head_size small_footer_size";
+        tv_registrationnumber_width = "90%";
+        tv_registrationnumber_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = "Bfrtip";
+        tv_id_width = "10%";
+        tv_id_class = "";
+        tv_registrationnumber_width = "90%";
+        tv_registrationnumber_class = "";
+    }
+
+    var vTelegrammCars;
+    vTelegrammCars = {
+        table : '#table-telegram-cars',
+        button_form: "#telegram-cars-detail",
+        ajax : {
+            "url": /*[[@{/telegram_messages/get_cars_table}]]*/ "telegram_messages/get_cars_table",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "tv_id",
+        switchControl : telegram_cars_switchControl,
+        rowdata:{
+                tv_id: null,
+                tv_registrationnumber: null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columnDefs:[
+        ],
+        columns : [
+            /*0*/{"title": /*[[#{telegram_cars.tv_id}]]*/ "tv_id", "data": "tv_id", "width": tv_id_width, "className": tv_id_class},
+            /*1*/{"title": /*[[#{telegram_cars.tv_registrationnumber}]]*/ "tv_registrationnumber", "data": "tv_registrationnumber", "width": tv_registrationnumber_width, "className": tv_registrationnumber_class}
+        ],
+        pageLength: 25,
+        copy_button: false,
+        excel_button: false,
+        pdf_button: false,
+        print_button: false
+    };
+
+    function telegram_cars_switchControl(){
+        if(vTelegrammCars.rowdata.tv_id != null) {
+                $("#telegram-messages-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+                $("#telegram-messages-relbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+                $("#telegram-messages-addbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+                $("#telegram-messages-relbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+                vTelegrammMessages.rowdata.tv_id = vTelegrammCars.rowdata.tv_id;
+                $(vTelegrammMessages.table).DataTable().ajax.reload();
+        }
+        else{
+                $("#telegram-messages-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+                $("#telegram-messages-relbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+                $("#telegram-messages-addbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+                $("#telegram-messages-relbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+                vTelegrammMessages.rowdata.tv_id = null;
+                $(vTelegrammMessages.table).DataTable().clear().draw();
+        }
+    }
+
+    $('.telegram_cars_btn_control').on('click', function (){
+        $("#telegram-cars-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+    $('#telegram-cars-detail').submit(function() {
+        vTelegrammCars.rowdata.telegram_cars_table_order_column = $(vTelegrammCars.table).DataTable().order()[0][0];
+        vTelegrammCars.rowdata.telegram_cars_table_order_type = $(vTelegrammCars.table).DataTable().order()[0][1];
+        vTelegrammCars.rowdata.telegram_cars_table_search = $(vTelegrammCars.table).DataTable().search();
+        vTelegrammCars.rowdata.telegram_cars_table_pagelen = $(vTelegrammCars.table).DataTable().page.len();
+        vTelegrammCars.rowdata.telegram_cars_table_page = $(vTelegrammCars.table).DataTable().page.info().page;
+        <!-- Recreate Contragent Ajax Filter Value -->
+
+        Object.keys(vTelegrammCars.rowdata).forEach(function (index) {
+            $("#telegram-cars-detail").append("<input name=\"" + index + "\" hidden>");
+            $("#telegram-cars-detail input[name=\"" + index + "\"]").val(vTelegrammCars.rowdata[index]);
+        });
+    });
+
+    $('#telegram-cars-addbtn').on('click', function () {
+            $('#cars_message').val('');
+            $('#telegram_cars_modal').modal('show');
+    });
+
+    $('#telegram-cars-addbtn-sx').on('click', function () {
+            $('#cars_message').val('');
+            $('#telegram_cars_modal').modal('show');
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#communicationcenter_li').addClass('active').removeClass('collapsed');
+        $('#communicationcenter_a').attr('aria-expanded',true);
+        $('#communicationcenter').addClass('show');
+
+        $('#telegram_messages_a').addClass('text-primary');
+
+        vTelegrammCars.rowdata.tv_id = /*[[${tv_id}]]*/ null;
+
+        vTelegrammCars.rowdata.table_order_column = /*[[${telegram_cars_table_order_column}]]*/ null;
+        vTelegrammCars.rowdata.table_order_type = /*[[${telegram_cars_table_order_type}]]*/ null;
+        vTelegrammCars.rowdata.table_search = /*[[${telegram_cars_table_search}]]*/ null;
+        vTelegrammCars.rowdata.table_pagelen = /*[[${telegram_cars_table_pagelen}]]*/ null;
+        vTelegrammCars.rowdata.table_page = /*[[${telegram_cars_table_page}]]*/ null;
+
+        recreateDataTable(vTelegrammCars);
+    });
+</script>
+
+</body>
+</html>

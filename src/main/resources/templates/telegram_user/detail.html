@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{telegramuser.header})"></head>
+
+<body class="theme-blue"> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+    <div class="card flex-fill w-100">
+        <div class="card-header">
+            <h5 class="card-title mb-0" th:text="#{telegramuser.caption}"></h5>
+        </div>
+        <div class="card-body">
+            <div>
+                <!--/*@thymesVar id="telegram_user_detail" type="java.util.List"*/-->
+                <form id="telegram-user-updater-form" data-toggle="validator" method="post" class="was-validated" th:action="@{/telegramuser/model}">
+                    <!--/*@thymesVar id="mode" type="java.lang.Long"*/-->
+                    <input type="hidden" id="mode" name="mode" th:value="${mode}">
+                    <div class="btn-group mb-1">
+                        <button type="submit" class="btn btn-outline-dark mr-1" th:text="#{general.back}" form="telegram-user-indexfrm">Cancel</button>
+                        <div th:switch="${mode}">
+                            <button th:case="0" type="submit" id="telegram-user-addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}">Add</button>
+                            <button th:case="1" type="submit" id="telegram-user-editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}">Edit</button>
+                            <button th:case="2" type="submit" id="telegram-user-delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}">Delete</button>
+                        </div>
+                    </div>
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="tu_id" th:value="${tu_id}" >
+
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="telegram_user_table_order_column" th:value="${telegram_user_table_order_column}" >
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="telegram_user_table_order_type" th:value="${telegram_user_table_order_type}" >
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="telegram_user_table_search" th:value="${telegram_user_table_search}" >
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="telegram_user_table_pagelen" th:value="${telegram_user_table_pagelen}" >
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="telegram_user_table_page" th:value="${telegram_user_table_page}" >
+                    <!--suppress ThymeleafVariablesResolveInspection -->
+                    <input type="hidden" name="full_world_tab_name" th:value="${full_world_tab_name}" >
+
+                    <div class="form-row">
+                        <div class="col-12 col-md-2 mb-1" id="tu_id_row">
+                            <label for="tu_id" class="form-label" th:text="'1. '+ #{telegramuser.tu_id}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="number" class="form-control" id="tu_id" name="tu_id" th:value="${tu_id}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                        <div class="col-12 col-md-2 mb-1" id="tu_botname_row">
+                            <label for="tu_botname" class="form-label" th:text="'2. '+ #{telegramuser.tu_botname}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" maxlength="16" class="form-control" id="tu_botname" name="tu_botname" th:value="${tu_botname}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div> <!-- Row 1 -->
+
+                    <div class="form-row">
+                        <div class="col-12 col-md-3 mb-1" id="tu_username_row">
+                            <label for="tu_username" class="form-label" th:text="'3. '+ #{telegramuser.tu_username}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" maxlength="64" class="form-control" id="tu_username" name="tu_username" th:value="${tu_username}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 mb-1" id="tu_firstname_row">
+                            <label for="tu_firstname" class="mr-2" th:text="'4 '+#{telegramuser.tu_firstname}">Service: </label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" maxlength="64" class="form-control" id="tu_firstname" name="tu_firstname" th:value="${tu_firstname}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 mb-1" id="tu_lastname_row">
+                            <label for="tu_lastname" class="mr-2" th:text="'5 '+#{telegramuser.tu_lastname}">Service: </label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" maxlength="64" class="form-control" id="tu_lastname" name="tu_lastname" th:value="${tu_lastname}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div> <!-- Row 2 -->
+
+                    <div class="form-row">
+                        <div class="col-12 col-md-2 mb-1" id="tu_languagecode_row">
+                            <label for="tu_languagecode" class="mr-2" th:text="'6 '+#{telegramuser.tu_languagecode}">Service: </label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" maxlength="8" class="form-control" id="tu_languagecode" name="tu_languagecode" th:value="${tu_languagecode}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+
+                        <div class="col-md-2 mb-1" id="tu_isbot_row">
+                            <label class="form-label" for="tu_isbot" th:text="'7. '+ #{telegramuser.tu_isbot}"></label>
+                            <div class="custom-control custom-switch centered ml-2">
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                <input class="custom-control-input" type="checkbox" id="tu_isbot" name="tu_isbot" th:checked="${tu_isbot == 1}">
+                                <label class="custom-control-label" for="tu_isbot"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 mb-1" id="tu_telegramid_row">
+                            <label class="form-label" for="tu_telegramid" th:text="'8. '+ #{telegramuser.tu_telegramid}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="number" class="form-control" id="tu_telegramid" name="tu_telegramid" th:value="${tu_telegramid}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div> <!-- Row 3 -->
+
+                    <div class="form-row">
+                        <div class="col-md-2 mb-1" id="tu_startdate_row">
+                            <label class="form-label" for="tu_startdate" th:text="'9. '+ #{telegramuser.tu_startdate}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" class="form-control" id="tu_startdate" name="tu_startdate" th:value="${tu_startdate}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+
+                        <div class="col-md-2 mb-1" id="tu_enddate_row">
+                            <label class="form-label" for="tu_enddate" th:text="'10. '+ #{telegramuser.tu_enddate}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" class="form-control" id="tu_enddate" name="tu_enddate" th:value="${tu_enddate}">
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div><!-- Row 4 -->
+
+                    <div class="form-row">
+                        <div class="col-md-2 mb-1" id="tu_isactive_row">
+                            <label class="form-label" for="tu_isactive" th:text="'11. '+ #{telegramuser.tu_isactive}"></label>
+                            <div class="custom-control custom-switch centered ml-2">
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                <input class="custom-control-input" type="checkbox" id="tu_isactive" name="tu_isactive" th:checked="${tu_isactive == 1}">
+                                <label class="custom-control-label" for="tu_isactive"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-1" id="rol_id_row">
+                            <label for="rol_id" th:text="'12. '+#{telegramuser.rol_id}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <select type="text" class="form-control" id="rol_id" name="rol_id">
+                                <option value=""></option>
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                <option class="p-1"
+                                        th:each="role : ${role_list}"
+                                        th:value="${role.rol_id}"
+                                        th:text="${role.rol_role}"
+                                        th:selected="${role.rol_id == rol_id}"
+                                ></option>
+                            </select>
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div><!-- Row 5 -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--/*@thymesVar id="telegram_user_detail" type="java.util.List"*/-->
+    <form id="telegram-user-indexfrm" method="post" th:action="@{/telegramuser}" hidden>
+        <!--suppress ThymeleafVariablesResolveInspection -->
+        <input name="tu_id" th:value="${tu_id}">
+
+        <!--suppress ThymeleafVariablesResolveInspection -->
+        <input name="telegram_user_table_order_column" th:value="${telegram_user_table_order_column}" >
+        <!--suppress ThymeleafVariablesResolveInspection -->
+        <input name="telegram_user_table_order_type" th:value="${telegram_user_table_order_type}" >
+        <!--suppress ThymeleafVariablesResolveInspection -->
+        <input name="telegram_user_table_search" th:value="${telegram_user_table_search}" >
+        <!--suppress ThymeleafVariablesResolveInspection -->
+        <input name="telegram_user_table_pagelen" th:value="${telegram_user_table_pagelen}" >
+        <!--suppress ThymeleafVariablesResolveInspection -->
+        <input name="telegram_user_table_page" th:value="${telegram_user_table_page}" >
+    </form>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<span th:replace="fragments/error :: errorscript_frm(formname = 'telegram-user-indexfrm')">Error</span>
+
+<script>
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#communicationcenter_li').addClass('active').removeClass('collapsed');
+        $('#communicationcenter_a').attr('aria-expanded',true);
+        $('#communicationcenter').addClass('show');
+
+        $('#telegramuser_a').addClass('text-primary');
+<!-- Start Objects -->
+        $('#tu_startdate').attr('disabled','disabled');
+        $('#tu_enddate').attr('disabled','disabled');
+        $('#tu_isactive').attr('disabled','disabled');
+
+        <!-- Form Start -->
+        if($('#mode').val() === '0'){
+            $('#tu_id_row').prop('hidden',true);
+        }
+        else if($('#mode').val() === '1'){
+            $('#tu_id').prop('readOnly',true);
+        }
+        else{
+            $('#tu_id').prop('readOnly',true);
+            $('#tu_botname').prop('readOnly',true);
+            $('#tu_username').prop('readOnly',true);
+            $('#tu_firstname').prop('readOnly',true);
+            $('#tu_lastname').prop('readOnly',true);
+            $('#tu_languagecode').prop('readOnly',true);
+            $('#tu_isbot').attr('disabled','disabled');
+            $('#tu_telegramid').prop('readOnly',true);
+            $('#role_id').attr('disabled','disabled');
+        }
+    });
+</script>
+</body>
+</html>

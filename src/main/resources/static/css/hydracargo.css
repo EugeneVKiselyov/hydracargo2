@@ -1,0 +1,15 @@
+.toolbar {
+    position: relative;
+    float: left;
+}
+.toolbar-office {
+    position: relative;
+    float: left;
+}
+.dataTable tbody tr.selected {
+    color: red !important;
+}
+div.dt-buttons {
+    position: relative;
+    float: left;
+}

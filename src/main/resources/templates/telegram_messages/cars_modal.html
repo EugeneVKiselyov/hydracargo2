@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="telegram_cars_modal_body" th:remove="tag">
+    <div class="modal fade" id="telegram_cars_modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{Telegram.Messages}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-1">
+
+                    <div class="form-row">
+                        <div class="col-12 col-md-12 mb-2">
+                            <label for="rol_id" th:text="'2. '+#{telegram_cars.rol_id}">Bot Type: </label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <select id="rol_id" name="rol_id" class="form-control p-1" th:value="${rol_id}">
+                            </select>
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div> <!-- Row 1 -->
+
+                    <div class="form-row">
+                        <div class="col-12 mb-1" id="tvm_message_row">
+                            <label for="all_message" th:text="'3. '+#{telegram_cars.all_message}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <textarea class="form-control" rows="5" maxlength="512" style="resize:none;" id="all_message" name="all_message" th:text="${all_message}">
+                            </textarea>
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div>  <!-- Row 2 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="telegram_cars_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="telegram_cars_modal_savebtn" class="btn btn-outline-primary" th:text="#{general.addbtn}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+    function carsRoleChange(){
+        $('#rol_id').empty();
+        $.ajax({
+            url:/*[[@{'/telegram_messages/get_send_role_list'}]]*/ "/telegram_messages/get_send_role_list",
+            type: "get",
+            success: function (role_list) {
+                for (var i = 0; i < role_list.data.length; i++) {
+                    if(i === 0) {
+                        $("select[name='rol_id']").find('option').end().append("<option value=''></option>");
+                    }
+                    $("select[name='rol_id']").find('option').end().append("<option value='" + role_list.data[i].rol_id + "'>" + role_list.data[i].rol_role + "</option>");
+                }
+            }
+        });
+    }
+
+    carsRoleChange();
+
+    $('#telegram_cars_modal_savebtn').on('click', function () {
+            var MainRowID = vTelegrammCars.rowdata.tu_id;
+            var RowID = vTelegrammMessages.rowdata.tvm_id;
+            $.ajax({
+                url: /*[[ @{/telegram_messages/add_usertorole_messages} ]]*/ "/telegram_messages/add_usertorole_messages",
+                type: 'POST',
+                data: {
+                    "rol_id": $('#rol_id').val(),
+                    "tvm_message": $('#all_message').val()
+                },
+                success: function (result) {
+                    vTelegrammCars.rowdata.tu_id = MainRowID;
+                    $(vTelegrammCars.table).DataTable().ajax.reload(null, false);
+
+                    vTelegrammMessages.rowdata.tvm_id = RowID;
+                    $(vTelegrammMessages.table).DataTable().ajax.reload(null, false);
+                    $('#telegram_cars_modal').modal('hide');
+                }
+            });
+    });
+</script>
+
+</body>
+</html>

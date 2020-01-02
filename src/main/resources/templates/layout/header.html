@@ -38,10 +38,107 @@
         body {
             opacity: 0;
         }
+
+        div.dataTables_length {
+            float: left;
+        }
+
+        div.dataTables_filter {
+            float: right;
+        }
+
+        div.dataTables_info {
+            float: left;
+        }
+
+        div.dataTables_paginate {
+            float: right;
+        }
+
+        div.DTTT {
+            float: left;
+            margin-right: 50px;
+        }
+
+        table.dataTable tbody tr.selected {
+            background-color: #41D492 !important;
+            color: black !important;
+        }
+
+        table.dataTable tbody tr.selected td{
+            background-color: #41D492 !important;
+            color: black !important;
+        }
+
+        #dropdownMenuLink {
+            cursor: pointer; /* not necessary for Bootstrap */
+            color: white /* change if you want */
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 99;
+            cursor: pointer;
+            padding: 14px;
+        }
+
+        input[type=color].form-control {
+            padding: 0px;
+        }
+
+        div.dom_wrapper {
+            position: sticky;  /* Fix to the top */
+            top: 0;
+            padding: 5px;
+            background: rgba(255, 255, 255, 1);  /* hide the scrolling table */
+        }
+
+        div.toolbar {
+            float: left;
+        }
+
+        .table thead th.md_head_size {font-size: 14px;}
+        .table tr td.md_size {font-size: 13px;}
+        .table tfoot th.md_footer_size {font-size: 12px;}
+        .text_md_size {font-size: 13px;}
+
+        .table thead th.small_head_size {font-size: 13px;}
+        .table tr td.small_size {font-size: 12px;}
+        .table tfoot th.small_footer_size {font-size: 11px;}
+        .text_small_size {font-size: 12px;}
+
+        .table thead th.extra_small_head_size {font-size: 10px;}
+        .table tr td.extra_small_size {font-size: 10px;}
+        .table tfoot th.extra_small_footer_size {font-size: 10px;}
+        .text_extra_small_size {font-size: 10px;}
+
+        .table thead th.head-center {text-align: center;}
+
+        .table thead th.head-grey {background-color: #d5e1df;}
+        .table tr td.cell-grey {background-color: #d5e1df;}
+        th.th-grey {background-color: #d5e1df;}
+
+        .table thead th.head-yellow {background-color: #e3eaa7;}
+        .table tr td.cell-yellow {background-color: #e3eaa7;}
+        th.th-yellow {background-color: #e3eaa7;}
+
+        .table thead th.head-brown {background-color: #e6e2d3;}
+        .table tr td.cell-brown {background-color: #e6e2d3;}
+        th.th-brown {background-color: #e6e2d3;}
+
+        .table thead th.head-blue {background-color: #d5f4e6;}
+        .table tr td.cell-blue {background-color: #d5f4e6;}
+        th.th-blue {background-color: #d5f4e6;}
+
+        th.th-border-black {border-right-width:thin; border-right-color: #0a0c0d;}
+        .table tr td.th-border-black {border-right-width:thin; border-right-color: #0a0c0d;}
     </style>
 
 <!--    <script th:src="@{/spark/dist/js/settings.js}"></script>-->
-    <script th:src="@{/spark/dist/js/app.js}"></script>
+
 </head>
 <body>
 

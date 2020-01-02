@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{Telegram.User})"></head>
+
+<body> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+
+    <div class="row">
+        <div class="container-fluid w-100 h-100 mr-0 ml-0">
+            <div class="card flex-fill w-100 mb-2">
+                <div class="card-header">
+                    <div class="card-actions float-right">
+                        <a href="#telegram_user_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                    </div>
+                    <h5 class="card-title mb-0" href="#telegram_user_div" data-toggle="collapse" th:text="#{Telegram.User}"></h5>
+                </div>
+                <div class="card-body pt-0 collapse show" id="telegram_user_div">
+                    <div>
+                        <span th:replace="telegram_user/card :: telegram_user_body"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+<script th:replace="telegram_user/card :: cardscript"></script>
+</body>
+</html>

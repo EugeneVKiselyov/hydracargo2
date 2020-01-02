@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+    <span th:fragment="error" th:remove="tag">
+        <div id="modal_error" class="modal error" tabindex="-1" role="alertdialog">
+          <div class="splash active">
+            <div class="icon"></div>
+          </div>
+          <div class="wrapper">
+            <div class="page-content full-width full-height">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-4 mx-auto">
+                    <div class="page-brand">
+                      <i class="ion ion-ios-pulse-strong" aria-hidden="true"></i>
+                    </div>
+                    <div class="card card-default widget">
+                      <div class="card-heading text-center">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h3 class="card-title">Internal Server Error</h3>
+                      </div>
+                      <div class="card-body">
+                        <p id="error_code" class="error-code"></p>
+                        <p id="error" class="text-center text-muted"></p>
+                      </div>
+                      <button class="btn btn-default" th:text="#{general.back}" type="button" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </span>
+
+    <span th:fragment="errorscript" th:remove="tag">
+        <script th:inline="javascript">
+            $(document).ready(function() {
+
+                switch(/*[[${error_code}]]*/ null)
+                {
+                    case null: /*зашли первый раз*/
+                        break;
+                    case 0: /*закончилось без ошибок*/
+                        $("#indexfrm").submit();
+                        break;
+                    default: /*все остальное ошибка*/
+                        $("#error_code").prepend( /*[[${error_code}]]*/ null );
+                        $("#error").prepend( /*[[${exception}]]*/ null );
+
+                        $("#modal_error").modal('show');
+                        break;
+                }
+            });
+        </script>
+    </span>
+
+    <span th:fragment="errorscript_frm(formname)" th:remove="tag">
+        <script th:inline="javascript">
+            $(document).ready(function() {
+
+                switch(/*[[${error_code}]]*/ null)
+                {
+                    case null: /*зашли первый раз*/
+                        break;
+                    case 0: /*закончилось без ошибок*/
+                        frm_name=/*[[${formname}]]*/ null;
+                        $("#"+frm_name).submit();
+                        break;
+                    default: /*все остальное ошибка*/
+                        $("#error_code").prepend( /*[[${error_code}]]*/ null );
+                        $("#error").prepend( /*[[${exception}]]*/ null );
+
+                        $("#modal_error").modal('show');
+                        break;
+                }
+            });
+        </script>
+    </span>
+</body>
+</html>

@@ -21,12 +21,10 @@ scheduler:
     fixedRate:
       in:
         milliseconds: 10000
-
-telegram :
-  BOT_CREATOR_ID : 363275968
-  bot_start : true
-  BOT_TOKEN : 975119726:AAEh44GQlRseE1vWKJbCncSHNubp9qM7L_I
-  BOT_USERNAME : Zammler
+  rolehandler:
+    fixedRate:
+      in:
+        milliseconds: 10000
 
 server :
   compression :
@@ -48,17 +46,23 @@ spring:
     dataSourceClassName : oracle.jdbc.pool.OracleDataSource
 #    driver-class-name : oracle.jdbc.OracleDriver
     #url: jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
-    username : hydracargo2
+    username : HCARGO
     password : qazzaq
     url : jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
     hikari:
- #     connection-init-sql: alter session set current_schema=HYDRACARGO2
+      connection-init-sql: alter session set current_schema=HCARGO
       minimum-idle: 2
       maximum-pool-size: 5
-      schema: HYDRACARGO2
+      schema: HCARGO
 
 server :
   port : 8081
+
+telegram :
+  BOT_CREATOR_ID : 363275968
+  bot_start : true
+  BOT_TOKEN : 606957316:AAH1ySWFd1gGTCh4DBzITIG3qJbobOjCJ3Y
+  BOT_USERNAME : eeExpress_TestBot
 
 ---
 
@@ -67,14 +71,20 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     dataSourceClassName : oracle.jdbc.pool.OracleDataSource
-    url: jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
-    username : hydracargo2
+    url: jdbc:oracle:thin:@//localhost/ORCLPDB1
+    username : HCARGO
     password : qazzaq
     hikari:
-      connection-init-sql: alter session set current_schema=HYDRACARGO2
+      connection-init-sql: alter session set current_schema=HCARGO
       minimum-idle: 2
       maximum-pool-size: 10
-      pool-name: HydraCargo2JPAHinkariCP
+      schema: HCARGO
 
 server :
   port : 8080
+
+telegram :
+  BOT_CREATOR_ID : 363275968
+  bot_start : true
+  BOT_TOKEN : 575427048:AAHmoE-Ad9MvT0AKgcOyKtI0g2EP1VPb3Rk
+  BOT_USERNAME : eeExpressBot
