@@ -23,6 +23,7 @@ import ua.com.idltd.hydracargo.bot.telegram.bot.repository.TelegramStandartMessa
 import ua.com.idltd.hydracargo.bot.telegram.bot.repository.TelegramUserRepository;
 import ua.com.idltd.hydracargo.bot.telegram.bot.repository.TelegramVehicleMessageRepository;
 import ua.com.idltd.hydracargo.bot.telegram.bot.repository.TelegramVehicleRepository;
+import ua.com.idltd.hydracargo.resource.Config;
 import ua.com.idltd.hydracargo.sheduler.entity.Scheduler_TelegramTask;
 import ua.com.idltd.hydracargo.sheduler.entity.TelegramBotLog;
 import ua.com.idltd.hydracargo.sheduler.repository.Scheduler_TelegramTaskRepository;
@@ -95,15 +96,14 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         // Добавляем кнопки в первую строчку клавиатуры
         switch (botUser.getRole_id().intValue()) {
-            case 0 : //role_none
+            case Config.ROLE_NONEHANDLER : //role_none
                 keyboardFirstRow.add("Info");
                 keyboardFirstRow.add(messageSourceBase.getMessage("truck.register", null, botUser.getLocale()));
                 break;
-            case 1 : //role_admin
-//                    keyboardFirstRow.add("Truck Register");
+            case Config.ROLE_TRUCKMANAGER : //ROLE_TRUCKMANAGER
                 keyboardFirstRow.add("Info");
                 break;
-            case 4 : //role_truckdriver
+            case Config.ROLE_TRUCKDRIVER : //role_truckdriver
                 KeyboardButton keyboardButton;
 
                 keyboardButton = new KeyboardButton();
@@ -223,13 +223,13 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 
             switch (botUser.getRole_id().intValue()) {
-                case 0: //Новый не подтвержденный
+                case Config.ROLE_NONEHANDLER: //Новый не подтвержденный
                     role_NoneHandler(message, botUser);
                     break;
-                case 4: //ROLE_TRUCKDRIVER
+                case Config.ROLE_TRUCKDRIVER: //ROLE_TRUCKDRIVER
                     role_truckdriverHandler(message, botUser);
                     break;
-                case 5: //ROLE_TRUCKMANAGER
+                case Config.ROLE_TRUCKMANAGER: //ROLE_TRUCKMANAGER
                     role_truckmanagerHandler(message, botUser);
                     break;
                 default:
@@ -263,7 +263,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 sendMessage = sendMsg(messageSourceBase.getMessage("enter.truck.number", null, botUser.getLocale()),botUser);
                 break;
             case 7: //Информация
-                sendMessage = sendMsg(messageSourceBase.getMessage("zammler.info", null, botUser.getLocale()), botUser);
+                sendMessage = sendMsg(messageSourceBase.getMessage("ee.express.info", null, botUser.getLocale()), botUser);
                 break;
             default:
                 String command = telegramBotLogRepository.getPreviosMessage(Long.valueOf(message.getFrom().getId()));
@@ -275,7 +275,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                         sendMessage = sendMsg(addTruck(registrationNumber,botUser),botUser);
                         break;
                     default:
-                        sendMessage = sendMsg(messageSourceBase.getMessage("zammler.info", null, botUser.getLocale()), botUser);
+                        sendMessage = sendMsg(messageSourceBase.getMessage("ee.express.info", null, botUser.getLocale()), botUser);
                         break;
                 }
                 break;
@@ -302,7 +302,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         switch (message_code.intValue()) {
             case 7: //Информация
-                sendMessage = sendMsg(messageSourceBase.getMessage("zammler.info", null, botUser.getLocale()), botUser);
+                sendMessage = sendMsg(messageSourceBase.getMessage("ee.express.info", null, botUser.getLocale()), botUser);
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -319,10 +319,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                         StoredProcedureQuery AddMessageQuery = entityManager
                                 .createStoredProcedureQuery("PKG_TELEGRAM.pr_AddMsgFromUserToRole")
                                 .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
-                                .registerStoredProcedureParameter(2, Long.class, ParameterMode.IN)
+                                .registerStoredProcedureParameter(2, int.class, ParameterMode.IN)
                                 .registerStoredProcedureParameter(3, String.class, ParameterMode.IN)
                                 .setParameter(1, botUser.getTu_id()) //от кого отправляем
-                                .setParameter(2, 5L) //всем менеджерам 5 - роль менеджер
+                                .setParameter(2, Config.ROLE_TRUCKMANAGER) //всем менеджерам 5 - роль менеджер
                                 .setParameter(3, botUser.getFirstName()+" "+botUser.getLastName()+"-->"+telegramVehicle.tv_registrationnumber+":"+message.getText());
                         AddMessageQuery.execute();
                     }

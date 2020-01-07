@@ -2,6 +2,7 @@ package ua.com.idltd.hydracargo.sheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -15,6 +16,9 @@ import java.util.List;
 @Component
 public class ShedulerRoleHandler {
 
+    @Value("${scheduler.rolehandler.enable}")
+    private boolean enabled;
+
     private final DataSource dataSource;
     private final RolesRepository rolesRepository;
 
@@ -27,14 +31,15 @@ public class ShedulerRoleHandler {
 
     @Scheduled(fixedRateString = "${scheduler.rolehandler.fixedRate.in.milliseconds}")
     public void handleAll(){
-        List<String> role_procedureList = rolesRepository.getAllROL_SHEDULER_PROCEDURE();
-        for (String rp : role_procedureList) {
-            SqlParameterSource in = new MapSqlParameterSource();
-            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(dataSource)
-                    .withCatalogName("PKG_SCHEDULER")
-                    .withProcedureName(rp);
-            simpleJdbcCall.execute();
+        if (enabled) {
+            List<String> role_procedureList = rolesRepository.getAllROL_SHEDULER_PROCEDURE();
+            for (String rp : role_procedureList) {
+                SqlParameterSource in = new MapSqlParameterSource();
+                SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                        .withCatalogName("PKG_SCHEDULER")
+                        .withProcedureName(rp);
+                simpleJdbcCall.execute();
+            }
         }
-
     }
 }
