@@ -26,11 +26,19 @@
     var mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
 
     if(mobileScreenSize){
-        vDomParam = "Blfrtp";
+            vDomParam =
+                    "<'row'<'col-12'B>>"+
+                    "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+                    "<'row'<'col-12'tr>>" +
+                    "<'row'<'col-12'p>>";
+
         tv_id_width = "10%";
         tv_id_class = "small_size small_head_size small_footer_size";
         tv_registrationnumber_width = "90%";
         tv_registrationnumber_class = "small_size small_head_size small_footer_size";
+
+        $('#telegram-cars-addbtn').removeClass('btn-sm');
+        $('#telegram-cars-addbtn-sx').removeClass('btn-sm');
     }
     else if(smallScreenSize){
         vDomParam = "Bfrtip";
@@ -49,39 +57,38 @@
 
     var vTelegrammCars;
     vTelegrammCars = {
-        table : '#table-telegram-cars',
-        button_form: "#telegram-cars-detail",
-        ajax : {
+            table : '#table-telegram-cars',
+            button_form: "#telegram-cars-detail",
+            ajax : {
             "url": /*[[@{/telegram_messages/get_cars_table}]]*/ "telegram_messages/get_cars_table",
             "type": "post",
-            "data": {
-            }
-        },
-        key : "tv_id",
-        switchControl : telegram_cars_switchControl,
-        rowdata:{
+            "data": {}
+            },
+            key : "tv_id",
+            switchControl : telegram_cars_switchControl,
+            rowdata:{
                 tv_id: null,
                 tv_registrationnumber: null
-        },
-        ordering: true,
-        order: [
-            [0, "asc"]
-        ],
-        scrollX: true,
-        dom: vDomParam,
-        createdRow: function( row, data, dataIndex ) {
-        },
-        columnDefs:[
-        ],
-        columns : [
-            /*0*/{"title": /*[[#{telegram_cars.tv_id}]]*/ "tv_id", "data": "tv_id", "width": tv_id_width, "className": tv_id_class},
-            /*1*/{"title": /*[[#{telegram_cars.tv_registrationnumber}]]*/ "tv_registrationnumber", "data": "tv_registrationnumber", "width": tv_registrationnumber_width, "className": tv_registrationnumber_class}
-        ],
-        pageLength: 25,
-        copy_button: false,
-        excel_button: false,
-        pdf_button: false,
-        print_button: false
+            },
+            ordering: true,
+            order: [
+                    [0, "asc"]
+            ],
+            scrollX: true,
+            dom: vDomParam,
+            createdRow: function( row, data, dataIndex ) {
+
+            },
+            columnDefs:[],
+            columns : [
+                    /*0*/{"title": /*[[#{telegram_cars.tv_id}]]*/ "tv_id", "data": "tv_id", "width": tv_id_width, "className": tv_id_class},
+                    /*1*/{"title": /*[[#{telegram_cars.tv_registrationnumber}]]*/ "tv_registrationnumber", "data": "tv_registrationnumber", "width": tv_registrationnumber_width, "className": tv_registrationnumber_class}
+                    ],
+            pageLength: 25,
+            copy_button: false,
+            excel_button: false,
+            pdf_button: false,
+            print_button: false
     };
 
     function telegram_cars_switchControl(){

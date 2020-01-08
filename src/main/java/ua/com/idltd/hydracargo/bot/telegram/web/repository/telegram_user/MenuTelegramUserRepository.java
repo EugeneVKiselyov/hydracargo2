@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ua.com.idltd.hydracargo.bot.telegram.web.entity.telegram_user.MenuTelegramUser;
 
+
 import java.util.List;
 
 @Repository

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="telegram_line_main_body" th:remove="tag">
+        <form id="telegram-line-main-detail" class="mb-2" th:action="@{/telegram_line/detail}" method="post" hidden>
+                <div class="input-group input-group-sm" id="telegram-line-main-button-group">
+                        <div class="custom-control custom-switch centered mr-2 mb-2">
+                                <div class="custom-control custom-switch">
+                                        <!--suppress ThymeleafVariablesResolveInspection -->
+                                        <input class="custom-control-input" type="checkbox" id="telegram_line_timer_check" name="telegram_line_timer_check">
+                                        <label class="custom-control-label" for="telegram_line_timer_check" th:text="#{telegram_line.timer}">Timer</label>
+                                </div>
+                        </div>
+                        <div class="mr-2 mb-2">
+                                <select class="form-control form-control-sm d-md-inline-block" style="width:130px; display:inline-block" id="telegram_line_timer" disabled>
+                                        <option value="10000">10c</option>
+                                        <option value="30000">30c</option>
+                                        <option value="60000">1m</option>
+                                        <option value="300000">5m</option>
+                                        <option value="600000">10m</option>
+                                </select>
+                        </div>
+                        <button type="button" id="telegram-line-main-addbtn" class="btn btn-sm btn-dark mr-2 mb-2" th:text="#{general.addbtn}" disabled>Add</button>
+                        <button type="button" id="telegram-line-main-relbtn" class="btn btn-sm btn-primary mb-2"><i data-feather="refresh-ccw"></i></button>
+                </div>
+        </form>
+        
+        <div><table id="table-telegram-line-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let tvm_id_width, tv_id_width, tv_number_width, tu_id_width, tu_name_width, tvm_message_width, tvms_id_width, tvms_name_width, tvm_createdate_width, tvm_status_change_width,
+            tvm_direct_width, tvm_max_color_width;
+    let tvm_id_class, tv_id_class, tv_number_class, tu_id_class, tu_name_class, tvm_message_class, tvms_id_class, tvms_name_class, tvm_createdate_class, tvm_status_change_class,
+            tvm_direct_class, tvm_max_color_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+            vDomParam =
+                    "<'row'<'col-12'B>>"+
+                    "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+                    "<'row'<'col-12'tr>>" +
+                    "<'row'<'col-12'p>>";
+
+            tvm_direct_width = "5%";
+            tvm_direct_class = "min-tablet-p text-center small_size small_head_size small_footer_size";
+            tv_id_width = "";
+            tv_id_class = "none";
+            tv_number_width = "10%";
+            tv_number_class = "text-center small_size small_head_size small_footer_size";
+            tvm_id_width = "";
+            tvm_id_class = "none";
+            tu_id_width = "";
+            tu_id_class = "none";
+            tu_name_width = "16%";
+            tu_name_class = "small_size small_head_size small_footer_size";
+            tvm_message_width = "59%";
+            tvm_message_class = "small_size small_head_size small_footer_size";
+            tvms_id_width = "";
+            tvms_id_class = "none";
+            tvms_name_width = "";
+            tvms_name_class = "none";
+            tvm_createdate_width = "10%";
+            tvm_createdate_class = "min-tablet-p text-center small_size small_head_size small_footer_size";
+            tvm_status_change_width = "";
+            tvm_status_change_class = "none";
+            tvm_max_color_width = "";
+            tvm_max_color_class = "none";
+
+            $('#telegram-line-main-button-group').addClass('mx-auto');
+            $('#telegram_line_timer').removeClass('form-control-sm');
+            $('#telegram-line-main-relbtn').removeClass('btn-sm');
+            $('#telegram-line-main-addbtn').removeClass('btn-sm');
+            $('#telegram-line-main-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(smallScreenSize){
+            vDomParam = "Blfrtip";
+            tvm_direct_width = "6%";
+            tvm_direct_class = "text-center small_size small_head_size small_footer_size";
+            tv_id_width = "";
+            tv_id_class = "none";
+            tv_number_width = "10%";
+            tv_number_class = "text-center small_size small_head_size small_footer_size";
+            tvm_id_width = "";
+            tvm_id_class = "none";
+            tu_id_width = "";
+            tu_id_class = "none";
+            tu_name_width = "14%";
+            tu_name_class = "small_size small_head_size small_footer_size";
+            tvm_message_width = "55%";
+            tvm_message_class = "small_size small_head_size small_footer_size";
+            tvms_id_width = "";
+            tvms_id_class = "none";
+            tvms_name_width = "5%";
+            tvms_name_class = "text-center small_size small_head_size small_footer_size";
+            tvm_createdate_width = "";
+            tvm_createdate_class = "none";
+            tvm_status_change_width = "10%";
+            tvm_status_change_class = "text-center small_size small_head_size small_footer_size";
+            tvm_max_color_width = "";
+            tvm_max_color_class = "none";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        tvm_direct_width = "5%";
+        tvm_direct_class = "text-center";
+        tv_id_width = "";
+        tv_id_class = "none";
+        tv_number_width = "9%";
+        tv_number_class = "text-center";
+        tvm_id_width = "";
+        tvm_id_class = "none";
+        tu_id_width = "";
+        tu_id_class = "none";
+        tu_name_width = "10%";
+        tu_name_class = "";
+        tvm_message_width = "";
+        tvm_message_class = "63%";
+        tvms_id_width = "";
+        tvms_id_class = "none";
+        tvms_name_width = "5%";
+        tvms_name_class = "text-center";
+        tvm_createdate_width = "";
+        tvm_createdate_class = "none";
+        tvm_status_change_width = "8%";
+        tvm_status_change_class = "text-center";
+        tvm_max_color_width = "";
+        tvm_max_color_class = "none";
+    }
+
+    var vTelegrammLineMain;
+    vTelegrammLineMain = {
+            table : '#table-telegram-line-main',
+            button_form: (mobileScreenSize) ? null : "#telegram-line-main-detail",
+            ajax : {
+                "url": /*[[@{/telegram_line/get_main_table}]]*/ "telegram_line/get_main_table",
+                "type": "post",
+                "data": {
+                }
+            },
+            key : "tvm_id",
+            switchControl : telegram_line_switchControl,
+            rowdata:{
+                tv_id: null,
+                tvm_id: null,
+                tv_number: null,
+                tvm_direct: null
+            },
+            ordering: true,
+            order: [
+                    [3, "desc"]
+            ],
+            scrollX: true,
+            dom: vDomParam,
+            createdRow: function( row, data, dataIndex ) {
+                    $(row).css('background-color', data["tvm_max_color"]);
+            },
+            columnDefs:[
+                {"targets": [0], render: function (a, b, data, d) {
+                        if(data.tvm_direct === 0) { return '<a class=\"btn btn-xs\"><i class=\"align-middle text-danger fas fa-fw fa-truck\"></i></a>';}
+                        else{return '<a class=\"btn btn-xs\"><i class=\"align-middle text-success fas fa-fw fa-user-tie\"></i></a>';}
+                }},
+                {"targets": [9], type: 'de_datetime'},
+                {"targets": [10], type: 'de_datetime'}
+
+                ],
+            columns : [
+                /*0*/{"title": /*[[#{telegram_line.tvm_direct}]]*/ "tvm_direct", "data": "tvm_direct", "width": tvm_direct_width, "className": tvm_direct_class},
+                /*1*/{"title": /*[[#{telegram_line.tv_id}]]*/ "tv_id", "data": "tv_id", "width": tv_id_width, "className": tv_id_class},
+                /*2*/{"title": /*[[#{telegram_line.tv_number}]]*/ "tv_number", "data": "tv_number", "width": tv_number_width, "className": tv_number_class},
+                /*3*/{"title": /*[[#{telegram_line.tvm_id}]]*/ "tvm_id", "data": "tvm_id", "width": tvm_id_width, "className": tvm_id_class},
+                /*4*/{"title": /*[[#{telegram_line.tu_id}]]*/ "tu_id", "data": "tu_id", "width": tu_id_width, "className": tu_id_class},
+                /*5*/{"title": /*[[#{telegram_line.tu_name}]]*/ "tu_name", "data": "tu_name", "width": tu_name_width, "className": tu_name_class},
+                /*6*/{"title": /*[[#{telegram_line.tvm_message}]]*/ "tvm_message", "data": "tvm_message", "width": tvm_message_width, "className": tvm_message_class},
+                /*7*/{"title": /*[[#{telegram_line.tvms_id}]]*/ "tvms_id", "data": "tvms_id", "width": tvms_id_width, "className": tvms_id_class},
+                /*8*/{"title": /*[[#{telegram_line.tvms_name}]]*/ "tvms_name", "data": "tvms_name", "width": tvms_name_width, "className": tvms_name_class},
+                /*9*/{"title": /*[[#{telegram_line.tvm_createdate}]]*/ "tvm_createdate", "data": "tvm_createdate", "width": tvm_createdate_width, "className": tvm_createdate_class},
+                /*10*/{"title": /*[[#{telegram_line.tvm_status_change}]]*/ "tvm_status_change", "data": "tvm_status_change", "width": tvm_status_change_width, "className": tvm_status_change_class},
+                /*11*/{"title": /*[[#{telegram_line.tvm_max_color}]]*/ "tvm_max_color", "data": "tvm_max_color", "width": tvm_max_color_width, "className": tvm_max_color_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function telegram_line_switchControl(){
+        if(vTelegrammLineMain.rowdata.tvm_id != null) {
+                if(vTelegrammLineMain.rowdata.tvm_direct === 0){
+                        $("#telegram-line-main-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+                }
+                else{
+                        $("#telegram-line-main-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+                }
+        }
+        else{
+                $("#telegram-line-main-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.telegram_line_btn_control').on('click', function (){
+        $("#telegram-line-main-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+    function telegramLineMainRefresh(){
+            $(vTelegrammLineMain.table).DataTable().ajax.reload(null, false);
+    }
+
+    $('#telegram-line-main-relbtn').on('click', function () {
+            telegramLineMainRefresh();
+    });
+
+    let timerId;
+    let delay = $('#telegram_line_timer').val();
+
+    function mainTimerOn(){
+            timerId = setInterval(function request() {
+                    telegramLineMainRefresh();
+            }, delay);
+    }
+
+    $('#telegram_line_timer_check').on('change', function () {
+            if ($('#telegram_line_timer_check').is(':checked')) {
+                    $('#telegram_line_timer').removeAttr('disabled');
+                    mainTimerOn();
+            }
+            else{
+                    $('#telegram_line_timer').attr('disabled', true);
+                    clearInterval(timerId);
+            }
+    });
+
+    $('#telegram_line_timer').on('change', function () {
+            clearInterval(timerId);
+            delay = $('#telegram_line_timer').val();
+            mainTimerOn();
+    });
+
+    $('#telegram-line-main-addbtn').on('click', function () {
+            $('#tv_id').val('').val(vTelegrammLineMain.rowdata.tv_id);
+            $('#tv_registrationnumber').val('').val(vTelegrammLineMain.rowdata.tv_number);
+            $('#tvm_message').val('');
+            $('#telegram_line_modal').modal('show');
+    });
+
+    $('#telegram-line-main-detail').submit(function() {
+        vTelegrammLineMain.rowdata.telegram_line_table_order_column = $(vTelegrammLineMain.table).DataTable().order()[0][0];
+        vTelegrammLineMain.rowdata.telegram_line_table_order_type = $(vTelegrammLineMain.table).DataTable().order()[0][1];
+        vTelegrammLineMain.rowdata.telegram_line_table_search = $(vTelegrammLineMain.table).DataTable().search();
+        vTelegrammLineMain.rowdata.telegram_line_table_pagelen = $(vTelegrammLineMain.table).DataTable().page.len();
+        vTelegrammLineMain.rowdata.telegram_line_table_page = $(vTelegrammLineMain.table).DataTable().page.info().page;
+        <!-- Recreate Contragent Ajax Filter Value -->
+
+        Object.keys(vTelegrammLineMain.rowdata).forEach(function (index) {
+            $("#telegram-line-main-detail").append("<input name=\"" + index + "\" hidden>");
+            $("#telegram-line-main-detail input[name=\"" + index + "\"]").val(vTelegrammLineMain.rowdata[index]);
+        });
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#communicationcenter_li').addClass('active').removeClass('collapsed');
+        $('#communicationcenter_a').attr('aria-expanded',true);
+        $('#communicationcenter').addClass('show');
+
+        $('#telegram_line_a').addClass('text-primary');
+
+        vTelegrammLineMain.rowdata.tvm_id = /*[[${tvm_id}]]*/ null;
+
+        vTelegrammLineMain.rowdata.table_order_column = /*[[${telegram_line_table_order_column}]]*/ null;
+        vTelegrammLineMain.rowdata.table_order_type = /*[[${telegram_line_table_order_type}]]*/ null;
+        vTelegrammLineMain.rowdata.table_search = /*[[${telegram_line_table_search}]]*/ null;
+        vTelegrammLineMain.rowdata.table_pagelen = /*[[${telegram_line_table_pagelen}]]*/ null;
+        vTelegrammLineMain.rowdata.table_page = /*[[${telegram_line_table_page}]]*/ null;
+
+        recreateDataTable(vTelegrammLineMain);
+    });
+</script>
+
+</body>
+</html>

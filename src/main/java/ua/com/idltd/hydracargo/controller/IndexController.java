@@ -8,13 +8,13 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.beans.Currentworkplace;
+import ua.com.idltd.hydracargo.graph.entity.MessageDayGraph;
+import ua.com.idltd.hydracargo.graph.repository.MessageDayGraphRepository;
 import ua.com.idltd.hydracargo.user.repository.WorkplaceRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +24,8 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Application home page, login, errors.
@@ -33,14 +35,21 @@ public class IndexController {
 
     private final WorkplaceRepository workplaceRepository;
     private final Currentworkplace currentworkplace;
+    private final MessageDayGraphRepository messageDayGraphRepository;
 
     private final DataSource dataSource;
 
     @Autowired
-    public IndexController(@Qualifier("dataSource") DataSource dataSource, WorkplaceRepository workplaceRepository, Currentworkplace currentworkplace) {
+    public IndexController(
+            @Qualifier("dataSource") DataSource dataSource,
+            WorkplaceRepository workplaceRepository,
+            Currentworkplace currentworkplace,
+            MessageDayGraphRepository messageDayGraphRepository
+    ) {
         this.dataSource = dataSource;
         this.workplaceRepository = workplaceRepository;
         this.currentworkplace = currentworkplace;
+        this.messageDayGraphRepository = messageDayGraphRepository;
     }
 
     @RequestMapping(value = {"/", "/index","/index.html"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -101,5 +110,21 @@ public class IndexController {
         }
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = {"/get_message_day_graph"})
+    public List<MessageDayGraph> get_message_day_graph(
+            @RequestParam(name = "start_date", required = false, defaultValue = "01.12.2019") String start_date,
+            @RequestParam(name = "end_date", required = false, defaultValue = "31.12.2019") String end_date
+    ) {
+        List<MessageDayGraph> result = new ArrayList<>();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String authname = auth.getName();
+
+            result = messageDayGraphRepository.queryMessageDayGraphByID(new Long(1), start_date, end_date);
+        }
+        return result;
     }
 }

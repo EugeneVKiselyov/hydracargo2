@@ -34,7 +34,49 @@
     var mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
 
     if(mobileScreenSize){
-        vDomParam = "Blfrtp";
+        vDomParam =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+
+        tu_id_width = "";
+        tu_id_class = "none";
+        tu_botname_width = "";
+        tu_botname_class = "none";
+        tu_username_width = "14%";
+        tu_username_class = "small_size small_head_size small_footer_size";
+        tu_firstname_width = "20%";
+        tu_firstname_class = "small_size small_head_size small_footer_size";
+        tu_lastname_width = "20%";
+        tu_lastname_class = "small_size small_head_size small_footer_size";
+        tu_languagecode_width = "";
+        tu_languagecode_class = "none";
+        tu_isbot_width = "";
+        tu_isbot_class = "none";
+        tu_telegramid_width = "";
+        tu_telegramid_class = "none";
+        tu_startdate_width = "";
+        tu_startdate_class = "none";
+        tu_enddate_width = "";
+        tu_enddate_class = "none";
+        tu_isactive_width = "";
+        tu_isactive_class = "none";
+        rol_id_width = "";
+        rol_id_class = "none";
+        rol_role_width = "10%";
+        rol_role_class = "small_size small_head_size small_footer_size";
+        tv_registrationnumber_width = "21%";
+        tv_registrationnumber_class = "small_size small_head_size small_footer_size";
+
+        $('#telegram-user-addbtn').removeClass('btn-sm');
+        $('#telegram-user-editbtn').removeClass('btn-sm');
+        $('#telegram-user-delbtn').removeClass('btn-sm');
+
+        $('#telegram-user-addbtn-sx').removeClass('btn-sm');
+        $('#telegram-user-editbtn-sx').removeClass('btn-sm');
+        $('#telegram-user-delbtn-sx').removeClass('btn-sm');
+        $('#telegram-user-detail').addClass('text-center').removeAttr('hidden');
     }
     else if(smallScreenSize){
         vDomParam = "Blfrtip";
@@ -102,7 +144,7 @@
     var vTelegrammUsers;
     vTelegrammUsers = {
         table : '#table-telegram-user',
-        button_form: "#telegram-user-detail",
+        button_form: (mobileScreenSize) ? null : "#telegram-user-detail",
         ajax : {
             "url": /*[[@{/telegramuser/gettable}]]*/ "telegramuser/gettable",
             "type": "post",

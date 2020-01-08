@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="telegram_line_main_modal" th:remove="tag">
+    <div class="modal fade" id="telegram_line_modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{Telegram.Messages}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-1">
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-1" id="clm_id_row">
+                            <label for="tv_id" class="form-label" th:text="'1. '+ #{telegram_cars.tv_id}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="number" class="form-control" id="tv_id" name="tv_id" th:value="${clm_id}" disabled>
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+
+                        <div class="col-12 col-md-8 mb-1" id="tv_registrationnumber_row">
+                            <label for="tv_registrationnumber" class="form-label" th:text="'2. '+ #{telegram_cars.tv_registrationnumber}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <input type="text" class="form-control" id="tv_registrationnumber" name="tv_registrationnumber" th:value="${tv_registrationnumber}" disabled>
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div> <!-- Row 1 -->
+                    
+                    <div class="form-row">
+                        <div class="col-12 mb-1" id="tvm_message_row">
+                            <label for="tvm_message" th:text="'3. '+#{telegram_line.tvm_message}"></label>
+                            <!--suppress ThymeleafVariablesResolveInspection -->
+                            <textarea class="form-control" rows="5" maxlength="512" style="resize:none;" id="tvm_message" name="tvm_message" th:text="${tvm_message}">
+                            </textarea>
+                            <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                            <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                        </div>
+                    </div>  <!-- Row 2 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="telegram_line_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="telegram_line_modal_savebtn" class="btn btn-outline-primary" th:text="#{general.addbtn}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    $('#telegram_line_modal_savebtn').on('click', function () {
+        if (vTelegrammLineMain.rowdata.tv_id != null) {
+            let MainRowID = vTelegrammLineMain.rowdata.tv_id;
+            let RowID = vTelegrammLineMain.rowdata.tvm_id;
+            $.ajax({
+                url: /*[[ @{/telegram_line/add_messages} ]]*/ "/telegram_line/add_messages",
+                type: 'POST',
+                data: {
+                    "tv_id": MainRowID,
+                    "tvm_message": $('#tvm_message').val()
+                },
+                success: function (result) {
+                    vTelegrammLineMain.rowdata.tvm_id = RowID;
+                    $(vTelegrammLineMain.table).DataTable().ajax.reload(null, false);
+                    $('#telegram_line_modal').modal('hide');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

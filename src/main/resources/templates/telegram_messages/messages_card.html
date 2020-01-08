@@ -28,19 +28,50 @@
     var mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
 
     if(mobileScreenSize){
-        vDomParam = "Blfrtp";
+            vDomParam =
+                    "<'row'<'col-12'B>>"+
+                    "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+                    "<'row'<'col-12'tr>>" +
+                    "<'row'<'col-12'p>>";
+
+        tvm_direct_width = "5%";
+        tvm_direct_class = "min-table-p small_size small_head_size small_footer_size text-center";
+        tvm_id_width = "";
+        tvm_id_class = "none";
+        tu_id_width = "";
+        tu_id_class = "none";
+        tu_name_width = "16%";
+        tu_name_class = "small_size small_head_size small_footer_size";
+        tvm_message_width = "67%";
+        tvm_message_class = "small_size small_head_size small_footer_size";
+        tvms_id_width = "";
+        tvms_id_class = "none";
+        tvms_name_width = "";
+        tvms_name_class = "none";
+        tvm_createdate_width = "";
+        tvm_createdate_class = "none";
+        tvm_status_change_width = "12%";
+        tvm_status_change_class = "min-table-p text-center small_size small_head_size small_footer_size";
+
+            $('#telegram-messages-addbtn').removeClass('btn-sm');
+            $('#telegram-messages-addbtn-sx').removeClass('btn-sm');
+            $('#telegram-messages-relbtn').removeClass('btn-sm');
+            $('#telegram-messages-relbtn-sx').removeClass('btn-sm');
+            $('#telegram-messages-detail').addClass('text-center').removeAttr('hidden');
     }
     else if(smallScreenSize){
             vDomParam = "Blfrtip";
+            tvm_direct_width = "5%";
+            tvm_direct_class = "small_size small_head_size small_footer_size text-center";
             tvm_id_width = "5%";
             tvm_id_class = "small_size small_head_size small_footer_size";
             tu_id_width = "";
             tu_id_class = "none";
             tu_name_width = "16%";
             tu_name_class = "small_size small_head_size small_footer_size";
-            tvm_message_width = "";
-            tvm_message_class = "50%";
-            tvms_id_width = "small_size small_head_size small_footer_size";
+            tvm_message_width = "45%";
+            tvm_message_class = "small_size small_head_size small_footer_size";
+            tvms_id_width = "";
             tvms_id_class = "none";
             tvms_name_width = "5%";
             tvms_name_class = "small_size small_head_size small_footer_size text-center";
@@ -73,30 +104,28 @@
 
     var vTelegrammMessages;
     vTelegrammMessages = {
-        table : '#table-telegram-messages',
-        button_form: "#telegram-messages-detail",
-        ajax : {
+            table : '#table-telegram-messages',
+            button_form: (mobileScreenSize) ? null : "#telegram-messages-detail",
+            ajax : {
                 "url": /*[[@{/telegram_messages/get_messages_table}]]*/ "telegram_messages/get_messages_table",
                 "type": "post",
                 "data": function ( d ) {
                         d.tv_id = vTelegrammMessages.rowdata.tv_id;
                 }
-        },
-        key : "tvm_id",
-        switchControl : telegram_messages_switchControl,
-        rowdata:{
+            },
+            key : "tvm_id",
+            switchControl : telegram_messages_switchControl,
+            rowdata:{
                 tv_id: null,
                 tvm_id: null
-        },
-        ordering: true,
-        order: [
-            [1, "desc"]
-        ],
-        scrollX: true,
-        dom: vDomParam,
-        createdRow: function( row, data, dataIndex ) {
-        },
-        columnDefs:[
+            },
+            ordering: true,
+            order: [
+                    [1, "desc"]
+            ],
+            scrollX: true,
+            dom: vDomParam,
+            columnDefs:[
                 {"targets": [0], render: function (a, b, data, d) {
                         if(data.tvm_direct === 0) { return '<a class=\"btn btn-xs\"><i class=\"align-middle text-danger fas fa-fw fa-truck\"></i></a>';}
                         else{return '<a class=\"btn btn-xs\"><i class=\"align-middle text-success fas fa-fw fa-user-tie\"></i></a>';}
@@ -104,8 +133,8 @@
                 {"targets": [7], type: 'de_datetime'},
                 {"targets": [8], type: 'de_datetime'}
 
-        ],
-        columns : [
+                ],
+            columns : [
             /*0*/{"title": /*[[#{telegram_messages.tvm_direct}]]*/ "tvm_direct", "data": "tvm_direct", "width": tvm_direct_width, "className": tvm_direct_class},
             /*1*/{"title": /*[[#{telegram_messages.tvm_id}]]*/ "tvm_id", "data": "tvm_id", "width": tvm_id_width, "className": tvm_id_class},
             /*2*/{"title": /*[[#{telegram_messages.tu_id}]]*/ "tu_id", "data": "tu_id", "width": tu_id_width, "className": tu_id_class},
@@ -115,12 +144,12 @@
             /*6*/{"title": /*[[#{telegram_messages.tvms_name}]]*/ "tvms_name", "data": "tvms_name", "width": tvms_name_width, "className": tvms_name_class},
             /*7*/{"title": /*[[#{telegram_messages.tvm_createdate}]]*/ "tvm_createdate", "data": "tvm_createdate", "width": tvm_createdate_width, "className": tvm_createdate_class},
             /*8*/{"title": /*[[#{telegram_messages.tvm_status_change}]]*/ "tvm_status_change", "data": "tvm_status_change", "width": tvm_status_change_width, "className": tvm_status_change_class}
-        ],
-        pageLength: 25,
-        copy_button: true,
-        excel_button: true,
-        pdf_button: true,
-        print_button: true
+            ],
+            pageLength: 25,
+            copy_button: true,
+            excel_button: true,
+            pdf_button: true,
+            print_button: true
     };
 
     function telegram_messages_switchControl(){
@@ -154,6 +183,7 @@
     });
 
     $('#telegram-messages-relbtn').on('click', function () {
+            vTelegrammMessages.rowdata.tv_id = vTelegrammCars.rowdata.tv_id;
             $(vTelegrammMessages.table).DataTable().ajax.reload(null, false);
     });
 
@@ -165,6 +195,7 @@
     });
 
     $('#telegram-messages-relbtn-sx').on('click', function () {
+            vTelegrammMessages.rowdata.tv_id = vTelegrammCars.rowdata.tv_id;
             $(vTelegrammMessages.table).DataTable().ajax.reload(null, false);
     });
 

@@ -1,6 +1,8 @@
 package ua.com.idltd.hydracargo.bot.telegram.web.entity.telegram_cars;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class MenuTelegramCars {
