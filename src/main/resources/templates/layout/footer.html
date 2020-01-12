@@ -93,105 +93,13 @@
       });
     }, 60000);
 
-  /*[/]*/
 
-    function CreateMessageDayGraph (aStartDate, aEndDate) {
-      $('#message-graph').remove();
-      $('#par-message-graph').append('<canvas id="message-graph"></canvas>');
+    /*[/]*/
 
-      let labelPoints = [];
-      let dataPoints1 = [];
-      let dataPoints2 = [];
-      let dataPoints3 = [];
-
-      $.ajax({
-        url: /*[[ @{/get_message_day_graph} ]]*/ "/get_message_day_graph",
-        type: 'GET',
-        data: {
-          "start_date": aStartDate,
-          "end_date": aEndDate
-        },
-        success: function (data) {
-          $.each(data, function(key, value){
-            labelPoints.push(value.labels);
-            dataPoints1.push(value.data1);
-            dataPoints2.push(value.data2);
-            dataPoints3.push(value.data3);
-          });
-
-          new Chart($("#message-graph"), {
-            type: "line",
-            data: {
-              labels: labelPoints,
-              datasets: [
-                {
-                  label: /*[[#{message_graph.label1}]]*/ 'Car',
-                  steppedLine: false,
-                  data: dataPoints1,
-                  borderColor: "rgba(220,53,69,0.8)",
-                  backgroundColor:"rgba(240,168,175,0.9)"
-                },
-                {
-                  label: /*[[#{message_graph.label2}]]*/ 'Managers',
-                  steppedLine: false,
-                  data: dataPoints2,
-                  borderColor: "rgba(40,167,69,1)",
-                  backgroundColor:"rgba(152,230,171,0.8)"
-                },
-                {
-                  label: /*[[#{message_graph.label3}]]*/ 'All',
-                  data: dataPoints3,
-                  borderColor: "rgba(166,166,166,0.8)",
-                  backgroundColor:"rgba(166,166,166,0.8)",
-                  fill: false,
-                  borderDash: [5, 5],
-                  hidden: true
-                }
-              ]
-            },
-            options: {
-              maintainAspectRatio: false,
-              legend: {
-                position: 'top'
-              },
-              tooltips: {
-                intersect: false
-              },
-              hover: {
-                intersect: true
-              },
-              plugins: {
-                filler: {
-                  propagate: false
-                }
-              },
-              scales: {
-                xAxes: [{
-                  reverse: true,
-                  gridLines: {
-                    color: "rgba(0,0,0,0.05)"
-                  }
-                }],
-                yAxes: [{
-                  display: true,
-                  borderDash: [5, 5],
-                  gridLines: {
-                    color: "rgba(0,0,0,0)",
-                    fontColor: "#fff"
-                  }
-                }]
-              }
-            }
-          });
-        }
-      });
-    }
-    let year = new Date().getFullYear();
-    let FirstMonthDay = new Date(year, new Date().getMonth(), 1).toLocaleDateString('ru');
-    let lastMontDay = new Date(year, new Date().getMonth() + 1, 0).toLocaleDateString('ru');
-
-    CreateMessageDayGraph (FirstMonthDay, lastMontDay);
   });
+
+
+
   </script>
 
 </span>

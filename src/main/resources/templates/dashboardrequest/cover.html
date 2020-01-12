@@ -1,0 +1,450 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:width="http://www.w3.org/1999/xhtml">
+<head th:include="layout/header :: header(title = #{dashboardrequest.caption})"></head>
+
+<body class="theme-blue"> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+
+    <div class="row">
+        <div class="card flex-fill w-100">
+            <div class="row">
+                <form class="form-inline w-100" id="dashboardrequest_index" th:action="@{/dashboardrequest}" method="post">
+                    <div class="col-6">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="cover_ep_id" th:text="#{entrepot.ep_code}"></label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" style="width:100%; float:left;" data-toggle="select2" id="cover_ep_id" name="cover_ep_id" th:value="${cover_ep_id}">
+                                    <option th:value="-1" th:text="#{general.all}" th:selected="${cover_ep_id == null or cover_ep_id==-1}">Все</option>
+                                    <option th:each="entrepot : ${entrepotList}"
+                                            th:value="${entrepot.ep_id}"
+                                            th:text="${entrepot.ep_code}"
+                                            th:selected="${entrepot.ep_id == cover_ep_id}"
+                                    ></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="cover_cnt_id" th:text="#{office.cnt_name}"></label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" style="width:100%; float:left;"  data-toggle="select2" id="cover_cnt_id" name="cover_cnt_id" th:value="${cover_cnt_id}" >
+                                    <option th:value="-1" th:text="#{general.all}" th:selected="${cover_cnt_id == null or cover_cnt_id==-1}">Все</option>
+                                    <option th:each="contragent : ${contragentList}"
+                                            th:value="${contragent.cnt_id}"
+                                            th:text="${contragent.cnt_code + ' : ' + contragent.cnt_name}"
+                                            th:selected="${contragent.cnt_id == cover_cnt_id}"
+                                    ></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+
+                <div class="col"  th:each="request_statusList : ${request_statusList}">
+                    <div class="card" >
+                        <div class="card-header">
+                            <div class="card-actions float-right">
+                                <div class="dropdown show">
+                                    <a href="#" data-toggle="dropdown" data-display="static">
+                                        <i class="align-middle" data-feather="more-horizontal"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <h5 class="card-title" th:text="${request_statusList.rs_name}">Новая</h5>
+                            <h6 class="card-subtitle text-muted" th:text="${request_statusList.rs_description}">Описание в справочнике статусов</h6>
+                            <button class="btn btn-primary btn-block cart-add" data-toggle="modal" data-target="#detailDispatch" th:disabled="${request_statusList.rs_id != 0 }" th:attr="rs_id=${request_statusList.rs_id}" th:text="#{general.addbtn}">Add new task</button>
+                        </div>
+                        <div class="card-body p-3">
+                            <div style="min-height : 100px" th:id="${'dashboardColumn-'+request_statusList.rs_id}" th:attr="rs_id=${request_statusList.rs_id}">
+                                <th:block th:each="dispatch : ${cardList}" th:if="${dispatch.rs_id == request_statusList.rs_id}" >
+                                        <span th:replace="dashboardrequest/cardview :: cardview(dispatch = ${dispatch})"></span>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<span th:replace="dashboardrequest/modal :: modal"></span>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<script th:inline="javascript">
+
+    $(document).ready(function () {
+        var userdefault = {
+            ep_id : /*[[${user_ep_id}]]*/ 0,
+            cnt_id : /*[[${user_cnt_id}]]*/ 1
+        }
+
+        function setCard(card){
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='dis_documentdate']").text(card.dis_documentdate);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='countShipment']").text(card.countShipment);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='cnt_code']").text(card.cnt_code);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='cnt_name']").text(card.cnt_name);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='req_seatsnum_p']").text(card.req_seatsnum_p);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='req_weight_p']").text(card.req_weight_p);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='dis_num']").text(card.dis_num);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='awb_num']").text(card.awb_num);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='dis_seatsnum']").text(card.dis_seatsnum);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='dis_weight_f']").text(card.dis_weight_f)
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='ep_code']").text(card.ep_code);
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='bs_name']").text(card.bs_name);
+            // show/hidden buttons
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='downloadxls']").attr("hidden",(card.rs_id != 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_1']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_2']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_3']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_4']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_7']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_8']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_10']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='report_11']").attr("hidden",(card.countShipment == 0));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='dispatchclose']").attr("hidden",(card.rs_id != 3));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='delete_clear']").attr("hidden",(!(card.rs_id == 0)));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='dispatchclear']").attr("hidden",(!(card.rs_id == 0 && card.countShipment != 0)));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='dispatchdelete']").attr("hidden",(!(card.rs_id == 0)));
+            //перемещение в другую колонку если поменялся статус
+            var statusList = document.querySelector('#dashboardColumn-'+card.rs_id);
+            var card = $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][obj='card']");
+            drake.start(card);
+            statusList.appendChild(card[0]);
+            drake.end();
+        }
+
+        function setModalCard(mode, card){
+            $(".hidden_for_add").attr("hidden",(mode == 'add'));
+
+            if (mode == 'add') {
+                $("#req_id").text(null);
+                $("#dis_id").text(null);
+            }else {
+                $("#req_id").text(card.req_id);
+                $("#dis_id").text(card.dis_id);
+            }
+            $("#rs_id").text(card.rs_id);
+            $("#awb_num").val(card.awb_num);
+            $("#dis_num").val(card.dis_num);
+            $("#req_seatsnum_p").val(card.req_seatsnum_p);
+            $("#req_seatsnum_p").attr("readonly",!(card.rs_id== 0)); //новая
+            $("#req_weight_p").val(card.req_weight_p);
+            $("#req_weight_p").attr("readonly",!(card.rs_id== 0)); //новая
+            $("#dis_seatsnum").val(card.dis_seatsnum);
+            $("#dis_seatsnum").attr("readonly",!(card.rs_id== 0 || card.rs_id== 1 )); //новая или получена на складе
+            $("#dis_weight_f").val(card.dis_weight_f);
+            $("#dis_weight_f").attr("readonly",!(card.rs_id== 0 || card.rs_id== 1 )); //новая или получена на складе
+            $("#dis_documentdate").val(card.dis_documentdate);
+            $("#dis_documentdate").attr("readonly",!(card.rs_id== 0 || card.rs_id== 1 )); //новая или получена на складе
+
+            $("select[name='ep_id'] option")
+                .removeAttr('selected')
+                .filter('[value='+card.ep_id+']')
+                .attr('selected', true);
+
+            $("select[name='cnt_id'] option")
+                .removeAttr('selected')
+                .filter('[value='+card.cnt_id+']')
+                .attr('selected','selected')
+                .change();
+
+            $("select[name='bs_id'] option")
+                .removeAttr('selected')
+                .filter('[value='+card.bs_id+']')
+                .attr('selected', true);
+        }
+
+        function getcard(mode, dis_id, req_id){
+            var request = $.ajax({
+                url: /*[[@{/dashboardrequest/getcard}]]*/ "dashboardrequest/getcard",
+                method: "GET",
+                data: { dis_id : dis_id, req_id : req_id },
+                dataType: "json"
+            });
+
+            request.done(function( msg ) {
+                setModalCard(mode, msg);
+            });
+
+            request.fail(function( jqXHR, textStatus ) {
+                alert( "Request failed: " + textStatus );
+            });
+
+        }
+
+        $('.cart-add').on('click', function (e) {
+            setModalCard("add",{ rs_id : $(this).attr("rs_id"), ep_id : userdefault.ep_id, cnt_id : userdefault.cnt_id });
+            $("#savecard").attr("mode","add");
+
+        });
+
+        $(document).on("click", ".cart-dispatch-edit", function (e) {
+            getcard("edit",$(this).attr("dis_id"),$(this).attr("req_id"));
+            $("#savecard").attr("mode","edit");
+        });
+
+        $(document).on("click", ".cart-dispatch-upload", function (e) {
+            $("#shipmentsUpload-modal input[name=dis_id]").val($(this).attr("dis_id"));
+        });
+
+        $(document).on("click", ".cart-dispatch-close", function (e) {
+            $("#dispatchClose-form input[name=dis_id]").val($(this).attr("dis_id"));
+        });
+        $(document).on("click", ".cart-dispatch-clear", function (e) {
+            $("#dispatchClear-form input[name=dis_id]").val($(this).attr("dis_id"));
+        });
+        $(document).on("click", ".cart-dispatch-delete", function (e) {
+            $("#dispatchDelete-form input[name=dis_id]").val($(this).attr("dis_id"));
+        });
+        $('#savecard').on('click', function (e) {
+                $.ajax({
+                    url: /*[[@{/dashboardrequest/updatecard}]]*/ "dashboardrequest/updatecard",
+                    type: 'POST',
+                    dataType: "json",
+                    async: true,
+                    data: {
+                        req_id: $("#req_id").text(),
+                        dis_id: $("#dis_id").text(),
+                        dis_num: $("#dis_num").val(),
+                        awb_num: $("#awb_num").val(),
+                        req_seatsnum_p: $("#req_seatsnum_p").val(),
+                        req_weight_p: $("#req_weight_p").val(),
+                        dis_seatsnum: $("#dis_seatsnum").val(),
+                        dis_weight_f: $("#dis_weight_f").val(),
+                        rs_id: $("#rs_id").text(),
+                        ep_id: $("#ep_id").val(),
+                        cnt_id: $("#cnt_id").val(),
+                        bs_id: $("#bs_id").val(),
+                        dis_documentdate: $("#dis_documentdate").val()
+
+                    },
+                    beforeSend : function (data){
+                        $(".detailDispatch_control").attr("disabled", true);
+                    },
+                    success: function (data, textStatus) {
+                        if ($("#savecard").attr("mode") == "add") {
+                            $.ajax({
+                                url: /*[[@{/dashboardrequest/getcardhtml}]]*/ "dashboardrequest/getcardhtml",
+                                type: 'GET',
+                                dataType: "html",
+                                async: true,
+                                data: {
+                                    req_id: data.req_id,
+                                    dis_id: data.dis_id
+                                },
+                                success: function (data1, textStatus) {
+                                    $("#dashboardColumn-" + data.rs_id).append(data1);
+                                }
+                            });
+                        } else setCard(data);
+                        $('#detailDispatch').modal('hide');
+                        $(".detailDispatch_control").attr("disabled", false);
+                    }
+                });
+        });
+
+        $('#btn-dispatchCloseRun').on('click', function (e) {
+            $.ajax({
+                url: /*[[@{/dashboardrequest/dispatchclose}]]*/ "dashboardrequest/dispatchclose",
+                type: 'POST',
+                dataType: "json",
+                async: true,
+                data: {
+                    dis_id: $("#dispatchClose-form input[name=dis_id]").val()
+                },
+                beforeSend : function (data){
+                    $(".dispatchClose_control").attr("disabled", true);
+                },
+                success: function (data, textStatus) {
+                    var card = $("[dis_id=" + data.dis_id + "][req_id=" + data.req_id + "][obj='card']");
+                    card.remove();
+                    $('#dispatchClose-modal').modal('hide');
+                    $(".dispatchClose_control").attr("disabled", false);
+                }
+            });
+        });
+
+        $('#btn-dispatchClearRun').on('click', function (e) {
+            $.ajax({
+                url: /*[[@{/dashboardrequest/dispatchclear}]]*/ "dashboardrequest/dispatchclear",
+                type: 'POST',
+                dataType: "json",
+                async: true,
+                data: {
+                    dis_id: $("#dispatchClear-form input[name=dis_id]").val()
+                },
+                beforeSend : function (data){
+                    $(".dispatchClear_control").attr("disabled", true);
+                },
+                success: function (data, textStatus) {
+                    // var card = $("[dis_id=" + data.dis_id + "][req_id=" + data.req_id + "][obj='card']");
+                    setCard(data);
+                    $('#dispatchClear-modal').modal('hide');
+                    $(".dispatchClear_control").attr("disabled", false);
+                }
+            });
+        });
+
+        $('#btn-dispatchDeleteRun').on('click', function (e) {
+            $.ajax({
+                url: /*[[@{/dashboardrequest/dispatchdelete}]]*/ "dashboardrequest/dispatchdelete",
+                type: 'POST',
+                dataType: "json",
+                async: true,
+                data: {
+                    dis_id: $("#dispatchDelete-form input[name=dis_id]").val()
+                },
+                beforeSend : function (data){
+                    $(".dispatchDelete_control").attr("disabled", true);
+                },
+                success: function (data, textStatus) {
+                    var card = $("[dis_id=" + data.dis_id + "][req_id=" + data.req_id + "][obj='card']");
+                    card.remove();
+                    $('#dispatchDelete-modal').modal('hide');
+                    $(".dispatchDelete_control").attr("disabled", false);
+                }
+            });
+        });
+
+        var drake = dragula([
+            /*[# th:each="request_status : ${request_statusList}"]*/
+            document.querySelector("#dashboardColumn-[[${request_status.rs_id}]]")/*[# th:if="!${request_status==request_statusList[request_statusList.size()-1]}"]*/,/*[/]*/
+            /*[/]*/
+        ], {
+             accepts: function (el, target) {
+                 // в рамках новой и на скалде свободно перемещается
+                    return ( target == document.getElementById("dashboardColumn-0") ||
+                             target == document.getElementById("dashboardColumn-1")
+                           )
+                         // в остальные статусы можно перемещать только если подгруженны посылки
+                        || ( el.getAttribute("countShipment") > 0 )
+
+             }
+            }
+        ).on('drop', function (el, target, source, sibling) {
+            $.ajax({
+                url: "dashboardrequest/setcardstatus",
+                type: 'POST',
+                dataType: "json",
+                data: { dis_id : el.getAttribute("dis_id"),
+                        req_id : el.getAttribute("req_id"),
+                        rs_id : target.getAttribute("rs_id")
+                },
+                success : function (data, textStatus){
+                    setCard(data);
+                }
+            });
+        });
+
+        $( "#cover_cnt_id" ).change(function() {
+            $("#dashboardrequest_index").submit();
+        });
+        $( "#cover_ep_id" ).change(function() {
+            $("#dashboardrequest_index").submit();
+        });
+
+        // Initialize validation
+        $("#card-updater-form").validate({
+            ignore: ".ignore",
+            focusInvalid: false,
+            rules: {
+                "req_seatsnum_p" : {
+                    integer: true
+                }
+                ,"req_weight_p" : {
+                    number: true
+                },
+                "dis_seatsnum" : {
+                    integer: true
+                }
+                ,"dis_weight_f" : {
+                    number: true
+                }
+            },
+            messages: {
+                "req_seatsnum_p": {
+                    integer: /*[[#{rules.message.integer}]]*/ "integer"
+                },
+                "req_weight_p": {
+                    number: /*[[#{rules.message.number}]]*/ "number"
+                },
+                "dis_seatsnum": {
+                    integer: /*[[#{rules.message.integer}]]*/ "integer"
+                },
+                "dis_weight_f": {
+                    number: /*[[#{rules.message.number}]]*/ "number"
+                }
+            },
+            // Errors
+            errorPlacement: function errorPlacement(error, element) {
+                var $parent = $(element).parents(".form-group");
+                // Do not duplicate errors
+                if ($parent.find(".jquery-validation-error").length) {
+                    return;
+                }
+                $parent.append(
+                    error.addClass("jquery-validation-error small form-text invalid-feedback")
+                );
+            },
+            highlight: function(element) {
+                var $el = $(element);
+                // var $parent = $el.parents(".form-group");
+                $el.addClass("is-invalid");
+            },
+            unhighlight: function(element) {
+                $(element).parents(".form-group").find(".is-invalid").removeClass("is-invalid");
+            }
+        });
+        $("#file").change(function(event){
+            var fileName = event.target.files[0].name;
+            if (event.target.nextElementSibling!=null){
+                event.target.nextElementSibling.innerText=fileName;
+            }
+        });
+
+        $("#btn-shipmentsDownload").on('click', function (e) {
+            $("#shipmentsUpload-form").submit(
+                $.ajax({
+                    url: "dashboardrequest/uploadXlsBootfile",
+                    type: 'POST',
+                    async : true,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data : new FormData( $("#shipmentsUpload-form")[0] ),
+                    beforeSend : function (data){
+                        $(".shipmentsUpload_control").attr("disabled", true);
+                    },
+                    success : function (data, textStatus){
+                        setCard(data.drdto);
+                        $("#shipmentsUpload-modal").modal('hide');
+                        $(".shipmentsUpload_control").attr("disabled", false);
+                        $( this ).attr("dis_id",data.drdto.dis_id);
+                        $("#successloaded").text(data.fileUploadResult.succressCount);
+                        $("#errorcount").text(data.fileUploadResult.errorCount);
+
+                        $("#resultupload-modal-dialog").modal('show');
+                    },
+                    error: function (request) {
+                        $("#ErrorMessage").text(request.responseText);
+                        $("#error-modal-dialog").modal('show');
+
+                        $(".shipmentsUpload_control").attr("disabled", false);
+                    }
+                })
+            );
+
+        });
+    });
+</script>
+
+</body>
+</html>

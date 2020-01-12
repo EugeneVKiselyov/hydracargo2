@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Supply_content_xls_1" pageWidth="3370" pageHeight="2384" orientation="Landscape" columnWidth="3330" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="7735c26e-bc3e-46aa-81ab-365f8c6a3f51">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalHost (ORCL)"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString language="SQL">
+		<![CDATA[select * from "SUPPLY_CONTENT"]]>
+	</queryString>
+	<field name="SP_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SP_ID"/>
+	</field>
+	<field name="SPC_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_ID"/>
+	</field>
+	<field name="SPC_SHIPMENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_SHIPMENT"/>
+	</field>
+	<field name="SPC_TRACKING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_TRACKING"/>
+	</field>
+	<field name="SPC_RECEIVER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_RECEIVER"/>
+	</field>
+	<field name="SPC_IMPORTER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_IMPORTER"/>
+	</field>
+	<field name="SPC_WEIGHT" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_WEIGHT"/>
+	</field>
+	<field name="SPC_VALUE" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_VALUE"/>
+	</field>
+	<field name="SPC_CLIENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CLIENT"/>
+	</field>
+	<field name="SPC_CONTENT1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT1"/>
+	</field>
+	<field name="SPC_CONTENT2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT2"/>
+	</field>
+	<field name="SPC_CONTENT3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT3"/>
+	</field>
+	<field name="SPC_CONTENT4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT4"/>
+	</field>
+	<field name="SPC_CONTENT5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT5"/>
+	</field>
+	<field name="SPC_CONTENT6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT6"/>
+	</field>
+	<field name="SPC_ORIGINHUB" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_ORIGINHUB"/>
+	</field>
+	<field name="SPC_SHIPPER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_SHIPPER"/>
+	</field>
+	<field name="SPC_DESTINATIONHUB" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_DESTINATIONHUB"/>
+	</field>
+	<field name="SPC_COMMENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_COMMENT"/>
+	</field>
+	<field name="SF_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SF_ID"/>
+	</field>
+	<field name="SPC_CONTENT_FACT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT_FACT"/>
+	</field>
+	<title>
+		<band height="90" splitType="Stretch">
+			<image vAlign="Bottom" isUsingCache="true">
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="90" backcolor="#000000" uuid="4ebfc59b-6c07-46bf-9668-31c94f21681a"/>
+				<imageExpression><![CDATA["https://api.ee.express/hydracargo/img/silhouette2.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="170" height="31" uuid="7d5c1f2b-06fd-49cb-bc97-084ab3d61819">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7c5b2e8-f951-491a-b44e-9217dbf54d60"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[SP_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="0" width="158" height="31" uuid="362e7e96-e1f4-40ed-bbd8-c072f98fe226">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="066be359-8945-41ec-ad97-0d63e85ff9b8"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[SPC_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="0" width="158" height="31" uuid="42bc9e9e-2226-4641-9929-046df51ba78c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b64f49d8-2f49-4847-8bdf-3a4ab9109afd"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shipment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="486" y="0" width="158" height="31" uuid="cb12dab1-8abb-4ccf-af02-324d5c8951c4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8bae40bf-3e0f-4553-a5d2-ac4c3dd844a7"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tracking]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="644" y="0" width="158" height="31" uuid="fc475c52-6bd8-4f09-ae86-95423290efdc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="206806db-2ca7-4da4-a421-460928fb6a17"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Receiver]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="802" y="0" width="158" height="31" uuid="3c5108e3-400c-4461-a782-3f64c0effbc1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f380bffb-593c-4d74-9b45-6cce6427c3bb"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="960" y="0" width="158" height="31" uuid="0dadb8d9-d2c3-4c05-8672-8ab21596f152">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44ae38c1-a767-4744-b520-428141665b2b"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Weight (kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1118" y="0" width="158" height="31" uuid="ea8c1a2b-0f4a-41d0-adcf-139ad4227b67">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7bea2b-f238-40b0-9604-23d6cf46214a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Value (USD)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1276" y="0" width="158" height="31" uuid="f33d88ec-bccf-4648-88c5-5b1d79a5ee2a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b30cdf40-f4d5-4a3e-ac8b-ea9168d38676"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1434" y="0" width="158" height="31" uuid="3e44e731-8d85-4fb3-8425-ff6772eb9ce2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b0904856-1022-471e-8035-3bf3a460f7ab"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Content1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1592" y="0" width="158" height="31" uuid="148fad04-2566-4108-9774-7fc4e9388ecf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="db977fce-4738-41c0-93a8-58eff2743763"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Content2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1750" y="0" width="158" height="31" uuid="a07d5437-d772-4003-b618-34fed5057803">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="01729164-d4a1-4e99-b851-d3dc15a92682"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Content3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1908" y="0" width="158" height="31" uuid="1d21b1fd-c98a-409c-801d-ce7df1d20440">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0576cd00-e93b-4206-bbd4-54bc2a0f5959"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Content4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2066" y="0" width="158" height="31" uuid="2a46f051-8ebd-41fd-9e3d-4d42ca1eb905">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53544800-9a3d-4a00-ac80-ec38f619ba35"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Content5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2224" y="0" width="158" height="31" uuid="5f37b508-7738-45b9-9064-7956c8f7d63a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c8969a01-7324-41c6-8132-41e117b80f8a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Content6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2382" y="0" width="158" height="31" uuid="05d891e9-4923-46ec-8ed3-2cc7c4549252">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85890136-5989-4d12-85dd-617b41d728a6"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Origin HUB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2540" y="0" width="158" height="31" uuid="d62cbadf-066c-4a2d-957f-1949f584bc94">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b747dd95-d7f8-4b2f-9445-05295926a35c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shipper]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2698" y="0" width="158" height="31" uuid="7377a93c-2d1c-40f6-a448-93bcb8077083">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fa15428-f2b5-4ff3-a83a-061e357516d8"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Destination HUB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2856" y="0" width="158" height="31" uuid="5604ec69-2dcc-457b-a6a6-fa9a3c831dc4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9df2a02b-06a5-4ea1-83b6-55f85434bd05"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3014" y="0" width="158" height="31" uuid="509f104d-3b76-479c-8b82-0a5ccff23564">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b1fbcc64-8ebe-4af9-b84f-9d1d110d2ffa"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[SF_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3172" y="0" width="158" height="31" uuid="5e43b797-52fb-4684-a4fa-5d951a6ca4a9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="05c727d9-a3bf-41ed-94fe-76b4373f676d"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Факт]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="170" height="30" uuid="a52f1fb5-260d-4110-a67d-fb4077aba1d7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7c5b2e8-f951-491a-b44e-9217dbf54d60"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SP_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="158" height="30" uuid="bf0c1eb7-989e-461c-8301-ce3b4d72ffb1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="066be359-8945-41ec-ad97-0d63e85ff9b8"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="0" width="158" height="30" uuid="5e767a42-3d88-426c-b15d-46584c13b09c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b64f49d8-2f49-4847-8bdf-3a4ab9109afd"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_SHIPMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="0" width="158" height="30" uuid="b43f7399-5537-40f9-a2ea-02097fbd8916">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8bae40bf-3e0f-4553-a5d2-ac4c3dd844a7"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_TRACKING}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="644" y="0" width="158" height="30" uuid="7bd2fa18-d702-4507-a21f-16ed8ae20ae8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="206806db-2ca7-4da4-a421-460928fb6a17"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_RECEIVER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="802" y="0" width="158" height="30" uuid="13e07e71-ff58-4ac2-b28c-73c808325c00">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f380bffb-593c-4d74-9b45-6cce6427c3bb"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_IMPORTER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="960" y="0" width="158" height="30" uuid="424a6ed3-bbe9-441b-9d1b-9eb9aa87b3c2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44ae38c1-a767-4744-b520-428141665b2b"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_WEIGHT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1118" y="0" width="158" height="30" uuid="605944e8-5625-4fd4-a531-6426705ba8eb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7bea2b-f238-40b0-9604-23d6cf46214a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_VALUE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1276" y="0" width="158" height="30" uuid="8c4f4105-10da-4b39-b69e-f37551dc5836">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b30cdf40-f4d5-4a3e-ac8b-ea9168d38676"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CLIENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1434" y="0" width="158" height="30" uuid="c2ab0bf8-d857-439f-a76e-be76879bdf9f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b0904856-1022-471e-8035-3bf3a460f7ab"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1592" y="0" width="158" height="30" uuid="0890d7d1-b881-484a-90fa-d3953558ee88">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="db977fce-4738-41c0-93a8-58eff2743763"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1750" y="0" width="158" height="30" uuid="29fd8eba-bbc1-4086-baa9-bff9f5ba51e6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="01729164-d4a1-4e99-b851-d3dc15a92682"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1908" y="0" width="158" height="30" uuid="ff8fd181-8e12-4bf2-b4aa-ae0c210314cf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0576cd00-e93b-4206-bbd4-54bc2a0f5959"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2066" y="0" width="158" height="30" uuid="18e1f129-2dad-4003-9d31-12b0d7d03904">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53544800-9a3d-4a00-ac80-ec38f619ba35"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2224" y="0" width="158" height="30" uuid="7d2b45e5-b4ac-44a2-9f69-60b40009fdf5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c8969a01-7324-41c6-8132-41e117b80f8a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2382" y="0" width="158" height="30" uuid="69d1bdad-7c53-4184-8891-19df301b5459">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85890136-5989-4d12-85dd-617b41d728a6"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_ORIGINHUB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2540" y="0" width="158" height="30" uuid="f103de67-ca24-4c30-9483-4026f9db10a2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b747dd95-d7f8-4b2f-9445-05295926a35c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_SHIPPER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2698" y="0" width="158" height="30" uuid="48995abb-8358-4b18-b3b3-6e73d1560337">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fa15428-f2b5-4ff3-a83a-061e357516d8"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_DESTINATIONHUB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2856" y="0" width="158" height="30" uuid="73e77a9f-1d73-44b7-8e1d-18387ca99b17">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9df2a02b-06a5-4ea1-83b6-55f85434bd05"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_COMMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3014" y="0" width="158" height="30" uuid="8fb52e96-c17e-4be0-b8dd-f5b863838042">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b1fbcc64-8ebe-4af9-b84f-9d1d110d2ffa"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SF_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3172" y="0" width="158" height="30" uuid="300c354f-14c6-41e7-8c9f-08d6091bfd0e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="05c727d9-a3bf-41ed-94fe-76b4373f676d"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT_FACT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

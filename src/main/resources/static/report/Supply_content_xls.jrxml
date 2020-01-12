@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Supply_content_xls" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fabd4aee-b4a5-4f8b-85db-0363f26821e6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalHost (ORCL)"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="sp_id" class="java.lang.Long">
+		<parameterDescription><![CDATA[Код поставки]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select * from "SUPPLY_CONTENT" where sp_id =  $P{sp_id} ]]>
+	</queryString>
+	<field name="SP_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SP_ID"/>
+	</field>
+	<field name="SPC_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_ID"/>
+	</field>
+	<field name="SPC_SHIPMENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_SHIPMENT"/>
+	</field>
+	<field name="SPC_TRACKING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_TRACKING"/>
+	</field>
+	<field name="SPC_RECEIVER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_RECEIVER"/>
+	</field>
+	<field name="SPC_IMPORTER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_IMPORTER"/>
+	</field>
+	<field name="SPC_WEIGHT" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_WEIGHT"/>
+	</field>
+	<field name="SPC_VALUE" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_VALUE"/>
+	</field>
+	<field name="SPC_CLIENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CLIENT"/>
+	</field>
+	<field name="SPC_CONTENT1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT1"/>
+	</field>
+	<field name="SPC_CONTENT2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT2"/>
+	</field>
+	<field name="SPC_CONTENT3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT3"/>
+	</field>
+	<field name="SPC_CONTENT4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT4"/>
+	</field>
+	<field name="SPC_CONTENT5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT5"/>
+	</field>
+	<field name="SPC_CONTENT6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT6"/>
+	</field>
+	<field name="SPC_ORIGINHUB" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_ORIGINHUB"/>
+	</field>
+	<field name="SPC_SHIPPER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_SHIPPER"/>
+	</field>
+	<field name="SPC_DESTINATIONHUB" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_DESTINATIONHUB"/>
+	</field>
+	<field name="SPC_COMMENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_COMMENT"/>
+	</field>
+	<field name="SF_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SF_ID"/>
+	</field>
+	<field name="SPC_CONTENT_FACT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT_FACT"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="201" y="10" width="400" height="30" uuid="a8b18274-4d5f-4dd6-9a5d-fc1f2faf5b6e"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Мая и все все все]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="18" uuid="81b352e1-612d-4ea7-90e1-bf9641cf9ca3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f1d95771-7221-49dc-ad0e-49d7ea77e943"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SPC_SHIPMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="18" uuid="88254ccd-7c4e-4378-bafd-8a65bd1a4639">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5dbb34f9-e86c-4349-9206-6976d5509795"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SPC_TRACKING}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="18" uuid="4bc6baf4-be11-4de0-973d-1b04b96bb1f9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a52f677-a34e-4140-93c0-4e8f6fa00a5e"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="18" uuid="31e7d79b-731b-4555-bbc5-9ea235e74822">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="51d69d6b-13b6-4388-8329-cd2b72f8c218"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SPC_WEIGHT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="18" uuid="2a98e9a0-a799-4fa9-b516-22c7fab05125">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5fc87329-28ae-4891-82dd-cf0be713eaa8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SPC_VALUE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="200" height="18" uuid="2bafdf40-8f35-4ab3-a575-c8cc0b581fb9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98729b1c-455b-4f57-bbc5-db6d5f46226b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SPC_CONTENT_FACT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

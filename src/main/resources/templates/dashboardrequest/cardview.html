@@ -1,0 +1,114 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<span th:fragment="cardview(dispatch)" th:remove="tag">
+<div class="card mb-3 bg-light cursor-grab" th:attr="obj='card',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id},countShipment=${dispatch.countShipment}">
+    <div class="card-body p-3">
+        <div class="row">
+            <div class="col-sm-4">
+                <strong class="text-sm text-info" th:text="${dispatch.bs_name}" th:attr="field='bs_name',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></strong>
+            </div>
+            <div class="col-sm-4">
+                <strong class="text-sm" th:text="${dispatch.ep_code}" th:attr="field='ep_code',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></strong>
+            </div>
+            <div class="col-sm-4">
+                <strong class="text-sm" th:text="${dispatch.dis_documentdate}" th:attr="field='dis_documentdate',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <strong class="text-sm" th:text="${dispatch.cnt_code}"></strong>
+            </div>
+            <div class="col-sm-7">
+                <strong class="text-sm" th:text="${dispatch.cnt_name}"></strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div th:class="${(dispatch.req_seatsnum_p==dispatch.dis_seatsnum)} ? 'text-sm' : 'text-sm text-danger'" th:text="#{dashboardrequest.seatnum}" >Мест</div>
+            </div>
+            <div class="col-sm-3">
+                <div class="text-sm" th:text="${dispatch.req_seatsnum_p}" th:attr="field='req_seatsnum_p',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></div>
+            </div>
+            <div class="col-sm-3">
+                <div th:class="${(dispatch.req_weight_p==dispatch.dis_weight_f)} ? 'text-sm' : 'text-sm text-danger'" th:text="#{dashboardrequest.weight}">Вес</div>
+            </div>
+            <div class="col-sm-3">
+                <div class="text-sm" th:text="${dispatch.req_weight_p}"  th:attr="field='req_weight_p',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></div>
+            </div>
+        </div>
+
+        <hr class="my-2"/>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="text-sm" th:text="#{dispatch.dis_num}"></div>
+            </div>
+            <div class="col-sm-7">
+                <strong class="text-sm" th:text="${dispatch.dis_num}" th:attr="field='dis_num',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></strong>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="text-sm" th:text="#{dispatch.dis_awb}">AWB</div>
+            </div>
+            <div class="col-sm-7">
+                <div class="text-sm" th:text="${dispatch.awb_num}"  th:attr="field='awb_num',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div th:class="${(dispatch.req_seatsnum_p==dispatch.dis_seatsnum)} ? 'text-sm' : 'text-sm text-danger'" th:text="#{dashboardrequest.seatnum}">Мест</div>
+            </div>
+            <div class="col-sm-3">
+                <div class="text-sm" th:text="${dispatch.dis_seatsnum}" th:attr="field='dis_seatsnum',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></div>
+            </div>
+            <div class="col-sm-3">
+                <div th:class="${(dispatch.req_weight_p==dispatch.dis_weight_f)} ? 'text-sm' : 'text-sm text-danger'" th:text="#{dashboardrequest.weight}">Вес</div>
+            </div>
+            <div class="col-sm-3">
+                <div class="text-sm" th:text="${dispatch.dis_weight_f}"  th:attr="field='dis_weight_f',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></div>
+            </div>
+        </div>
+
+        <hr class="my-2"/>
+
+        <div class="float-right mt-n1">
+            <strong class="text-sm text-info" th:text="${dispatch.countShipment}" th:attr="field='countShipment',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}"></strong>
+            <i class="align-middle mr-2 fas fa-boxes"></i>
+        </div>
+        <a class="btn btn-primary btn-sm mb-1 cart-dispatch-edit" href="#" data-toggle="modal" data-target="#detailDispatch" th:attr="dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}">Edit</a>
+        <a class="btn btn-primary btn-sm mb-1 cart-dispatch-upload" href="#" data-toggle="modal" data-target="#shipmentsUpload-modal" th:text="#{general.downloadxls}" th:attr="btn='downloadxls',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:hidden="${dispatch.rs_id != 0}" ></a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm mb-1 btn-primary dropdown-toggle" id="report" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:hidden="${dispatch.countShipment == 0}" th:text="#{general.report}" th:attr="btn='report',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}">Report</button>
+            <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/report/pdf(rep_id=1,filename='Labels_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_1',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.printbtnLabelsA4}">Labels A4</a>
+                    <a class="dropdown-item" th:href="@{/report/pdf(rep_id=4,filename='Labels_10x14_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_4',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.label10x14}">Labels 10X14</a>
+                    <a class="dropdown-item" th:href="@{/report/pdf(rep_id=2,filename='LabelsAndInvoice_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_2',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.labelA4andinvoice}">Label A4 and invoice</a>
+                <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/report/pdf(rep_id=11,filename='Manifest_'+${dispatch.dis_num},DIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_11',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.Manifest_11}">Manifest_11</a>
+                    <a class="dropdown-item" th:href="@{/report/xls(rep_id=7,filename='Reestry_7_'+${dispatch.dis_num},DIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_7',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.reestry_7}">Reestr 7</a>
+                    <a class="dropdown-item" th:href="@{/report/xls(rep_id=8,filename='Reestry_8_'+${dispatch.dis_num},DIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_8',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.reestry_8}">Reestr 8</a>
+                    <a class="dropdown-item" th:href="@{/report/xls(rep_id=10,filename='Reestry_10_'+${dispatch.dis_num},DIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_10',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.reestry_10}">Reestr 10</a>
+                <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/report/xls(rep_id=3,filename='BootFile_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_3',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.bootfile}">Boot File</a>
+            </div>
+        </div>
+        <a class="btn btn-primary float-right btn-sm mb-1 cart-dispatch-close" href="#" data-toggle="modal" data-target="#dispatchClose-modal" th:attr="btn='dispatchclose',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:hidden="${dispatch.rs_id != 3}" >Close</a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm mb-1 btn-primary dropdown-toggle" id="delete_clear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:hidden="${!(dispatch.rs_id == 0) }" th:attr="btn='delete_clear',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}">Delete/Clear</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item cart-dispatch-clear" href="#" data-toggle="modal" data-target="#dispatchClear-modal" th:attr="btn='dispatchclear',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:hidden="${!(dispatch.rs_id == 0 && dispatch.countShipment != 0)}">Clear</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item cart-dispatch-delete" href="#" data-toggle="modal" data-target="#dispatchDelete-modal" th:attr="btn='dispatchdelete',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:hidden="${!(dispatch.rs_id == 0) }">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+</span>
+</body>
+</html>

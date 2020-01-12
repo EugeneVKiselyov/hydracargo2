@@ -1,0 +1,382 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<span th:fragment="modal" th:remove="tag">
+<!-- Modal update dispatch-->
+<div class="modal fade" id="detailDispatch" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <strong id="req_id" hidden></strong>
+    <strong id="dis_id" hidden></strong>
+    <strong id="rs_id" hidden></strong>
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailDispatchLabel" th:text="#{dispatch.caption}">Dispatch</h5>
+                <button type="button" class="close detailDispatch_control" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+                <div class="card-body p-3">
+                    <form id="card-updater-form" data-toggle="validator">
+                    <fieldset id="card-updater-fieldset">
+
+                        <div class="row hidden_for_add">
+                            <div class="col" th:text="#{general.date}"></div><div class="col"><input type="date" class="form-control" id="dis_documentdate" name="dis_documentdate" th:value="${#dates.format(dis_documentdate, 'YYYY-MM-dd')}"></div>
+                        </div>
+                         <hr class="my-2 hidden_for_add"/>
+
+                        <div class="row">
+                            <div class="col" th:text="#{office.bs_name}"></div>
+                            <div class="col">
+                                <select type="text" class="form-control custom-select detailDispatch_control" id="bs_id" name="bs_id" th:value="${bs_id}">
+                                    <option th:each="business : ${businessList}"
+                                            th:value="${business.bs_id}"
+                                            th:text="${business.bs_name}"
+                                            th:selected="${business.bs_id == bs_id}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <div class="col" th:text="#{entrepot.ep_code}"></div>
+                            <div class="col">
+                                <select type="text" class="form-control custom-select detailDispatch_control" id="ep_id" name="ep_id" th:value="${ep_id}">
+                                    <option th:each="entrepot : ${entrepotList}"
+                                            th:value="${entrepot.ep_id}"
+                                            th:text="${entrepot.ep_code}"
+                                            th:selected="${entrepot.ep_id == ep_id}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <div class="col" th:text="#{office.cnt_name}"></div>
+                            <div class="col">
+                            <select type="text" class="form-control select2 detailDispatch_control" data-toggle="select2" id="cnt_id" name="cnt_id" th:value="${cnt_id}" >
+                                <option th:each="contragent : ${contragentList}"
+                                        th:value="${contragent.cnt_id}"
+                                        th:text="${contragent.cnt_code + ' : ' + contragent.cnt_name}"
+                                        th:selected="${contragent.cnt_id == cnt_id}"
+                                ></option>
+                            </select>
+                            </div>
+                        </div>
+
+                        <hr class="my-2 hidden_for_add"/>
+
+                        <div class="row hidden_for_add">
+                            <div class="col" th:text="#{dispatch.dis_num}"></div><div class="col"><input class="form-control detailDispatch_control" id="dis_num"></div>
+                            <div class="col" th:text="#{dispatch.dis_awb}"></div><div class="col"><input class="form-control detailDispatch_control" id="awb_num"></div>
+                        </div>
+
+                        <hr class="my-2"/>
+
+                        <div class="text-center">
+                            <div class="text-sm"><strong th:text="#{office.caption}">Офис</strong></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col" th:text="#{office.req_seatsnum_p}"></div><div class="col form-group"><input class="form-control detailDispatch_control" id="req_seatsnum_p" name="req_seatsnum_p" ></div>
+                            <div class="col" th:text="#{office.req_weight_p}"></div><div class="col form-group"><input class="form-control detailDispatch_control" id="req_weight_p" name="req_weight_p" ></div>
+                        </div>
+
+                        <hr class="my-2 hidden_for_add"/>
+
+                        <div class="text-center hidden_for_add">
+                            <div class="text-sm"><strong th:text="#{dispatch.caption}">Депеша</strong></div>
+                        </div>
+
+                        <div class="row hidden_for_add">
+                            <div class="col" th:text="#{dispatch.dis_seatsnum}"></div><div class="col form-group"><input class="form-control detailDispatch_control" id="dis_seatsnum" name="dis_seatsnum" ></div>
+                            <div class="col" th:text="#{dispatch.dis_weight_f}"></div><div class="col form-group"><input class="form-control detailDispatch_control" id="dis_weight_f" name="dis_weight_f" ></div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="float-right mt-n1">
+                            <i class="align-middle mr-2 fas fa-boxes"></i>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary detailDispatch_control" id="closecard" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success detailDispatch_control" id="savecard" attr="mode=edit">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal shipment upload dispatch-->
+<div class="modal fade" id="shipmentsUpload-modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" th:text="#{general.downloadxls}">Download Xls</h5>
+                <button type="button" class="close shipmentsUpload_control" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3">
+                <form id="shipmentsUpload-form" data-toggle="validator" method="post" enctype="multipart/form-data" th:action="@{/dashboardrequest/uploadXlsBootfile}">
+                    <input name="dis_id" hidden>
+                    <div class="row">
+                        <div class="col" th:text="#{declaration.dc_scountry}"></div>
+                        <div class="col">
+                            <select type="text" class="form-control select2 shipmentsUpload_control" data-toggle="select2" id="scountry_iso2" name="scountry_iso2" th:value="${scountry_iso2}" >
+                                <option th:value="null" th:text="#{general.undefined}" th:selected="${scountry_iso2 == null}">Неизвестно</option>
+                                <option th:each="country : ${countryList}"
+                                        th:value="${country.country_iso2}"
+                                        th:text="${country.country_nameen}"
+                                        th:selected="${country.country_iso2 == scountry_iso2}"
+                                ></option>
+                            </select>
+                        </div>
+                        <div class="col" th:text="#{declaration.dc_rcountry}"></div>
+                        <div class="col">
+                            <select type="text" class="form-control select2 shipmentsUpload_control" data-toggle="select2" id="rcountry_iso2" name="rcountry_iso2" th:value="${rcountry_iso2}" >
+                                <option th:value="null" th:text="#{general.undefined}" th:selected="${rcountry_iso2 == null}">Неизвестно</option>
+                                <option th:each="country : ${countryList}"
+                                        th:value="${country.country_iso2}"
+                                        th:text="${country.country_nameen}"
+                                        th:selected="${country.country_iso2 == rcountry_iso2}"
+                                ></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" th:text="#{declaration.dc_service_id}"></div>
+                        <div class="col">
+                            <select type="text" class="form-control select2 shipmentsUpload_control" data-toggle="select2" id="serv_id" name="serv_id" th:value="${serv_id}" >
+                                <option th:value="null" th:text="#{general.undefined}" th:selected="${serv_id == null}">Неизвестно</option>
+                                <option th:each="service : ${serviceList}"
+                                        th:value="${service.serv_id}"
+                                        th:text="${service.serv_name}"
+                                        th:selected="${service.serv_id == serv_id}"
+                                ></option>
+                            </select>
+                        </div>
+                        <div class="col" th:text="#{declaration.dc_type_id}"></div>
+                        <div class="col">
+                            <select type="text" class="form-control select2 shipmentsUpload_control" data-toggle="select2" id="type_id" name="type_id" th:value="${type_id}" >
+                                <option th:value="null" th:text="#{general.undefined}" th:selected="${type_id == null}">Неизвестно</option>
+                                <option th:each="typeExport : ${typeExportList}"
+                                        th:value="${typeExport.type_id}"
+                                        th:text="${typeExport.type_name}"
+                                        th:selected="${typeExport.type_id == type_id}"
+                                ></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3" th:text="#{general.filename}"></div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" id="file" name="file" class="custom-file-input shipmentsUpload_control">
+                                    <label class="custom-file-label" for="file">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" >Формат файла</div>
+                        <div class="col">
+                            <select type="text" class="form-control select2 shipmentsUpload_control" data-toggle="select2" id="format_id" name="format_id" >
+                                <option th:value="1"  selected>Стандарт</option>
+                                <option th:value="4" >Стандарт только цифры</option>
+                                <option th:value="2" >Test</option>
+                                <option th:value="3" >New Asos</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary shipmentsUpload_control" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success shipmentsUpload_control" id="btn-shipmentsDownload" th:text="#{general.downloadxls}">Upload</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Modal close dispatch-->
+<div class="modal fade" id="dispatchClose-modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Close Dispatch</h5>
+                <button type="button" class="close dispatchClose_control" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3">
+                <form id="dispatchClose-form" data-toggle="validator" method="post" th:action="@{/dashboardrequest/dispatchClose}">
+                    <input name="dis_id" hidden>
+                </form>
+
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary dispatchClose_control" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success dispatchClose_control" id="btn-dispatchCloseRun" th:text="#{general.run}">Run</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Modal clear dispatch-->
+<div class="modal fade" id="dispatchClear-modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Clear Dispatch</h5>
+                <button type="button" class="close dispatchClear_control" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3">
+                <form id="dispatchClear-form" data-toggle="validator" method="post" th:action="@{/dashboardrequest/dispatchclear}">
+                    <input name="dis_id" hidden>
+                </form>
+
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary dispatchClear_control" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success dispatchClear_control" id="btn-dispatchClearRun" th:text="#{general.run}">Run</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Modal delete dispatch-->
+<div class="modal fade" id="dispatchDelete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Dispatch</h5>
+                <button type="button" class="close dispatchDelete_control" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3">
+                <form id="dispatchDelete-form" data-toggle="validator" method="post" th:action="@{/dashboardrequest/dispatchdelete}">
+                    <input name="dis_id" hidden>
+                </form>
+                    <div class="alert alert-danger display-1" role="alert">
+                        <p align="center">Внимание Вы удалите!<br> Депешу со всеми посылками и заявками</p>
+                    </div>
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary dispatchDelete_control" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success dispatchDelete_control" id="btn-dispatchDeleteRun" th:text="#{general.run}">Run</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Modal error 500 dispatch-->
+<div class="modal fade" id="error-modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error - 500</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3">
+                    <div class="alert alert-danger display-1" role="alert">
+                        <p align="center" id="ErrorMessage">Ошибка</p>
+                    </div>
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Modal result upload dispatch-->
+<div class="modal fade" id="resultupload-modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Result</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3 text-center">
+                    <div>
+                        <p>
+                            <b>Success Loaded:</b><span id="successloaded"></span><br>
+                            <b>Error count:</b><span id="errorcount"></span>
+                        </p>
+                    </div>
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</span>
+</body>
+</html>

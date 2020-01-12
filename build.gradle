@@ -31,12 +31,25 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    compile group: 'org.apache.poi', name: 'poi', version: '4.1.1'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compile files('/src/main/resources/ojdbc8.jar')
     compile files('/src/main/resources/ucp.jar')
 
     compile "org.telegram:telegrambots-spring-boot-starter:4.1.2"
+
+    compile files('/src/main/resources/jasperreports-6.11.0.jar')
+    compile files('/src/main/resources/jasperreports-functions-6.11.0.jar')
+    compile files('/src/main/resources/jasperreports-extensions-3.5.3.jar')
+    compile files('/src/main/resources/jasperreports-fonts-6.11.0.jar')
+    compile files('/src/main/resources/jrfonts.jar')
+
+    compile files('/src/main/resources/itext-2.1.7.js4.jar')
+    compile group: 'net.sourceforge.barbecue', name: 'barbecue', version: '1.5-beta1'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Silhouette_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e115bc59-fd0f-446b-a585-04725e27d7f0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalHost (ORCL)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="sp_id" class="java.lang.Long">
+		<parameterDescription><![CDATA[Номер поставки]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[select nvl(spc_content_fact,'Не проверенно') spc_content_fact, sum(spc_weight) spc_weight, sum(spc_value) spc_value 
+from "SUPPLY_CONTENT" 
+where SP_ID= $P{sp_id}
+group by nvl(spc_content_fact,'Не проверенно')
+order by nvl(spc_content_fact,'Не проверенно')]]>
+	</queryString>
+	<field name="SPC_CONTENT_FACT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_CONTENT_FACT"/>
+	</field>
+	<field name="SPC_WEIGHT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_WEIGHT"/>
+	</field>
+	<field name="SPC_VALUE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SPC_VALUE"/>
+	</field>
+	<background>
+		<band height="575" splitType="Stretch">
+			<image vAlign="Bottom">
+				<reportElement mode="Opaque" x="0" y="234" width="85" height="241" backcolor="#000000" uuid="e2092645-6d95-4aee-9959-6ac3866b392b"/>
+				<imageExpression><![CDATA["https://api.ee.express/hydracargo/img/silhouette2.jpg"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="-20" y="234" width="20" height="241" backcolor="#000000" uuid="15a8ce9a-88f8-4109-86c3-2d1466393615"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="475" width="105" height="100" backcolor="#666666" uuid="6eb7cb61-0dd7-47a8-8475-5fa6c3a348dc"/>
+				<textField>
+					<reportElement style="Column header" x="0" y="0" width="104" height="73" forecolor="#000000" uuid="db8457c8-99e9-434f-b439-2d400dff2bcd"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="58" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="0" y="77" width="104" height="20" forecolor="#000000" uuid="e20c8a65-aded-41dc-a107-108a9159af99"/>
+					<box leftPadding="4" rightPadding="4"/>
+					<textElement textAlignment="Center">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement mode="Transparent" x="42" y="73" width="20" height="1" backcolor="#FFFFFF" uuid="db6d7ead-4383-4f8c-81cf-1e3064eb6924"/>
+				</line>
+			</frame>
+		</band>
+	</background>
+	<title>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="802" height="67" uuid="1dcadd54-7d50-4470-85ed-189e4d910b25"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="54" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Отчет для Маички]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="232" y="67" width="568" height="37" uuid="862cb50c-5a5e-4906-a495-226e25115fb6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="26"/>
+				</textElement>
+				<text><![CDATA[и компании]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="97" y="5" width="705" height="20" backcolor="#666666" uuid="35d90a9b-bb7e-4ec4-bfa2-68be1967d6b2"/>
+				<staticText>
+					<reportElement x="433" y="0" width="135" height="20" uuid="12d24e62-1cd8-44e1-ac58-c6851771ad16">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22ccca60-48d1-47fd-bd94-e5e44df4c414"/>
+					</reportElement>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Courier New"/>
+					</textElement>
+					<text><![CDATA[Вес]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="570" y="0" width="135" height="20" uuid="10948af5-688e-448e-846d-cf9f22995c09">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22ccca60-48d1-47fd-bd94-e5e44df4c414"/>
+					</reportElement>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Courier New"/>
+					</textElement>
+					<text><![CDATA[Стоимость]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="432" height="20" uuid="5c4344d1-24fd-4af2-a079-c8511d005abb">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22ccca60-48d1-47fd-bd94-e5e44df4c414"/>
+					</reportElement>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Courier New"/>
+					</textElement>
+					<text><![CDATA[Факт]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="97" y="1" width="705" height="15" uuid="89a3da05-fdde-4ffe-965f-cc476f72e3ab"/>
+				<textField>
+					<reportElement x="433" y="0" width="135" height="15" uuid="cf7ccdca-99d9-48b2-80a7-db3406de1e44">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22ccca60-48d1-47fd-bd94-e5e44df4c414"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SPC_WEIGHT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="570" y="0" width="135" height="15" uuid="1d9e1363-734b-4690-a383-29bf65e5aa91">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22ccca60-48d1-47fd-bd94-e5e44df4c414"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SPC_VALUE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="432" height="15" uuid="23708991-e3c2-4f46-ab94-4b835de10ccb">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22ccca60-48d1-47fd-bd94-e5e44df4c414"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SPC_CONTENT_FACT}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="705" height="1" uuid="e5f21b91-7f24-498e-97a1-0e93db9225a4"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="39" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="671" y="0" width="131" height="20" forecolor="#000000" uuid="95484ca0-40b4-4752-95d8-1afbc33c820b"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="96" y="0" width="267" height="20" uuid="0ec52099-dcd7-42f4-8baa-f3874f05208a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Мая report]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplyContentModel_1" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="29e76cb8-9822-4841-8220-1e391bf8f193">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalHost (ORCL)"/>
+	<parameter name="sp_id" class="java.lang.Long">
+		<parameterDescription><![CDATA[Код поставки]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select * from  "SUPPLY_CONTENT_MODEL" where sp_id= $P{sp_id} order by scm_num ]]>
+	</queryString>
+	<field name="SP_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SP_ID"/>
+	</field>
+	<field name="SCM_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SCM_ID"/>
+	</field>
+	<field name="SCM_NUM" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SCM_NUM"/>
+	</field>
+	<field name="SCM_BARCODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SCM_BARCODE"/>
+	</field>
+	<field name="SCM_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SCM_NAME"/>
+	</field>
+	<group name="SCM_ID">
+		<groupExpression><![CDATA[$F{SCM_ID}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="450" y="0" width="100" height="30" uuid="5d087726-b11c-4211-a2cc-577dabc993ff"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SP_ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="350" y="0" width="100" height="30" uuid="7e076244-7547-4d1b-a5cd-224a9d03130d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Код поставки]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="98" splitType="Stretch">
+			<componentElement>
+				<reportElement stretchType="ElementGroupBottom" x="142" y="19" width="270" height="79" uuid="1d38dc6f-3107-4117-b964-2916bee77328">
+					<property name="com.jaspersoft.studio.unit.barHeight" value="inch"/>
+					<property name="com.jaspersoft.studio.unit.barWidth" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128" drawText="false" checksumRequired="false" barWidth="6" barHeight="144">
+					<jr:codeExpression><![CDATA[$F{SCM_BARCODE}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="0" y="0" width="549" height="18" uuid="cd8d34b4-a554-4c00-a8b3-7da41c487736"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SCM_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

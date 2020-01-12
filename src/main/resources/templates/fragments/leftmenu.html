@@ -30,7 +30,15 @@
                         <li class="sidebar-item"><a class="sidebar-link" th:href="@{/help}" th:text="#{help.caption}">Help</a></li>
                     </ul>
                 </li>
-                <li sec:authorize="hasRole('ROLE_ADMIN')" id="communicationcenter_li" class="sidebar-item">
+                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')" id="post_li" class="sidebar-item">
+                    <a href="#postcenter" id="postcenter_a" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-play"></i> <span class="align-middle" th:text="#{Post.Center.Caption}">Post Center</span>
+                    </a>
+                    <ul id="postcenter" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item" id="dashboard_li"><a class="sidebar-link" id="dashboard_a" th:href="@{/dashboardrequest}" th:text="#{dashboardrequest.caption}">Dashboard request</a></li>
+                    </ul>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')" id="communicationcenter_li" class="sidebar-item">
                     <a href="#communicationcenter" id="communicationcenter_a" data-toggle="collapse" class="sidebar-link collapsed">
                         <i class="align-middle mr-2 fas fa-fw fa-play"></i> <span class="align-middle" th:text="#{Communication.Center.Caption}">Communicztion Center</span>
                     </a>

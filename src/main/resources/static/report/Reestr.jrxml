@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reestr" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="f27b8873-bd61-4717-94c7-d147529c6f8d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="eeExpress"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.export.xls.freeze.row" value="4"/>
+	<parameter name="vAWB" class="java.lang.Integer"/>
+	<queryString language="plsql">
+		<![CDATA[{call HCARGO.PKG_REPORT.Reestr_AWB_Detail($P{vAWB},$P{ORACLE_REF_CURSOR})}]]>
+	</queryString>
+	<field name="RN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="RN"/>
+	</field>
+	<field name="SHPNO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SHPNO"/>
+	</field>
+	<field name="DC_SCOUNTRY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_SCOUNTRY"/>
+	</field>
+	<field name="DC_SNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_SNAME"/>
+	</field>
+	<field name="DC_SADDRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_SADDRESS"/>
+	</field>
+	<field name="DC_SCITY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_SCITY"/>
+	</field>
+	<field name="DC_RCOUNTRY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RCOUNTRY"/>
+	</field>
+	<field name="DC_RLNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RLNAME"/>
+	</field>
+	<field name="DC_RFNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RFNAME"/>
+	</field>
+	<field name="DC_RSTYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RSTYPE"/>
+	</field>
+	<field name="DC_RSTREET" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RSTREET"/>
+	</field>
+	<field name="DC_RBLD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RBLD"/>
+	</field>
+	<field name="DC_RZIP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RZIP"/>
+	</field>
+	<field name="DC_RCTYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RCTYPE"/>
+	</field>
+	<field name="DC_RCITY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RCITY"/>
+	</field>
+	<field name="DC_WIDTH" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="DC_WIDTH"/>
+	</field>
+	<field name="DC_QTY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_QTY"/>
+	</field>
+	<field name="DC_VALUE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_VALUE"/>
+	</field>
+	<field name="DC_DESCRIPTION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_DESCRIPTION"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="842" height="30" uuid="87409d71-0c0c-4ea6-8bf5-520ae0727d3a"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Реєстр № _________  складений за результатами усного декларування імпортних МЕВ, що надійшли в адресу фізичних осіб]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="842" height="30" uuid="1e414a6c-0fe2-4935-87fe-4d506d930951"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[на ЦСС ТОВ "Східно-Європейський Експрес"   від ______________ 201__ р.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="30" height="40" uuid="b95575c2-f94b-4b0a-9459-52d05aac2c39">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[№ з/п]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="90" height="40" uuid="db8fb2d3-fa10-4685-95ec-ad1718842297">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Міжнародний транспортний документ №]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="75" height="40" uuid="a0f0545d-3717-4fbb-8682-8305a8e069f3"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Країна відправлення]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="0" width="170" height="40" uuid="87d557ba-dd21-4dfd-9aff-9cd398abb85a"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Відправник]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="0" width="170" height="40" uuid="70b51e4f-117e-4813-9f47-f729d8227ebc"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Одержувач]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="535" y="0" width="40" height="40" uuid="e00835ac-b49d-4c20-b9a4-f46b28d8c2cf"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[К-сть місць]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="575" y="0" width="40" height="40" uuid="e5011afe-bcca-47f2-b332-6bd3cdd4a04b"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Вага]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="615" y="0" width="80" height="40" uuid="6da4bc1e-5ee7-441d-8c7d-11bb247c1095">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Вкладення   МЕВ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="695" y="0" width="50" height="40" uuid="883b7679-48b0-4ed7-9cca-182cc5f5259f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Вартість, дол.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="745" y="0" width="97" height="40" uuid="580bd488-ae21-4035-ad87-2241a6299e0e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="net.sf.jasperreports.export.xls.auto.filter" value="End"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Примітки]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="80" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="30" height="80" uuid="29b016dd-5c6f-40ec-97cc-6bb7b517584b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="30" y="0" width="90" height="80" uuid="7ef5456d-8366-49d4-8630-9dc2c773e219">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHPNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="120" y="0" width="75" height="80" uuid="646aa87f-625d-412a-9044-3cffc156ed1c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_SCOUNTRY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="195" y="0" width="170" height="80" uuid="89d32f70-8d16-42da-aa6a-8cdf6ab6acdf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_SNAME}+", "+$F{DC_SADDRESS}+", "+$F{DC_SCOUNTRY}+", "+$F{DC_SCITY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="365" y="0" width="170" height="80" uuid="b24ebbc8-7ecd-4ec1-a98e-530e6fa97cce">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_RLNAME}+" "+ $F{DC_RFNAME} +","+$F{DC_RSTYPE}+","+$F{DC_RSTREET}+", "+$F{DC_RBLD}+", "+$F{DC_RZIP}+", "+$F{DC_RCOUNTRY}+", "+$F{DC_RCTYPE}+", "+$F{DC_RCITY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="535" y="0" width="40" height="80" uuid="29ea3a4b-b498-443c-ae1e-4b00fc4321d6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_QTY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00-)" isBlankWhenNull="true">
+				<reportElement x="575" y="0" width="40" height="80" uuid="c4cc4c92-a64c-4cf6-b125-f7ec8d7c13f6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_WIDTH}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="615" y="0" width="80" height="80" uuid="468de4b9-d418-486a-9aa6-673148ce5db8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00-)" isBlankWhenNull="true">
+				<reportElement x="695" y="0" width="50" height="80" uuid="a9031b3a-9bb1-478f-8c42-ad830533794f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_VALUE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="745" y="0" width="97" height="80" uuid="66b63095-9bf2-45ba-9443-58ef5b772a74">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="60">
+			<staticText>
+				<reportElement x="0" y="0" width="842" height="30" uuid="b5736a5f-e0b8-40b4-b982-9c3ae1fb517d"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Представник ТОВ ____________________________________, уповноважений на декларування:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="842" height="30" uuid="6dc1eaad-7dc7-43d5-8dc2-26b41fb3e411"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Черговий інспектор ПМО:]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

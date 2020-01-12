@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FIN_2" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8a465670-cc4a-4270-965f-8efb86e33b71">
+	<property name="template.engine" value="tabular_template"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="eeExpress"/>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#EFEFEF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tableDataset" uuid="4b41325d-a6f6-406c-a6ac-f34afb0bcb60">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="eeExpress"/>
+		<queryString language="SQL">
+			<![CDATA[select  
+       c.CNT_NAME, 
+       a.AWB_NUM, 
+       sum(a.AWB_WEIGHT_F), 
+       sum(a.AWB_WEIGHT_CALC), 
+       sum(a.AWB_VOLUME_WEIGHT_PAID), 
+       sum(a.AWB_FREIGHT_CHARGE), 
+       sum(a.AWB_BRAND_SURCHARGE),
+       sum(a.AWB_REGISTRATION),
+       sum(a.AWB_CUSTOMS_CLEARANCE),
+       sum(a.AWB_TRANSPORT_AIRPORT),
+       sum(a.AWB_TRANSPORT_AGENT),
+       sum(a.AWB_PACKING),
+       sum(a.AWB_FREIGHT_CHARGE)+sum(a.AWB_BRAND_SURCHARGE)+sum(a.AWB_REGISTRATION)+sum(a.AWB_CUSTOMS_CLEARANCE)+sum(a.AWB_TRANSPORT_AIRPORT)+sum(a.AWB_TRANSPORT_AGENT)+sum(a.AWB_PACKING) Total
+ from 
+    awb a,
+    dispatch d,
+    box b,
+    request r,
+    contragent c
+where 
+    d.AWB_ID = a.AWB_ID
+and b.DIS_ID = d.DIS_ID
+and r.REQ_ID = b.REQ_ID
+and c.CNT_ID = r.CNT_ID
+group by c.CNT_NAME, 
+         a.AWB_NUM
+order by cnt_name]]>
+		</queryString>
+		<field name="CNT_NAME" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="CNT_NAME"/>
+		</field>
+		<field name="AWB_NUM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="AWB_NUM"/>
+		</field>
+		<field name="SUM(A.AWB_WEIGHT_F)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_WEIGHT_F)"/>
+		</field>
+		<field name="SUM(A.AWB_WEIGHT_CALC)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_WEIGHT_CALC)"/>
+		</field>
+		<field name="SUM(A.AWB_VOLUME_WEIGHT_PAID)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_VOLUME_WEIGHT_PAID)"/>
+		</field>
+		<field name="SUM(A.AWB_FREIGHT_CHARGE)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_FREIGHT_CHARGE)"/>
+		</field>
+		<field name="SUM(A.AWB_BRAND_SURCHARGE)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_BRAND_SURCHARGE)"/>
+		</field>
+		<field name="SUM(A.AWB_REGISTRATION)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_REGISTRATION)"/>
+		</field>
+		<field name="SUM(A.AWB_CUSTOMS_CLEARANCE)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_CUSTOMS_CLEARANCE)"/>
+		</field>
+		<field name="SUM(A.AWB_TRANSPORT_AIRPORT)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_TRANSPORT_AIRPORT)"/>
+		</field>
+		<field name="SUM(A.AWB_TRANSPORT_AGENT)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_TRANSPORT_AGENT)"/>
+		</field>
+		<field name="SUM(A.AWB_PACKING)" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="SUM(A.AWB_PACKING)"/>
+		</field>
+		<field name="TOTAL" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="TOTAL"/>
+		</field>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="45" splitType="Stretch"/>
+	</title>
+	<pageFooter>
+		<band height="38" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="200" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<componentElement>
+				<reportElement x="0" y="0" width="802" height="200" uuid="c14f1787-7895-4b08-ad89-ca17cfcc07b5">
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tableDataset" uuid="7e4e9afd-3292-4559-aba7-dd43432637d0">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="61" uuid="8a76a327-2140-4e2c-8fcc-b68d0c4d4057">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="d73e5d87-78ba-43ec-ac9c-07458ffa4700">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Клиент]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="b22b1d4d-aa94-4418-8ad3-4f4b72326bcd">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CNT_NAME}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="ed2370d7-6039-4793-99b5-d97e668e614e">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="6ce972b4-4489-4f41-a11e-8d458d94245f">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Номер борта
+]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="5ffe266e-f12b-47e5-aab2-c32acc5b907a">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AWB_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="25050d96-74b6-4718-96ce-8544bffe5d60">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="d13e2627-bb2a-4c76-8bbc-6ceb6094da55">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Фактический вес]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="e47a9d07-03d7-4152-ab83-01aef62f0432">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_WEIGHT_F)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="a26be701-7fc7-495a-8f3c-98c947063347">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="1c8272c4-d028-479d-8dfd-d158af6555b6">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Объемный вес (расчет)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="635972bc-12f1-45ec-91ee-d18888dd8c04">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_WEIGHT_CALC)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="8972d9e4-2ec7-4c08-b23f-1d7821360698">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="4e34990d-97d8-4e21-ba69-aa6b9e002e81">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Обьемный вес, за который заплатили]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="951d41b9-e5fd-4aa8-bff0-5f4e01738be3">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_VOLUME_WEIGHT_PAID)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="6a9f56fe-2751-47a5-a9f0-07335a5a6956">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="0212899f-d55b-4536-afa3-0b2f7f9c5694">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Сумма по тарифу за фрахт (юани)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="d2971c79-9c7b-4e8f-8a67-406c56d045e4">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_FREIGHT_CHARGE)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="5104a5b9-8bd0-4b73-9a57-d0b9aefcf588">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="b3e0b154-4512-4633-8257-7f787683efd2">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Доплата за бренд (юани)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="b9396bc0-ddb1-41b1-9e48-a98515cb301c">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_BRAND_SURCHARGE)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="a66c4e0b-f650-400b-b477-a48213382eaa">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="c0f60cf3-9bc4-43a6-b292-2f331f3df477">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Оформление, юани]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="fab56d99-e767-4d62-94d7-4e50bed9a863">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_REGISTRATION)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="2c477c25-fcda-4044-9b8e-225a6a8d2520">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="78a0f8c3-f7a1-424c-be25-beb2a01d7002">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Таможенное оформление, юани]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="62f79f6b-e996-4955-8238-b57cf48f0040">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_CUSTOMS_CLEARANCE)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="2bcb4ef6-d3b6-4271-abef-1de4b6ac0fb5">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="f33660ea-2803-4dea-ab59-5d3cdca50180">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Авто до аэропорта, юани]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="bd1ea3e2-3137-419e-8234-62e180a90d88">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_TRANSPORT_AIRPORT)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="933f6742-d1d0-46b1-8f38-1d98c3b7c3c2">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="687effb2-edc7-4a54-9ca7-731a7f3d1ba9">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Транспортные расходы до агента]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="795162da-cb8e-4af9-b21f-382a38af14e6">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_TRANSPORT_AGENT)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="b286c405-7adf-4601-94b2-bd145cf879ef">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="adf6d9bd-4837-4b73-91d5-65a7e9b183df">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Упаковка, юани]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="677be8d0-a353-4978-a653-e90461abb182">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SUM(A.AWB_PACKING)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="b838c9e8-0f14-46e3-b9cb-091c7d9143b6">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="9d5b635e-b820-4a71-bb30-88eb0c5045e2">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Всего, юани]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="30" uuid="1a8e392d-1a19-4177-924d-bbd5fb916e8e">
+									<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+									<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+									<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+								</reportElement>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

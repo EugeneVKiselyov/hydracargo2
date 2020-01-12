@@ -11,7 +11,7 @@ import ua.com.idltd.hydracargo.bot.telegram.bot.entity.TelegramVehicle;
 import ua.com.idltd.hydracargo.bot.telegram.bot.repository.TelegramUserRepository;
 import ua.com.idltd.hydracargo.bot.telegram.bot.repository.TelegramVehicleRepository;
 import ua.com.idltd.hydracargo.bot.telegram.web.repository.telegram_list.MenuTelegramLineRepository;
-import ua.com.idltd.hydracargo.user.entity.Users;
+import ua.com.idltd.hydracargo.user.entity.User;
 import ua.com.idltd.hydracargo.user.repository.UsersRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
@@ -72,7 +72,7 @@ public class TelegramLineController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        Users user = usersRepository.findByUser_username(userDetail.getUsername());
+        User user = usersRepository.findByUser_username(userDetail.getUsername());
         if (user.getTu_id() == null) throw new Exception("User "+user.getUser_username()+" do not have default tu_id (telegram user)");
 
         StoredProcedureQuery AddMessageQuery = entityManager
