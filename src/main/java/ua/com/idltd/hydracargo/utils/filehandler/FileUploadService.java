@@ -7,6 +7,7 @@ import ua.com.idltd.hydracargo.dispatch.repository.DispatchRepository;
 import ua.com.idltd.hydracargo.entrepot.repository.EntrepotRepository;
 import ua.com.idltd.hydracargo.exception.DispatchIdNullException;
 import ua.com.idltd.hydracargo.request.repository.RequestRepository;
+import ua.com.idltd.hydracargo.scan.repository.Declaration_scanRepository;
 import ua.com.idltd.hydracargo.utils.filehandler.entity.FilehandlerLog;
 import ua.com.idltd.hydracargo.utils.filehandler.exception.UnsupportedFileFormatException;
 import ua.com.idltd.hydracargo.utils.filehandler.exception.UnsupportedFileTypeException;
@@ -32,10 +33,12 @@ public class FileUploadService {
     private final Declaration_cacheRepository declaration_cacheRepository;
     private final EntrepotRepository entrepotRepository;
     private final LoadAsosRepository loadAsosRepository;
+    private final Declaration_scanRepository declaration_scanRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
 
-    public FileUploadService(FileHandlerBufferRepository fileHandlerBufferRepository, FileHandlerLogRepository fileHandlerLogRepository, FileHandlerDetailLogRepository fileHandlerDetailLogRepository, FileHandlerAtomLogRepository fileHandlerAtomLogRepository, RequestRepository requestRepository, DispatchRepository dispatchRepository, Declaration_cacheRepository declaration_cacheRepository, EntrepotRepository entrepotRepository, LoadAsosRepository loadAsosRepository) {
+    public FileUploadService(FileHandlerBufferRepository fileHandlerBufferRepository, FileHandlerLogRepository fileHandlerLogRepository, FileHandlerDetailLogRepository fileHandlerDetailLogRepository, FileHandlerAtomLogRepository fileHandlerAtomLogRepository, RequestRepository requestRepository, DispatchRepository dispatchRepository, Declaration_cacheRepository declaration_cacheRepository, EntrepotRepository entrepotRepository, LoadAsosRepository loadAsosRepository, Declaration_scanRepository declaration_scanRepository) {
         this.fileHandlerBufferRepository = fileHandlerBufferRepository;
         this.fileHandlerLogRepository = fileHandlerLogRepository;
         this.fileHandlerDetailLogRepository = fileHandlerDetailLogRepository;
@@ -45,6 +48,7 @@ public class FileUploadService {
         this.declaration_cacheRepository = declaration_cacheRepository;
         this.entrepotRepository = entrepotRepository;
         this.loadAsosRepository = loadAsosRepository;
+        this.declaration_scanRepository = declaration_scanRepository;
     }
 
     private void savelog(FilehandlerLog fhl, FileLogStatusEnum flse, String body){
@@ -87,6 +91,10 @@ public class FileUploadService {
                         dis_id,service_id,type_id,scountry_iso2,rcountry_iso2,
                         requestRepository, dispatchRepository, declaration_cacheRepository, entrepotRepository,
                         entityManager,loadAsosRepository);
+                    break;
+                case VEX_SCAN: fuh=new FileUploadHandlerVEX_SCAN(fhl,file,fileHandlerBufferRepository,fileHandlerLogRepository,fileHandlerDetailLogRepository,fileHandlerAtomLogRepository,
+                        dis_id,
+                        dispatchRepository, declaration_scanRepository);
                     break;
                 default:    throw new UnsupportedFileTypeException(fte);
             }

@@ -40,13 +40,13 @@
                 <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')">
 
                     <div class="row">
-                        <div class="col-12 pl-2 pr-2 col-xl-6 pl-xl-2 pr-xl-1 pt-0">
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
                             <div class="card flex-fill w-100 mb-2">
                                 <div class="card-header pb-0">
                                     <div class="card-actions float-right">
                                         <a href="#dashboard_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
                                     </div>
-                                    <h5 class="card-title" href="#mail_description_div" data-toggle="collapse" th:text="#{dashboardrequest.caption}">Dashboard Card</h5>
+                                    <h5 class="card-title" href="#dashboard_description_div" data-toggle="collapse" th:text="#{dashboardrequest.caption}">Dashboard Card</h5>
                                 </div>
                                 <div class="card-body pt-0 collapse show" id="dashboard_description_div">
                                     <div>
@@ -56,18 +56,34 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- Row 1 -->
-
-                    <div class="row">
-                        <div class="col-12 pl-2 pr-2 col-xl-6 pl-xl-2 pr-xl-1 pt-0">
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
                             <div class="card flex-fill w-100 mb-2">
                                 <div class="card-header pb-0">
                                     <div class="card-actions float-right">
-                                        <a href="#mail_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                        <a href="#scan_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
                                     </div>
-                                    <h5 class="card-title" href="#mail_description_div" data-toggle="collapse" th:text="#{hcomm.line.caption}">Line</h5>
+                                    <h5 class="card-title" href="#scan_description_div" data-toggle="collapse" th:text="#{scan.caption}">Scan</h5>
                                 </div>
-                                <div class="card-body pt-0 collapse show" id="mail_description_div">
+                                <div class="card-body pt-0 collapse show" id="scan_description_div">
+                                    <div>
+                                        <p class="card-text" th:text="#{scan.description}"></p>
+                                        <a class="card-link" th:href="@{/dashboardrequest}" th:text="#{general.run}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row 1 -->
+
+                    <div class="row">
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                            <div class="card flex-fill w-100 mb-2">
+                                <div class="card-header pb-0">
+                                    <div class="card-actions float-right">
+                                        <a href="#hcomm_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                    </div>
+                                    <h5 class="card-title" href="#hcomm_description_div" data-toggle="collapse" th:text="#{hcomm.line.caption}">Line</h5>
+                                </div>
+                                <div class="card-body pt-0 collapse show" id="hcomm_description_div">
                                     <div>
                                         <p class="card-text" th:text="#{hcomm.line.description}"></p>
                                         <a class="card-link" th:href="@{/telegram_line}" th:text="#{general.run}"></a>
@@ -75,8 +91,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-12 pl-2 pr-2 col-xl-6 pl-xl-1 pr-xl-2 pt-0">
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
                             <div class="card flex-fill w-100 mb-2">
                                 <div class="card-header pb-0">
                                     <div class="card-actions float-right">
@@ -95,7 +110,7 @@
                     </div><!-- Row 2 -->
 
                     <div class="row">
-                        <div class="col-12 pl-2 pr-2 pt-0">
+                        <div class="col-12 pl-1 pr-1 col-xl-12 pl-xl-1 pr-xl-1 pt-0">
                             <div class="card flex-fill w-100 mb-2">
                                 <div class="card-header pb-0">
                                     <div class="card-actions float-right">

@@ -36,6 +36,7 @@
                     </a>
                     <ul id="postcenter" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                         <li class="sidebar-item" id="dashboard_li"><a class="sidebar-link" id="dashboard_a" th:href="@{/dashboardrequest}" th:text="#{dashboardrequest.caption}">Dashboard request</a></li>
+                        <li class="sidebar-item" id="scan_li"><a class="sidebar-link" id="scan_a" th:href="@{/dashboardrequest}" th:text="#{scan.caption}">Scan</a></li>
                     </ul>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')" id="communicationcenter_li" class="sidebar-item">

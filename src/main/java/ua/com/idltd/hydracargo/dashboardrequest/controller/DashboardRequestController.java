@@ -367,36 +367,21 @@ public class DashboardRequestController {
             try {
                 switch(format_id.intValue()) {
                     case 1 :
-                            // Declaration1Parser.parseAndLoadtoDispatch(dis_id, GetUserName(), serv_id, type_id, scountry_iso2, rcountry_iso2, file, requestRepository, dispatchRepository, declaration_cacheRepository, entrepotRepository, 0);
-                            ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
-                            break;
+                        ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
+                        break;
                     case 2 :
-                            ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
-                            break;
+                        ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX_SCAN,dis_id,null, null, null, null,file);
+                        break;
                     case 3 :
-//                            Declaration1Parser.parseAndLoadtoDispatchAsosNew(dis_id, GetUserName(), serv_id, type_id, scountry_iso2, rcountry_iso2, file, entityManager, loadAsosRepository);
-                            ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.ASOS,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
-
-                            break;
+                        ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.ASOS,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
+                        break;
                     case 4 :
-                            ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX_DIG,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
-                            // Declaration1Parser.parseAndLoadtoDispatch(dis_id, GetUserName(), serv_id, type_id, scountry_iso2, rcountry_iso2, file, requestRepository, dispatchRepository, declaration_cacheRepository, entrepotRepository, 1);
-                            break;
+                        ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX_DIG,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
+                        break;
                     default :
                         throw new Exception("I do not know format_id ="+format_id);
                 }
-                //меняем статус если все заполнилось
-//                if (dispatch.dis_seatsnum!=null && dispatch.dis_seatsnum!=0) {
-//                    dispatch.rs_id=2L; //обработанна посылки загружены
-//                    dispatchRepository.save(dispatch);
-//
-//                    Request request;
-//                    request = requestRepository.findOne(dispatch.req_id);
-//                    if (request != null) {
-//                        request.rs_id=dispatch.rs_id;
-//                        requestRepository.save(request);
-//                    }
-//                }
+
                 ufr.drdto=constructDashboardRequestDTO(dispatchRequestContragentViewRepository.queryByDis_idandReq_id(dispatch.dis_id, dispatch.req_id,GetUserName()));
                 result = ResponseEntity.ok(ufr);
             } catch (IOException e) {
@@ -410,6 +395,24 @@ public class DashboardRequestController {
                 result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+        return result;
+    }
+
+    @PostMapping("/scanclear")
+    public DashboardRequestDTO scanclear(@RequestParam(value="dis_id") Long dis_id
+    ) {
+        //удаляем сканирование из депеши
+        StoredProcedureQuery storageproc = entityManager
+                .createStoredProcedureQuery("PKG_DISPATCH.DELETE_SCAN")
+                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN) //username
+                .registerStoredProcedureParameter(2, Long.class, ParameterMode.IN) //dis_id
+                .setParameter(1, GetUserName())
+                .setParameter(2, dis_id);
+        storageproc.execute();
+
+        Dispatch dispatch = dispatchRepository.findById(dis_id).orElse(null);
+        Request request = requestRepository.findById(dispatch.req_id).orElse(null);
+        DashboardRequestDTO result=constructDashboardRequestDTO(dispatchRequestContragentViewRepository.queryByDis_idandReq_id(dispatch.dis_id,request.req_id,GetUserName()));
         return result;
     }
 }

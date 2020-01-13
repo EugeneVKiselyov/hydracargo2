@@ -201,8 +201,14 @@
         $(document).on("click", ".cart-dispatch-clear", function (e) {
             $("#dispatchClear-form input[name=dis_id]").val($(this).attr("dis_id"));
         });
+        $(document).on("click", ".cart-dispatch-scan-clear", function (e) {
+            $("#dispatchScanClear-form input[name=dis_id]").val($(this).attr("dis_id"));
+        });
         $(document).on("click", ".cart-dispatch-delete", function (e) {
             $("#dispatchDelete-form input[name=dis_id]").val($(this).attr("dis_id"));
+        });
+        $(document).on("click", ".cart-dispatch-scan", function (e) {
+            $("#scanDownload-form input[name=dis_id]").val($(this).attr("dis_id"));
         });
         $('#savecard').on('click', function (e) {
                 $.ajax({
@@ -289,6 +295,27 @@
                     setCard(data);
                     $('#dispatchClear-modal').modal('hide');
                     $(".dispatchClear_control").attr("disabled", false);
+                }
+            });
+        });
+
+        $('#btn-dispatchScanClearRun').on('click', function (e) {
+            $.ajax({
+                url: /*[[@{/dashboardrequest/scanclear}]]*/ "dashboardrequest/scanclear",
+                type: 'POST',
+                dataType: "json",
+                async: true,
+                data: {
+                    dis_id: $("#dispatchScanClear-form input[name=dis_id]").val()
+                },
+                beforeSend : function (data){
+                    $(".dispatchScanClear_control").attr("disabled", true);
+                },
+                success: function (data, textStatus) {
+                    // var card = $("[dis_id=" + data.dis_id + "][req_id=" + data.req_id + "][obj='card']");
+                    setCard(data);
+                    $('#dispatchScanClear-modal').modal('hide');
+                    $(".dispatchScanClear_control").attr("disabled", false);
                 }
             });
         });
@@ -410,6 +437,7 @@
             }
         });
 
+
         $("#btn-shipmentsDownload").on('click', function (e) {
             $("#shipmentsUpload-form").submit(
                 $.ajax({
@@ -443,6 +471,7 @@
             );
 
         });
+
     });
 </script>
 
