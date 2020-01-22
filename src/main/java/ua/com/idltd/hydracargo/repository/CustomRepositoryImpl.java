@@ -23,6 +23,7 @@ public CustomRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, Entity
         @Override
         @Transactional
         public void refresh(T t) {
+//                entityManager.flush();
                 entityManager.refresh(t);
         }
 }

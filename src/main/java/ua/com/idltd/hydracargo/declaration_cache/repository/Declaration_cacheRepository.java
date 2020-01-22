@@ -52,6 +52,10 @@ public interface Declaration_cacheRepository extends CustomRepository<Declaratio
     @Query(nativeQuery = true, value = "select count(dc_id) from Declaration_cache where dis_id=?1")
     Long countByDis_id(Long dis_id);
 
-    @Query(nativeQuery = true, value = "select sum(dc_tweight) from Declaration_cache where dis_id=?1")
+    @Query(nativeQuery = true, value = "select nvl(sum(dc_tweight),0) from Declaration_cache where dis_id=?1")
     Double sumDc_tweightByDis_id(Long dis_id);
+
+    @Query(nativeQuery = true, value = "select * from Declaration_cache where dis_id = ?1 and dc_user_name = ?2")
+    List<Declaration_cache> findByDis_id_scan(Long dis_id, String dc_user_name);
+
 }

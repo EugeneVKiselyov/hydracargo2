@@ -110,7 +110,6 @@ public class FileUploadHandlerVEX extends IFileUploadHandlerPostImpl {
             dispatch.dis_seatsnum = declaration_cacheRepository.countByDis_id(dispatch.dis_id);
             dispatch.dis_weight_f = declaration_cacheRepository.sumDc_tweightByDis_id(dispatch.dis_id);
             dispatchRepository.save(dispatch);
-            dispatchRepository.refresh(dispatch);
 
             savelog(FileLogStatusEnum.SUCCESS, MessageFormat.format("End parce and load file {0}", fhlb.getFhlb_Name()));
         } catch (IOException e) {

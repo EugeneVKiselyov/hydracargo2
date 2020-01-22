@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
 
@@ -385,14 +386,14 @@ public class DashboardRequestController {
                 ufr.drdto=constructDashboardRequestDTO(dispatchRequestContragentViewRepository.queryByDis_idandReq_id(dispatch.dis_id, dispatch.req_id,GetUserName()));
                 result = ResponseEntity.ok(ufr);
             } catch (IOException e) {
-                e.printStackTrace();
-                result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//                e.printStackTrace();
+                result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
             } catch (DispatchIdNullException e) {
-                e.printStackTrace();
-                result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//                e.printStackTrace();
+                result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
             } catch (Exception e) {
-                e.printStackTrace();
-                result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//                e.printStackTrace();
+                result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return result;

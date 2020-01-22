@@ -21,4 +21,13 @@ public class Declaration_scan {
   @Column(name = "DS_COLOR")
   public String ds_color;
 
+  @Column(name = "DC_ID")
+  public String dc_id;
+
+  @Column(name = "DS_SCANFOUND")
+  public Long ds_scanfound;
+
+  @Column(name = "DS_ORDER")
+  public Long ds_order;
+
 }

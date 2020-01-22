@@ -148,6 +148,7 @@ public class ReportController {
             case 8 : report = "/static/report/Report_8.jasper"; break;
             case 10 : report = "/static/report/Report_10.jasper"; break;
             case 11 : report = "/static/report/Report_5_pdf.jasper"; break;
+            case 12 : report = "/static/report/Scan_1_xls.jasper"; break;
         }
         return report;
     }

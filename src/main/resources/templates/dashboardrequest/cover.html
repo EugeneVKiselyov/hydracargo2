@@ -190,11 +190,9 @@
             getcard("edit",$(this).attr("dis_id"),$(this).attr("req_id"));
             $("#savecard").attr("mode","edit");
         });
-
         $(document).on("click", ".cart-dispatch-upload", function (e) {
             $("#shipmentsUpload-modal input[name=dis_id]").val($(this).attr("dis_id"));
         });
-
         $(document).on("click", ".cart-dispatch-close", function (e) {
             $("#dispatchClose-form input[name=dis_id]").val($(this).attr("dis_id"));
         });
@@ -277,7 +275,6 @@
                 }
             });
         });
-
         $('#btn-dispatchClearRun').on('click', function (e) {
             $.ajax({
                 url: /*[[@{/dashboardrequest/dispatchclear}]]*/ "dashboardrequest/dispatchclear",
@@ -298,7 +295,6 @@
                 }
             });
         });
-
         $('#btn-dispatchScanClearRun').on('click', function (e) {
             $.ajax({
                 url: /*[[@{/dashboardrequest/scanclear}]]*/ "dashboardrequest/scanclear",
@@ -319,7 +315,6 @@
                 }
             });
         });
-
         $('#btn-dispatchDeleteRun').on('click', function (e) {
             $.ajax({
                 url: /*[[@{/dashboardrequest/dispatchdelete}]]*/ "dashboardrequest/dispatchdelete",
@@ -358,7 +353,7 @@
             }
         ).on('drop', function (el, target, source, sibling) {
             $.ajax({
-                url: "dashboardrequest/setcardstatus",
+                url: /*[[@{/dashboardrequest/setcardstatus}]]*/ "dashboardrequest/setcardstatus",
                 type: 'POST',
                 dataType: "json",
                 data: { dis_id : el.getAttribute("dis_id"),
@@ -441,7 +436,7 @@
         $("#btn-shipmentsDownload").on('click', function (e) {
             $("#shipmentsUpload-form").submit(
                 $.ajax({
-                    url: "dashboardrequest/uploadXlsBootfile",
+                    url: /*[[@{/dashboardrequest/uploadXlsBootfile}]]*/ "dashboardrequest/uploadXlsBootfile",
                     type: 'POST',
                     async : true,
                     cache: false,
@@ -462,10 +457,11 @@
                         $("#resultupload-modal-dialog").modal('show');
                     },
                     error: function (request) {
-                        $("#ErrorMessage").text(request.responseText);
-                        $("#error-modal-dialog").modal('show');
-
+                        $("#shipmentsUpload-modal").modal('hide');
                         $(".shipmentsUpload_control").attr("disabled", false);
+                        $("#ErrorMessage").text(request.responseText);
+
+                        $("#error-modal-dialog").modal('show');
                     }
                 })
             );

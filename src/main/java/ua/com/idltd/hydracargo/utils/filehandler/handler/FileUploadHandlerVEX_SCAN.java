@@ -141,9 +141,12 @@ public class FileUploadHandlerVEX_SCAN extends IFileUploadHandlerPostImpl {
         Declaration_scan declaration_scan = new Declaration_scan();
         try {
             declaration_scan.dis_id = dis_id;
-            declaration_scan.ds_shipment = formatter.formatCellValue(row.getCell(0));
-            Short cellColor = row.getCell(0).getCellStyle().getFillForegroundColor();
-            declaration_scan.ds_color = getColorHex(cellColor);
+            Cell cell = row.getCell(0);
+            declaration_scan.ds_shipment = formatter.formatCellValue(cell);
+            if (cell.getCellStyle().getFillPattern() != FillPatternType.NO_FILL) {
+                Short cellColor = cell.getCellStyle().getFillForegroundColor();
+                declaration_scan.ds_color = getColorHex(cellColor);
+            }
             declaration_scanRepository.save(declaration_scan);
 
             saveatomlog(FileLogStatusEnum.SUCCESS,mapper.writeValueAsString(declaration_scan),null);

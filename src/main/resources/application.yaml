@@ -91,3 +91,53 @@ telegram :
   bot_start : true
   BOT_TOKEN : 575427048:AAHmoE-Ad9MvT0AKgcOyKtI0g2EP1VPb3Rk
   BOT_USERNAME : eeExpressBot
+
+---
+
+  spring:
+    profiles: ipex
+    datasource:
+      type: com.zaxxer.hikari.HikariDataSource
+      dataSourceClassName: oracle.jdbc.pool.OracleDataSource
+      url: jdbc:oracle:thin:@//localhost/ORCLPDB1
+      username: HCARGO
+      password: qazzaq
+      hikari:
+        connection-init-sql: alter session set current_schema=HCARGO
+        minimum-idle: 2
+        maximum-pool-size: 10
+        schema: HCARGO
+
+  server:
+    port: 8080
+
+  telegram:
+    BOT_CREATOR_ID: 363275968
+    bot_start: true
+    BOT_TOKEN: 920706355:AAFMvUe1IaAn4mrJUf0MOv1DPgnNswXyHcU
+    BOT_USERNAME: ipex_delivery_bot
+
+---
+
+    spring:
+      profiles: ipex_test
+      datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        dataSourceClassName: oracle.jdbc.pool.OracleDataSource
+        url: jdbc:oracle:thin:@//localhost:1526/ORCLPDB1
+        username: HCARGO
+        password: qazzaq
+        hikari:
+          connection-init-sql: alter session set current_schema=HCARGO
+          minimum-idle: 2
+          maximum-pool-size: 10
+          schema: HCARGO
+
+    server:
+      port: 8081
+
+    telegram:
+      BOT_CREATOR_ID: 363275968
+      bot_start: true
+      BOT_TOKEN: 1020814764:AAE-WSMn-g1lJuHWVEApQ53wS5bb2w3a0xw
+      BOT_USERNAME: ipex_delivery_test_bot

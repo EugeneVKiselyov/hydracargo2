@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="scan_main_body" th:remove="tag">
+    <div class="row w-100 h-25">
+        <div class="row container-fluid">
+            <div class="col-6">
+              <form id="shipmentScan-form" data-toggle="validator" method="post" th:action="@{/scan/scan_shipment}">
+                  <input hidden name="dis_id" th:value="${dis_id}">
+                  <div class="input-group mb-3">
+                      <input type="text" class="form-control shipmentScan_control" id="shipment" name="shipment" th:placeholder="#{scan.ds_shipment}" th:aria-label="#{scan.ds_shipment}" aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary shipmentScan_control" type="button" id="shipmentScan-form-Save">Save</button>
+                      </div>
+                  </div>
+              </form>
+            </div>
+            <div class="col-6 pull-right">
+                <a class="btn btn-info" th:href="@{/report/xls(rep_id=12,filename='Report_Scan_'+${dis_id},vDIS_ID=${dis_id})}" th:text="#{scan.report_scan}">Report</a>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100 h-25">
+        <div class="col-6 border border-primary"><table id="table-scan-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+        <div class="col-6 border border-primary"><table id="table-declaration-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+    </div>
+    <div class="row w-100 h-25">
+        <div class="col-6 border border-primary"><table id="table-scanfound-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+        <div class="col-6 border border-primary"><table id="table-linkedscan-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let ds_id_width, dis_id_width, ds_shipment_width, ds_color_width;
+    let ds_id_class, dis_id_class, ds_shipment_class, ds_color_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+            vDomParam =
+                    "<'row'<'col-12'B>>"+
+                    "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+                    "<'row'<'col-12'tr>>" +
+                    "<'row'<'col-12'p>>";
+            dis_id_width = "";
+            dis_id_class = "none";
+            ds_id_width = "";
+            ds_id_class = "none";
+            ds_shipment_width = "50%";
+            ds_shipment_class = "min-tablet-p text-center small_size small_head_size small_footer_size";
+            ds_color_width = "";
+            ds_color_class = "none";
+            dc_id_scan_width = "";
+            dc_id_scan_class = "none";
+            ds_scanfound_width = "";
+            ds_scanfound_class = "none";
+            ds_scanfound_name_width = "50%";
+            ds_scanfound_name_class = "min-tablet-p text-center small_size small_head_size small_footer_size";
+            ds_order_width = "";
+            ds_order_class = "none";
+
+    //        declaration
+            dc_id_width = "";
+            dc_id_class = "none";
+            dc_shipment_width = "100%";
+            dc_shipment_class = "min-tablet-p text-center small_size small_head_size small_footer_size";
+    }
+    else if(smallScreenSize){
+            vDomParam = 'Blfrtip';
+            dis_id_width = "";
+            dis_id_class = "none";
+            ds_id_width = "";
+            ds_id_class = "none";
+            ds_shipment_width = "50%";
+            ds_shipment_class = "text-center small_size small_head_size small_footer_size";
+            ds_color_width = "";
+            ds_color_class = "none";
+            dc_id_scan_width = "";
+            dc_id_scan_class = "none";
+            ds_scanfound_width = "";
+            ds_scanfound_class = "none";
+            ds_scanfound_name_width = "50%";
+            ds_scanfound_name_class = "text-center small_size small_head_size small_footer_size";
+            ds_order_width = "";
+            ds_order_class = "none";
+        //        declaration
+            dc_id_width = "";
+            dc_id_class = "none";
+            dc_shipment_width = "100%";
+            dc_shipment_class = "text-center small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = 'Blfrtip';
+        dis_id_width = "";
+        dis_id_class = "none";
+        ds_id_width = "";
+        ds_id_class = "none";
+        ds_shipment_width = "50%";
+        ds_shipment_class = "text-center";
+        ds_color_width = "";
+        ds_color_class = "none";
+        dc_id_scan_width = "";
+        dc_id_scan_class = "none";
+        ds_scanfound_width = "";
+        ds_scanfound_class = "none";
+        ds_scanfound_name_width = "50%";
+        ds_scanfound_name_class = "text-center";
+        //        declaration
+        dc_id_width = "";
+        dc_id_class = "none";
+        dc_shipment_width = "100%";
+        dc_shipment_class = "text-center";
+        ds_order_width = "";
+        ds_order_class = "none";
+    }
+
+    var vScanMain;
+    vScanMain = {
+            table : '#table-scan-main',
+            button_form: (mobileScreenSize) ? null : "#scan-main-detail",
+            ajax : {
+                "url": /*[[@{/scan/get_main_table}]]*/ "scan/get_main_table",
+                "type": "post",
+                "data": function ( d ) {
+                    d.dis_id = vScanMain.rowdata.dis_id;
+                }
+            },
+            key : "ds_id",
+            switchControl : scan_switchControl,
+            rowdata:{
+                ds_id: null,
+                dis_id: /*[[${dis_id}]]*/ null,
+                ds_shipment: null,
+                ds_color: null,
+                dc_id: null
+            },
+            ordering: true,
+            order: [
+                    [2, "asc"]
+            ],
+            scrollX: true,
+            dom: vDomParam,
+            createdRow: function( row, data, dataIndex ) {
+                    $(row).css('background-color', data["ds_color"]);
+            },
+            columns : [
+                /*0*/{"title": /*[[#{scan.ds_id}]]*/ "ds_id", "data": "ds_id", "width": ds_id_width, "className": ds_id_class},
+                /*1*/{"title": /*[[#{scan.dis_id}]]*/ "dis_id", "data": "dis_id", "width": dis_id_width, "className": dis_id_class},
+                /*2*/{"title": /*[[#{scan.ds_shipment}]]*/ "ds_shipment", "data": "ds_shipment", "width": ds_shipment_width, "className": ds_shipment_class},
+                /*3*/{"title": /*[[#{scan.ds_color}]]*/ "ds_color", "data": "ds_color", "width": ds_color_width, "className": ds_color_class},
+                /*4*/{"title": /*[[#{scan.dc_id}]]*/ "dc_id", "data": "dc_id", "width": dc_id_scan_width, "className": dc_id_scan_class}
+        ],
+        pageLength: 9,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: false,
+        print_button: true
+    };
+    $('#table-scan-main').append('<caption style="caption-side: top"><b>Загруженные</b>, еще не просканированные</caption>');
+
+    var vDeclarationNotScan;
+    vDeclarationNotScan = {
+        table : '#table-declaration-main',
+        button_form: (mobileScreenSize) ? null : "#scan-declaration-detail",
+        ajax : {
+            "url": /*[[@{/scan/get_declaration_notScan_table}]]*/ "scan/get_declaration_notScan_table",
+            "type": "post",
+            "data": function ( d ) {
+                d.dis_id = vDeclarationNotScan.rowdata.dis_id;
+            }
+        },
+        key : "dc_id",
+        switchControl : declaration_switchControl,
+        rowdata:{
+            dc_id: null,
+            dis_id: /*[[${dis_id}]]*/ null,
+            dc_shipment: null
+        },
+        ordering: true,
+        order: [
+            [2, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        columns : [
+            /*0*/{"title": /*[[#{declaration.dc_id}]]*/ "dc_id", "data": "dc_id", "width": dc_id_width, "className": dc_id_class},
+            /*1*/{"title": /*[[#{declaration.dis_id}]]*/ "dis_id", "data": "dis_id", "width": dis_id_width, "className": dis_id_class},
+            /*2*/{"title": /*[[#{declaration.dc_shipment}]]*/ "dc_shipment", "data": "dc_shipment", "width": dc_shipment_width, "className": dc_shipment_class}
+        ],
+        pageLength: 9,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: false,
+        print_button: true
+    };
+    $('#table-declaration-main').append('<caption style="caption-side: top"><b>Декларации</b>, еще не просканированные</caption>');
+
+    var vScanErrorMain;
+    vScanErrorMain = {
+        table : '#table-scanfound-main',
+        button_form: (mobileScreenSize) ? null : "#scan-main-detail",
+        ajax : {
+            "url": /*[[@{/scan/get_scanerror_table}]]*/ "scan/get_scanerror_table",
+            "type": "post",
+            "data": function ( d ) {
+                d.dis_id = vScanErrorMain.rowdata.dis_id;
+            }
+        },
+        key : "ds_id",
+        switchControl : scan_switchControl,
+        rowdata:{
+            ds_id: null,
+            dis_id: /*[[${dis_id}]]*/ null,
+            ds_shipment: null,
+            ds_color: null,
+            dc_id: null,
+            ds_scanfound : null,
+            ds_scanfound_name : null,
+            ds_order : null
+        },
+        ordering: true,
+        order: [
+            [7, "desc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+            $(row).css('background-color', data["ds_color"]);
+        },
+        columns : [
+            /*0*/{"title": /*[[#{scan.ds_id}]]*/ "ds_id", "data": "ds_id", "width": ds_id_width, "className": ds_id_class},
+            /*1*/{"title": /*[[#{scan.dis_id}]]*/ "dis_id", "data": "dis_id", "width": dis_id_width, "className": dis_id_class},
+            /*2*/{"title": /*[[#{scan.ds_shipment}]]*/ "ds_shipment", "data": "ds_shipment", "width": ds_shipment_width, "className": ds_shipment_class},
+            /*3*/{"title": /*[[#{scan.ds_color}]]*/ "ds_color", "data": "ds_color", "width": ds_color_width, "className": ds_color_class},
+            /*4*/{"title": /*[[#{scan.dc_id}]]*/ "dc_id", "data": "dc_id", "width": dc_id_scan_width, "className": dc_id_scan_class},
+            /*5*/{"title": /*[[#{scan.ds_scanfound}]]*/ "ds_scanfound", "data": "ds_scanfound", "width": ds_scanfound_width, "className": ds_scanfound_class},
+            /*6*/{"title": /*[[#{scan.ds_scanfound_name}]]*/ "ds_scanfound_name", "data": "ds_scanfound_name", "width": ds_scanfound_name_width, "className": ds_scanfound_name_class},
+            /*7*/{"title": /*[[#{scan.ds_order}]]*/ "ds_order", "data": "ds_order", "width": ds_order_width, "className": ds_order_class}
+        ],
+        pageLength: 9,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: false,
+        print_button: true
+    };
+    $('#table-scanfound-main').append('<caption style="caption-side: top"><b>Просканированные</b>, с ошибками</caption>');
+
+    var vScanSuccessMain;
+    vScanSuccessMain = {
+        table : '#table-linkedscan-main',
+        button_form: (mobileScreenSize) ? null : "#linkedscan-main-detail",
+        ajax : {
+            "url": /*[[@{/scan/get_scansuccess_table}]]*/ "scan/get_scansuccess_table",
+            "type": "post",
+            "data": function ( d ) {
+                d.dis_id = vScanSuccessMain.rowdata.dis_id;
+            }
+        },
+        key : "ds_id",
+        switchControl : linkedscan_switchControl,
+        rowdata:{
+            ds_id: null,
+            dis_id: /*[[${dis_id}]]*/ null,
+            ds_shipment: null,
+            ds_color: null,
+            dc_id: null
+        },
+        ordering: true,
+        order: [
+            [5, "desc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+            $(row).css('background-color', data["ds_color"]);
+        },
+        columns : [
+            /*0*/{"title": /*[[#{scan.ds_id}]]*/ "ds_id", "data": "ds_id", "width": ds_id_width, "className": ds_id_class},
+            /*1*/{"title": /*[[#{scan.dis_id}]]*/ "dis_id", "data": "dis_id", "width": dis_id_width, "className": dis_id_class},
+            /*2*/{"title": /*[[#{scan.ds_shipment}]]*/ "ds_shipment", "data": "ds_shipment", "width": ds_shipment_width, "className": ds_shipment_class},
+            /*3*/{"title": /*[[#{scan.ds_color}]]*/ "ds_color", "data": "ds_color", "width": ds_color_width, "className": ds_color_class},
+            /*4*/{"title": /*[[#{scan.dc_id}]]*/ "dc_id", "data": "dc_id", "width": dc_id_scan_width, "className": dc_id_scan_class},
+            /*5*/{"title": /*[[#{scan.ds_order}]]*/ "ds_order", "data": "ds_order", "width": ds_order_width, "className": ds_order_class}
+        ],
+        pageLength: 9,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: false,
+        print_button: true
+    };
+    $('#table-linkedscan-main').append('<caption style="caption-side: top"><b>Просканированные</b>, без ошибок</caption>');
+
+    function scan_switchControl(){
+    }
+    function declaration_switchControl(){
+    }
+    function linkedscan_switchControl(){
+    }
+    function scanMainRefresh(){
+        $(vScanMain.table).DataTable().ajax.reload(null, false);
+        $(vScanErrorMain.table).DataTable().ajax.reload(null, false);
+        $(vDeclarationNotScan.table).DataTable().ajax.reload(null, false);
+        $(vScanSuccessMain.table).DataTable().ajax.reload(null, false);
+    }
+
+    $('#scan-main-relbtn').on('click', function () {
+            scanMainRefresh();
+    });
+
+    $(document).ready(function(){
+        recreateDataTable(vScanMain);
+        recreateDataTable(vScanErrorMain);
+        recreateDataTable(vDeclarationNotScan);
+        recreateDataTable(vScanSuccessMain);
+        $("#shipment").focus();
+    });
+
+    $('#shipmentScan-form-Save').on('click', function () {
+        $.ajax({
+            url: /*[[@{/scan/scan_shipment}]]*/ "scan/scan_shipment",
+            type: 'POST',
+            async : true,
+            cache: false,
+            contentType: false,
+            processData: false,
+            data : new FormData( $("#shipmentScan-form")[0] ),
+            beforeSend : function (data){
+                $(".shipmentScan_control").attr("disabled", true);
+            },
+            success : function (data, textStatus){
+                $("#shipment").val("");
+                scanMainRefresh();
+                $(".shipmentScan_control").attr("disabled", false);
+                $("#shipment").focus();
+            },
+            error: function (request) {
+                $("#ErrorMessage").text(request.responseText);
+                $("#error-modal-dialog").modal('show');
+                $(".shipmentScan_control").attr("disabled", false);
+            }
+        })
+    });
+
+    $('#shipment').keypress(function(e){
+        if(e.which == 13) {
+            $.ajax({
+                url: /*[[@{/scan/scan_shipment}]]*/ "scan/scan_shipment",
+                type: 'POST',
+                async : true,
+                cache: false,
+                contentType: false,
+                processData: false,
+                data : new FormData( $("#shipmentScan-form")[0] ),
+                beforeSend : function (data){
+                    $(".shipmentScan_control").attr("disabled", true);
+                },
+                success : function (data, textStatus){
+                    $("#shipment").val("");
+                    scanMainRefresh();
+                    $(".shipmentScan_control").attr("disabled", false);
+                    $("#shipment").focus();
+                },
+                error: function (request) {
+                    $("#ErrorMessage").text(request.responseText);
+                    $("#error-modal-dialog").modal('show');
+                    $(".shipmentScan_control").attr("disabled", false);
+                }
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>
