@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="productgroup_body" th:remove="tag">
+        <form id="productgroup-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="productgroup-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="productgroup-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="productgroup-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="productgroup-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="productgroup-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="productgroup-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="productgroup-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="productgroup-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-productgroup" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let fpg_id_width, fpg_name_width;
+
+    let fpg_id_class, fpg_name_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+
+        fpg_id_width = "10%";
+        fpg_id_class = "small_size small_head_size small_footer_size";
+        fpg_name_width = "90%";
+        fpg_name_class = "small_size small_head_size small_footer_size";
+
+        $('#productgroup-addbtn').removeClass('btn-sm');
+        $('#productgroup-editbtn').removeClass('btn-sm');
+        $('#productgroup-delbtn').removeClass('btn-sm');
+
+        $('#productgroup-addbtn-sx').removeClass('btn-sm');
+        $('#productgroup-editbtn-sx').removeClass('btn-sm');
+        $('#productgroup-delbtn-sx').removeClass('btn-sm');
+        $('#productgroup-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(smallScreenSize){
+        vDomParam = "Blfrtip";
+        fpg_id_width = "10%";
+        fpg_id_class = "small_size small_head_size small_footer_size";
+        fpg_name_width = "90%";
+        fpg_name_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        fpg_id_width = "10%";
+        fpg_id_class = "small_size small_head_size small_footer_size";
+        fpg_name_width = "90%";
+        fpg_name_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vProductgroup;
+    vProductgroup = {
+        table : '#table-productgroup',
+        button_form: (mobileScreenSize) ? null : "#productgroup-detail",
+        ajax : {
+            "url": /*[[@{/productgroup/gettable}]]*/ "productgroup/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "fpg_id",
+        switchControl : productgroup_switchControl,
+        rowdata:{
+            fpg_id : null,
+            fpg_name : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{productgroup.fpg_id}]]*/ "fpg_id", "data": "fpg_id", "width": fpg_id_width, "className": fpg_id_class},
+            /*1*/{"title": /*[[#{productgroup.fpg_name}]]*/ "fpg_name", "data": "fpg_name", "width": fpg_name_width, "className": fpg_name_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function productgroup_switchControl(){
+        if(vProductgroup.rowdata.fpg_id != null) {
+            $("#productgroup-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#productgroup-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#productgroup-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#productgroup-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#productgroup-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#productgroup-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#productgroup-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#productgroup-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.productgroup_btn_control').on('click', function (){
+        $("#productgroup-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#productgroup-addbtn').click(function (){
+        $('#productgroup_modal_addbtn').removeAttr('hidden');
+        $('#productgroup_modal_editbtn').attr('hidden',true);
+        $('#productgroup_modal_delbtn').attr('hidden',true);
+        fill_productgroup_modal_detail(0);
+    });
+
+    $('#productgroup-addbtn-sx').click(function (){
+        $('#productgroup_modal_addbtn').removeAttr('hidden');
+        $('#productgroup_modal_editbtn').attr('hidden',true);
+        $('#productgroup_modal_delbtn').attr('hidden',true);
+        fill_productgroup_modal_detail(0);
+    });
+// Edit Button
+    $('#productgroup-editbtn').click(function (){
+        $('#productgroup_modal_addbtn').attr('hidden',true);
+        $('#productgroup_modal_editbtn').removeAttr('hidden');
+        $('#productgroup_modal_delbtn').attr('hidden',true);
+        fill_productgroup_modal_detail(1);
+    });
+
+    $('#productgroup-editbtn-sx').click(function (){
+        $('#productgroup_modal_addbtn').attr('hidden',true);
+        $('#productgroup_modal_editbtn').removeAttr('hidden');
+        $('#productgroup_modal_delbtn').attr('hidden',true);
+        fill_productgroup_modal_detail(1);
+    });
+// Del Button
+    $('#productgroup-delbtn').click(function (){
+        $('#productgroup_modal_addbtn').attr('hidden',true);
+        $('#productgroup_modal_editbtn').attr('hidden',true);
+        $('#productgroup_modal_delbtn').removeAttr('hidden');
+        fill_productgroup_modal_detail(2);
+    });
+
+    $('#productgroup-delbtn-sx').click(function (){
+        $('#productgroup_modal_addbtn').attr('hidden',true);
+        $('#productgroup_modal_editbtn').attr('hidden',true);
+        $('#productgroup_modal_delbtn').removeAttr('hidden');
+        fill_productgroup_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#productgroup_li').addClass('active').removeClass('collapsed');
+        $('#productgroup_a').attr('aria-expanded',true);
+        $('#productgroup').addClass('show');
+
+        $('#productgroup_a').addClass('text-primary');
+
+        vProductgroup.rowdata.fpg_id = /*[[${fpg_id}]]*/ null;
+
+        recreateDataTable(vProductgroup);
+    });
+</script>
+
+</body>
+</html>

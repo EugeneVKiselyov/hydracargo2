@@ -36,7 +36,6 @@
                     </a>
                     <ul id="postcenter" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                         <li class="sidebar-item" id="dashboard_li"><a class="sidebar-link" id="dashboard_a" th:href="@{/dashboardrequest}" th:text="#{dashboardrequest.caption}">Dashboard request</a></li>
-                        <li class="sidebar-item" id="scan_li"><a class="sidebar-link" id="scan_a" th:href="@{/dashboardrequest}" th:text="#{scan.caption}">Scan</a></li>
                     </ul>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')" id="communicationcenter_li" class="sidebar-item">
@@ -47,6 +46,14 @@
                         <li class="sidebar-item" id="telegramuser_li"><a class="sidebar-link" id="telegramuser_a" th:href="@{/telegramuser}" th:text="#{Telegram.User}">Registrar</a></li>
                         <li class="sidebar-item" id="telegram_messages_li"><a class="sidebar-link" id="telegram_messages_a" th:href="@{/telegram_messages}" th:text="#{Telegram.Messages}">Messages</a></li>
                         <li class="sidebar-item" id="telegram_line_li"><a class="sidebar-link" id="telegram_line_a" th:href="@{/telegram_line}" th:text="#{Telegram.Line}">Line</a></li>
+                    </ul>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')" id="financecenter_li" class="sidebar-item">
+                    <a href="#financecenter" id="financecenter_a" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-play"></i> <span class="align-middle" th:text="#{finance.center.caption}">Finance Center</span>
+                    </a>
+                    <ul id="financecenter" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item" id="finance_li"><a class="sidebar-link" id="finance_a" th:href="@{/financecenter}" th:text="#{finance.caption}">Finance</a></li>
                     </ul>
                 </li>
             </ul>

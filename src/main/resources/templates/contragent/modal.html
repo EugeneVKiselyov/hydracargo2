@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="contragent_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="contragent_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="contragent_modal_mode">
+            </div>
+
+            <div class="modal-content" id="contragent_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{contragent.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="contragent_modal_form" name="contragent_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <div class="col-12 col-md-2" id="contragent_modal_cnt_id_row">
+                                <label for="contragent_modal_cnt_id" class="form-label" th:text="'1. '+ #{contragent.cnt_id}"></label>
+                                <input type="number" class="form-control" id="contragent_modal_cnt_id" name="contragent_modal_cnt_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-9" id="contragent_modal_cnt_name_row">
+                                <label for="contragent_modal_cnt_name" class="form-label" th:text="'2. '+#{contragent.cnt_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="contragent_modal_cnt_name" name="contragent_modal_cnt_name">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="contragent_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="contragent_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="contragent_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="contragent_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_contragent_modal_detail() {
+        $("#contragent_modal_detail input[type=text]").val('');
+        $("#contragent_modal_detail input[type=number]").val('');
+        $("#contragent_modal_detail select").empty();
+        $("#contragent_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_contragent_modal_detail() {
+        $('#contragent_modal_cnt_name').attr('required',true);
+
+        if($('#contragent_modal_mode').val() === "0"){
+            $('#contragent_modal_cnt_id_row').attr('hidden',true);
+            $('#contragent_modal_cnt_name').removeAttr('disabled');
+        }
+        else if($('#contragent_modal_mode').val() === "1"){
+            $('#contragent_modal_cnt_id_row').removeAttr('hidden');
+            $('#contragent_modal_cnt_name').removeAttr('disabled');
+        }
+        else{
+            $('#contragent_modal_cnt_id_row').removeAttr('hidden');
+            $('#contragent_modal_cnt_name').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_contragent_modal_detail(aMode){
+        $('#contragent_modal_mode').val(aMode);
+        clear_contragent_modal_detail();
+        block_contragent_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#contragent_modal_cnt_id').val(vContragnet.rowdata.cnt_id);
+                        $('#contragent_modal_cnt_name').val(vContragnet.rowdata.cnt_name);
+
+                        $('#contragent_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#contragent_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#contragent_modal_addbtn').on('click', function(){
+    $('#contragent_modal_form').submit();
+});
+// Edit button script
+$('#contragent_modal_editbtn').on('click', function(){
+    $('#contragent_modal_form').submit();
+});
+// Del button script
+$('#contragent_modal_delbtn').on('click', function(){
+    $('#contragent_modal_form').submit();
+});
+
+//Add Client Address
+function addContragent(){
+    let RowID = vContragnet.rowdata.cnt_id;
+    $.ajax({
+        url: /*[[ @{/contragent/add_contragent} ]]*/ "/contragent/add_contragent",
+        type: 'POST',
+        data: {
+            "cnt_name": $('#contragent_modal_cnt_name').val()
+        },
+        success: function (result) {
+            $('#contragent_modal').modal('hide');
+            vContragnet.rowdata.cnt_id = RowID;
+            $(vContragnet.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editContragent(){
+    let RowID = vContragnet.rowdata.cnt_id;
+    $.ajax({
+        url: /*[[ @{/contragent/edit_contragent} ]]*/ "/contragent/edit_contragent",
+        type: 'POST',
+        data: {
+            "cnt_id": RowID,
+            "cnt_name": $('#contragent_modal_cnt_name').val()
+        },
+        success: function (result) {
+            $('#contragent_modal').modal('hide');
+            vContragnet.rowdata.cnt_id = RowID;
+            $(vContragnet.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delContragent(){
+    let RowID = vContragnet.rowdata.cnt_id;
+    $.ajax({
+        url: /*[[ @{/contragent/del_contragent} ]]*/ "/contragent/del_contragent",
+        type: 'POST',
+        data: {
+            "cnt_id": RowID
+        },
+        success: function (result) {
+            $('#contragent_modal').modal('hide');
+            vContragnet.rowdata.cnt_id = null;
+            $(vContragnet.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#contragent_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#contragent_modal_mode').val() === '0') {
+            addContragent();
+        }
+        else if($('#contragent_modal_mode').val() === '1') {
+            editContragent();
+        }
+        else if($('#contragent_modal_mode').val() === '2') {
+            delContragent();
+        }
+        return false;
+    }
+});
+
+// OnChange Functions
+</script>
+
+</body>
+</html>

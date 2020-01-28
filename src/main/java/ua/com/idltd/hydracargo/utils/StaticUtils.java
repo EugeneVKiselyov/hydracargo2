@@ -9,11 +9,12 @@ import java.io.StringWriter;
 
 
 public class StaticUtils {
-    //Возвращает имя польхователя сессии
+    //Возвращает имя пользователя сессии
     public static String GetUserName() {
+        String result=null;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        return userDetail.getUsername();
+        result = auth.getName();
+        return result;
     }
 
     //Возвращает имя польхователя сессии

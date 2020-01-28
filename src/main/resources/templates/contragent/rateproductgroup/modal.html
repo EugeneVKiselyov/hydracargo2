@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="rateproductgroup_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="rateproductgroup_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="rateproductgroup_modal_mode">
+            </div>
+
+            <div class="modal-content" id="rateproductgroup_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{contragentrateproductgroup.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="rateproductgroup_modal_form" name="rateproductgroup_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <div class="col-12 col-md-2" id="rateproductgroup_modal_fcr_id_row">
+                                <label for="rateproductgroup_modal_fcr_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fcr_id}"></label>
+                                <input type="number" class="form-control" id="rateproductgroup_modal_fcr_id" name="rateproductgroup_modal_fcr_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-2" id="rateproductgroup_modal_cnt_id_row">
+                                <label for="rateproductgroup_modal_cnt_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.cnt_id}"></label>
+                                <input type="number" class="form-control" id="rateproductgroup_modal_cnt_id" name="rateproductgroup_modal_cnt_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-2" id="rateproductgroup_modal_frt_id_row">
+                                <label for="rateproductgroup_modal_frt_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.frt_id}"></label>
+                                <input type="number" class="form-control" id="rateproductgroup_modal_frt_id" name="rateproductgroup_modal_frt_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-2" id="rateproductgroup_modal_fpg_id_row">
+                                <label for="rateproductgroup_modal_fpg_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fpg_id}"></label>
+                                <input type="number" class="form-control" id="rateproductgroup_modal_fpg_id" name="rateproductgroup_modal_fpg_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-2" id="rateproductgroup_modal_fcr_price_row">
+                                <label for="rateproductgroup_modal_fcr_price" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fcr_price}"></label>
+                                <input type="number" class="form-control" id="rateproductgroup_modal_fcr_price" name="rateproductgroup_modal_fcr_price" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-2" id="rateproductgroup_modal_fcr_price_brand_row">
+                                <label for="rateproductgroup_modal_fcr_price_brand" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fcr_price_brand}"></label>
+                                <input type="number" class="form-control" id="rateproductgroup_modal_fcr_price_brand" name="rateproductgroup_modal_fcr_price_brand" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="rateproductgroup_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="rateproductgroup_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="rateproductgroup_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="rateproductgroup_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_rateproductgroup_modal_detail() {
+        $("#rateproductgroup_modal_detail input[type=text]").val('');
+        $("#rateproductgroup_modal_detail input[type=number]").val('');
+        $("#rateproductgroup_modal_detail select").empty();
+        $("#rateproductgroup_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_rateproductgroup_modal_detail() {
+        $('#rateproductgroup_modal_fcr_id').attr('required',true);
+        $('#rateproductgroup_modal_cnt_id').attr('required',true);
+        $('#rateproductgroup_modal_frt_id').attr('required',true);
+        $('#rateproductgroup_modal_fpg_id').attr('required',true);
+        $('#rateproductgroup_modal_fcr_price').attr('required',true);
+        $('#rateproductgroup_modal_fcr_price_brand').attr('required',true);
+
+        if($('#rateproductgroup_modal_mode').val() === "0"){
+            $('#rateproductgroup_modal_fcr_id_row').attr('hidden',true);
+            // $('#rateproductgroup_modal_cnt_name').removeAttr('disabled');
+        }
+        else if($('#rateproductgroup_modal_mode').val() === "1"){
+            $('#rateproductgroup_modal_fcr_id_row').removeAttr('hidden');
+            // $('#rateproductgroup_modal_cnt_name').removeAttr('disabled');
+        }
+        else{
+            $('#rateproductgroup_modal_fcr_id_row').removeAttr('hidden');
+            // $('#rateproductgroup_modal_cnt_name').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_rateproductgroup_modal_detail(aMode){
+        $('#rateproductgroup_modal_mode').val(aMode);
+        clear_rateproductgroup_modal_detail();
+        block_rateproductgroup_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#rateproductgroup_modal_fcr_id').val(vContragnetRateProductGroup.rowdata.fcr_id);
+                        $('#rateproductgroup_modal_cnt_id').val(vContragnetRateProductGroup.rowdata.cnt_id);
+                        $('#rateproductgroup_modal_frt_id').val(vContragnetRateProductGroup.rowdata.frt_id);
+                        $('#rateproductgroup_modal_fpg_id').val(vContragnetRateProductGroup.rowdata.fpg_id);
+                        $('#rateproductgroup_modal_fcr_price').val(vContragnetRateProductGroup.rowdata.fcr_price);
+                        $('#rateproductgroup_modal_fcr_price_brand').val(vContragnetRateProductGroup.rowdata.fcr_price_brand);
+
+                        $('#rateproductgroup_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#rateproductgroup_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#rateproductgroup_modal_addbtn').on('click', function(){
+    $('#rateproductgroup_modal_form').submit();
+});
+// Edit button script
+$('#rateproductgroup_modal_editbtn').on('click', function(){
+    $('#rateproductgroup_modal_form').submit();
+});
+// Del button script
+$('#rateproductgroup_modal_delbtn').on('click', function(){
+    $('#rateproductgroup_modal_form').submit();
+});
+
+//Add Client Address
+function addContragentRate(){
+    let RowID = vContragnetRateProductGroup.rowdata.fcr_id;
+    $.ajax({
+        url: /*[[ @{/rateproductgroup/add_contragentratepg} ]]*/ "/rateproductgroup/add_contragentratepg",
+        type: 'POST',
+        data: {
+            "cnt_name": $('#rateproductgroup_modal_cnt_id').val(),
+            "cnt_name": $('#rateproductgroup_modal_frt_id').val(),
+            "cnt_name": $('#rateproductgroup_modal_fpg_id').val(),
+            "cnt_name": $('#rateproductgroup_modal_fcr_price').val(),
+            "cnt_name": $('#rateproductgroup_modal_fcr_price_brand').val()
+        },
+        success: function (result) {
+            $('#rateproductgroup_modal').modal('hide');
+            vContragnetRateProductGroup.rowdata.fcr_id = RowID;
+            $(vContragnetRateProductGroup.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editContragentRate(){
+    let RowID = vContragnetRateProductGroup.rowdata.fcr_id;
+    $.ajax({
+        url: /*[[ @{/rateproductgroup/edit_contragentratepg} ]]*/ "/rateproductgroup/edit_contragentratepg",
+        type: 'POST',
+        data: {
+            "fcr_id": fcr_id,
+            "cnt_name": $('#rateproductgroup_modal_cnt_id').val(),
+            "cnt_name": $('#rateproductgroup_modal_frt_id').val(),
+            "cnt_name": $('#rateproductgroup_modal_fpg_id').val(),
+            "cnt_name": $('#rateproductgroup_modal_fcr_price').val(),
+            "cnt_name": $('#rateproductgroup_modal_fcr_price_brand').val()
+        },
+        success: function (result) {
+            $('#rateproductgroup_modal').modal('hide');
+            vContragnetRateProductGroup.rowdata.fcr_id = RowID;
+            $(vContragnetRateProductGroup.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delContragentRate(){
+    let RowID = vContragnetRateProductGroup.rowdata.fcr_id;
+    $.ajax({
+        url: /*[[ @{/rateproductgroup/del_contragentratepg} ]]*/ "/rateproductgroup/del_contragentratepg",
+        type: 'POST',
+        data: {
+            "fcr_id": RowID
+        },
+        success: function (result) {
+            $('#rateproductgroup_modal').modal('hide');
+            vContragnetRateProductGroup.rowdata.fcr_id = null;
+            $(vContragnetRateProductGroup.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#rateproductgroup_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#rateproductgroup_modal_mode').val() === '0') {
+            addContragentRate();
+        }
+        else if($('#rateproductgroup_modal_mode').val() === '1') {
+            editContragentRate();
+        }
+        else if($('#rateproductgroup_modal_mode').val() === '2') {
+            delContragentRate();
+        }
+        return false;
+    }
+});
+
+// OnChange Functions
+</script>
+
+</body>
+</html>

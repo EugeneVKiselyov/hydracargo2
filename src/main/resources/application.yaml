@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: ipex
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     properties.hibernate.proc.param_null_passing : true

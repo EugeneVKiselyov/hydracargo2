@@ -60,14 +60,14 @@
                             <div class="card flex-fill w-100 mb-2">
                                 <div class="card-header pb-0">
                                     <div class="card-actions float-right">
-                                        <a href="#scan_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                        <a href="#finance_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
                                     </div>
-                                    <h5 class="card-title" href="#scan_description_div" data-toggle="collapse" th:text="#{scan.caption}">Scan</h5>
+                                    <h5 class="card-title" href="#finance_description_div" data-toggle="collapse" th:text="#{finance.center.caption}">Finance</h5>
                                 </div>
-                                <div class="card-body pt-0 collapse show" id="scan_description_div">
+                                <div class="card-body pt-0 collapse show" id="finance_description_div">
                                     <div>
-                                        <p class="card-text" th:text="#{scan.description}"></p>
-                                        <a class="card-link" th:href="@{/dashboardrequest}" th:text="#{general.run}"></a>
+                                        <p class="card-text" th:text="#{finance.center.description}"></p>
+                                        <a class="card-link" th:href="@{/financecenter}" th:text="#{general.run}"></a>
                                     </div>
                                 </div>
                             </div>

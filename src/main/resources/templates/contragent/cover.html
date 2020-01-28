@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{contragent.caption})"></head>
+
+<body> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+
+<div class="row">
+    <div class="col-6 pl-2 pr-2 pt-0">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#contragent_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#contragent_div" data-toggle="collapse" th:text="#{contragent.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="contragent_div">
+                <div>
+                    <span th:replace="contragent/modal :: contragent_modal_body"></span>
+                    <span th:replace="contragent/card :: contragent_body"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 pl-2 pr-2 pt-0">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#contragentrateproductgroup_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#contragentrateproductgroup_div" data-toggle="collapse" th:text="#{contragentrateproductgroup.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="contragentrateproductgroup_div">
+                <div>
+<!--                    <span th:replace="conragentrateproductgroup/modal :: contragent_modal_body"></span>-->
+                    <span th:replace="contragent/rateproductgroup/card :: rateproductgroup_body"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<script th:replace="contragent/rateproductgroup/card :: cardscript"></script>
+
+<script th:replace="contragent/modal :: cardscript"></script>
+<script th:replace="contragent/card :: cardscript"></script>
+</body>
+</html>

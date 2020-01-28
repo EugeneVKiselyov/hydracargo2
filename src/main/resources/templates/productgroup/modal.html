@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="productgroup_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="productgroup_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="productgroup_modal_mode">
+            </div>
+
+            <div class="modal-content" id="productgroup_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{productgroup.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="productgroup_modal_form" name="productgroup_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <div class="col-12 col-md-2" id="productgroup_modal_fpg_id_row">
+                                <label for="productgroup_modal_fpg_id" class="form-label" th:text="'1. '+ #{productgroup.fpg_id}"></label>
+                                <input type="number" class="form-control" id="productgroup_modal_fpg_id" name="productgroup_modal_fpg_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-9" id="productgroup_modal_fpg_name_row">
+                                <label for="productgroup_modal_fpg_name" class="form-label" th:text="'2. '+#{productgroup.fpg_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="productgroup_modal_fpg_name" name="productgroup_modal_fpg_name">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="productgroup_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="productgroup_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="productgroup_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="productgroup_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_productgroup_modal_detail() {
+        $("#productgroup_modal_detail input[type=text]").val('');
+        $("#productgroup_modal_detail input[type=number]").val('');
+        $("#productgroup_modal_detail select").empty();
+        $("#productgroup_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_productgroup_modal_detail() {
+        $('#productgroup_modal_fpg_name').attr('required',true);
+
+        if($('#productgroup_modal_mode').val() === "0"){
+            $('#productgroup_modal_fpg_id_row').attr('hidden',true);
+            $('#productgroup_modal_fpg_name').removeAttr('disabled');
+        }
+        else if($('#productgroup_modal_mode').val() === "1"){
+            $('#productgroup_modal_fpg_id_row').removeAttr('hidden');
+            $('#productgroup_modal_fpg_name').removeAttr('disabled');
+        }
+        else{
+            $('#productgroup_modal_fpg_id_row').removeAttr('hidden');
+            $('#productgroup_modal_fpg_name').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_productgroup_modal_detail(aMode){
+        $('#productgroup_modal_mode').val(aMode);
+        clear_productgroup_modal_detail();
+        block_productgroup_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#productgroup_modal_fpg_id').val(vProductgroup.rowdata.fpg_id);
+                        $('#productgroup_modal_fpg_name').val(vProductgroup.rowdata.fpg_name);
+
+                        $('#productgroup_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#productgroup_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#productgroup_modal_addbtn').on('click', function(){
+    $('#productgroup_modal_form').submit();
+});
+// Edit button script
+$('#productgroup_modal_editbtn').on('click', function(){
+    $('#productgroup_modal_form').submit();
+});
+// Del button script
+$('#productgroup_modal_delbtn').on('click', function(){
+    $('#productgroup_modal_form').submit();
+});
+
+//Add Client Address
+function addProductGroup(){
+    let RowID = vProductgroup.rowdata.fpg_id;
+    $.ajax({
+        url: /*[[ @{/productgroup/add_productgroup} ]]*/ "/productgroup/add_productgroup",
+        type: 'POST',
+        data: {
+            "fpg_name": $('#productgroup_modal_fpg_name').val()
+        },
+        success: function (result) {
+            $('#productgroup_modal').modal('hide');
+            vProductgroup.rowdata.fpg_id = RowID;
+            $(vProductgroup.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editProductGroup(){
+    let RowID = vProductgroup.rowdata.fpg_id;
+    $.ajax({
+        url: /*[[ @{/productgroup/edit_productgroup} ]]*/ "/productgroup/edit_productgroup",
+        type: 'POST',
+        data: {
+            "fpg_id": RowID,
+            "fpg_name": $('#productgroup_modal_fpg_name').val()
+        },
+        success: function (result) {
+            $('#productgroup_modal').modal('hide');
+            vProductgroup.rowdata.fpg_id = RowID;
+            $(vProductgroup.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delProductGroup(){
+    let RowID = vProductgroup.rowdata.fpg_id;
+    $.ajax({
+        url: /*[[ @{/productgroup/del_productgroup} ]]*/ "/productgroup/del_productgroup",
+        type: 'POST',
+        data: {
+            "fpg_id": RowID
+        },
+        success: function (result) {
+            $('#productgroup_modal').modal('hide');
+            vProductgroup.rowdata.fpg_id = null;
+            $(vProductgroup.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#productgroup_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#productgroup_modal_mode').val() === '0') {
+            addProductGroup();
+        }
+        else if($('#productgroup_modal_mode').val() === '1') {
+            editProductGroup();
+        }
+        else if($('#productgroup_modal_mode').val() === '2') {
+            delProductGroup();
+        }
+        return false;
+    }
+});
+
+// OnChange Functions
+</script>
+
+</body>
+</html>

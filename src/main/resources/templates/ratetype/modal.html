@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="ratetype_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="ratetype_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="ratetype_modal_mode">
+            </div>
+
+            <div class="modal-content" id="ratetype_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{ratetype.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="ratetype_modal_form" name="ratetype_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <div class="col-12 col-md-2" id="ratetype_modal_frt_id_row">
+                                <label for="ratetype_modal_frt_id" class="form-label" th:text="'1. '+ #{ratetype.frt_id}"></label>
+                                <input type="number" class="form-control" id="ratetype_modal_frt_id" name="ratetype_modal_frt_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-9" id="ratetype_modal_frt_name_row">
+                                <label for="ratetype_modal_frt_name" class="form-label" th:text="'2. '+#{ratetype.frt_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="ratetype_modal_frt_name" name="ratetype_modal_frt_name">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="ratetype_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="ratetype_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="ratetype_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="ratetype_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_ratetype_modal_detail() {
+        $("#ratetype_modal_detail input[type=text]").val('');
+        $("#ratetype_modal_detail input[type=number]").val('');
+        $("#ratetype_modal_detail select").empty();
+        $("#ratetype_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_ratetype_modal_detail() {
+        $('#ratetype_modal_frt_name').attr('required',true);
+
+        if($('#ratetype_modal_mode').val() === "0"){
+            $('#ratetype_modal_frt_id_row').attr('hidden',true);
+            $('#ratetype_modal_frt_name').removeAttr('disabled');
+        }
+        else if($('#ratetype_modal_mode').val() === "1"){
+            $('#ratetype_modal_frt_id_row').removeAttr('hidden');
+            $('#ratetype_modal_frt_name').removeAttr('disabled');
+        }
+        else{
+            $('#ratetype_modal_frt_id_row').removeAttr('hidden');
+            $('#ratetype_modal_frt_name').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_ratetype_modal_detail(aMode){
+        $('#ratetype_modal_mode').val(aMode);
+        clear_ratetype_modal_detail();
+        block_ratetype_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#ratetype_modal_frt_id').val(vRateType.rowdata.frt_id);
+                        $('#ratetype_modal_frt_name').val(vRateType.rowdata.frt_name);
+
+                        $('#ratetype_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#ratetype_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#ratetype_modal_addbtn').on('click', function(){
+    $('#ratetype_modal_form').submit();
+});
+// Edit button script
+$('#ratetype_modal_editbtn').on('click', function(){
+    $('#ratetype_modal_form').submit();
+});
+// Del button script
+$('#ratetype_modal_delbtn').on('click', function(){
+    $('#ratetype_modal_form').submit();
+});
+
+//Add Client Address
+function addRateType(){
+    let RowID = vRateType.rowdata.frt_id;
+    $.ajax({
+        url: /*[[ @{/ratetype/add_ratetype} ]]*/ "/ratetype/add_ratetype",
+        type: 'POST',
+        data: {
+            "frt_name": $('#ratetype_modal_frt_name').val()
+        },
+        success: function (result) {
+            $('#ratetype_modal').modal('hide');
+            vRateType.rowdata.frt_id = RowID;
+            $(vRateType.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editRateType(){
+    let RowID = vRateType.rowdata.frt_id;
+    $.ajax({
+        url: /*[[ @{/ratetype/edit_ratetype} ]]*/ "/ratetype/edit_ratetype",
+        type: 'POST',
+        data: {
+            "frt_id": RowID,
+            "frt_name": $('#ratetype_modal_frt_name').val()
+        },
+        success: function (result) {
+            $('#ratetype_modal').modal('hide');
+            vRateType.rowdata.frt_id = RowID;
+            $(vRateType.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delRateType(){
+    let RowID = vRateType.rowdata.frt_id;
+    $.ajax({
+        url: /*[[ @{/ratetype/del_ratetype} ]]*/ "/ratetype/del_ratetype",
+        type: 'POST',
+        data: {
+            "frt_id": RowID
+        },
+        success: function (result) {
+            $('#ratetype_modal').modal('hide');
+            vRateType.rowdata.frt_id = null;
+            $(vRateType.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#ratetype_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#ratetype_modal_mode').val() === '0') {
+            addRateType();
+        }
+        else if($('#ratetype_modal_mode').val() === '1') {
+            editRateType();
+        }
+        else if($('#ratetype_modal_mode').val() === '2') {
+            delRateType();
+        }
+        return false;
+    }
+});
+
+// OnChange Functions
+</script>
+
+</body>
+</html>

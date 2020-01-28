@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="rateproductgroup_body" th:remove="tag">
+        <form id="rateproductgroup-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="rateproductgroup-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="rateproductgroup-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="rateproductgroup-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="rateproductgroup-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="rateproductgroup-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="rateproductgroup-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="rateproductgroup-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="rateproductgroup-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-rateproductgroup" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParamContRateProdGr;
+
+    let crpg_fcr_id_width, crpg_cnt_id_width, crpg_frt_id_width, crpg_fpg_id_width, crpg_fcr_price_width, crpg_fcr_price_brand_width;
+
+    let crpg_fcr_id_class, crpg_cnt_id_class, crpg_frt_id_class, crpg_fpg_id_class, crpg_fcr_price_class, crpg_fcr_price_brand_class;
+
+    let crpg_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let crpg_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(crpg_mobileScreenSize){
+        vDomParamContRateProdGr =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+        crpg_fcr_id_width = "";
+        crpg_fcr_id_class = "none";
+        crpg_cnt_id_width = "";
+        crpg_cnt_id_class = "none";
+        crpg_frt_id_width = "";
+        crpg_frt_id_class = "none";
+        crpg_fpg_id_width = "10%";
+        crpg_fpg_id_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_width = "10%";
+        crpg_fcr_price_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_brand_width = "10%";
+        crpg_fcr_price_brand_class = "small_size small_head_size small_footer_size";
+
+        $('#rateproductgroup-addbtn').removeClass('btn-sm');
+        $('#rateproductgroup-editbtn').removeClass('btn-sm');
+        $('#rateproductgroup-delbtn').removeClass('btn-sm');
+
+        $('#rateproductgroup-addbtn-sx').removeClass('btn-sm');
+        $('#rateproductgroup-editbtn-sx').removeClass('btn-sm');
+        $('#rateproductgroup-delbtn-sx').removeClass('btn-sm');
+        $('#rateproductgroup-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(crpg_smallScreenSize){
+        vDomParamContRateProdGr = "Blfrtip";
+        crpg_fcr_id_width = "";
+        crpg_fcr_id_class = "none";
+        crpg_cnt_id_width = "";
+        crpg_cnt_id_class = "none";
+        crpg_frt_id_width = "";
+        crpg_frt_id_class = "none";
+        crpg_fpg_id_width = "10%";
+        crpg_fpg_id_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_width = "10%";
+        crpg_fcr_price_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_brand_width = "10%";
+        crpg_fcr_price_brand_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParamContRateProdGr = "Blfrtip";
+        crpg_fcr_id_width = "";
+        crpg_fcr_id_class = "none";
+        crpg_cnt_id_width = "";
+        crpg_cnt_id_class = "none";
+        crpg_frt_id_width = "";
+        crpg_frt_id_class = "none";
+        crpg_fpg_id_width = "10%";
+        crpg_fpg_id_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_width = "10%";
+        crpg_fcr_price_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_brand_width = "10%";
+        crpg_fcr_price_brand_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vContragnetRateProductGroup;
+    vContragnetRateProductGroup = {
+        table : '#table-rateproductgroup',
+        button_form: (crpg_mobileScreenSize) ? null : "#rateproductgroup-detail",
+        ajax : {
+            "url": /*[[@{/rateproductgroup/gettable}]]*/ "rateproductgroup/gettable",
+            "type": "post",
+            "data": function ( d ) {
+                d.cnt_id = vContragnetRateProductGroup.rowdata.cnt_id;
+            }
+        },
+        key : "fcr_id",
+        switchControl : rateproductgroup_switchControl,
+        rowdata:{
+            fcr_id : null,
+            cnt_id : null,
+            frt_id : null,
+            fpg_id : null,
+            fcr_price : null,
+            fcr_price_brand : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParamContRateProdGr,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{contragentrateproductgroup.fcr_id}]]*/ "fcr_id", "data": "fcr_id", "width": crpg_fcr_id_width, "className": crpg_fcr_id_class},
+            /*1*/{"title": /*[[#{contragentrateproductgroup.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": crpg_cnt_id_width, "className": crpg_cnt_id_class},
+            /*2*/{"title": /*[[#{contragentrateproductgroup.frt_id}]]*/ "frt_id", "data": "frt_id", "width": crpg_frt_id_width, "className": crpg_frt_id_class},
+            /*3*/{"title": /*[[#{contragentrateproductgroup.fpg_id}]]*/ "fpg_id", "data": "fpg_id", "width": crpg_fpg_id_width, "className": crpg_fpg_id_class},
+            /*4*/{"title": /*[[#{contragentrateproductgroup.fcr_price}]]*/ "fcr_price", "data": "fcr_price", "width": crpg_fcr_price_width, "className": crpg_fcr_price_class},
+            /*5*/{"title": /*[[#{contragentrateproductgroup.fcr_price_brand}]]*/ "fcr_price_brand", "data": "fcr_price_brand", "width": crpg_fcr_price_brand_width, "className": crpg_fcr_price_brand_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function rateproductgroup_switchControl(){
+        if(vContragnetRateProductGroup.rowdata.fcr_id != null) {
+            $("#rateproductgroup-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#rateproductgroup-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#rateproductgroup-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#rateproductgroup-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#rateproductgroup-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#rateproductgroup-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#rateproductgroup-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#rateproductgroup-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.rateproductgroup_btn_control').on('click', function (){
+        $("#rateproductgroup-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#rateproductgroup-addbtn').click(function (){
+        $('#rateproductgroup_modal_addbtn').removeAttr('hidden');
+        $('#rateproductgroup_modal_editbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_delbtn').attr('hidden',true);
+        fill_rateproductgroup_modal_detail(0);
+    });
+
+    $('#rateproductgroup-addbtn-sx').click(function (){
+        $('#rateproductgroup_modal_addbtn').removeAttr('hidden');
+        $('#rateproductgroup_modal_editbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_delbtn').attr('hidden',true);
+        fill_rateproductgroup_modal_detail(0);
+    });
+// Edit Button
+    $('#rateproductgroup-editbtn').click(function (){
+        $('#rateproductgroup_modal_addbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_editbtn').removeAttr('hidden');
+        $('#rateproductgroup_modal_delbtn').attr('hidden',true);
+        fill_rateproductgroup_modal_detail(1);
+    });
+
+    $('#rateproductgroup-editbtn-sx').click(function (){
+        $('#rateproductgroup_modal_addbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_editbtn').removeAttr('hidden');
+        $('#rateproductgroup_modal_delbtn').attr('hidden',true);
+        fill_rateproductgroup_modal_detail(1);
+    });
+// Del Button
+    $('#rateproductgroup-delbtn').click(function (){
+        $('#rateproductgroup_modal_addbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_editbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_delbtn').removeAttr('hidden');
+        fill_rateproductgroup_modal_detail(2);
+    });
+
+    $('#rateproductgroup-delbtn-sx').click(function (){
+        $('#rateproductgroup_modal_addbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_editbtn').attr('hidden',true);
+        $('#rateproductgroup_modal_delbtn').removeAttr('hidden');
+        fill_rateproductgroup_modal_detail(2);
+    });
+
+    // $(document).ready(function(){
+    //     vContragnetRateProductGroup.rowdata.fcr_id = /*[[${fcr_id}]]*/ null;
+    //     recreateDataTable(vContragnetRateProductGroup);
+    // });
+</script>
+
+</body>
+</html>

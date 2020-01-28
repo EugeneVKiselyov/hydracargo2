@@ -12,4 +12,6 @@ import java.util.List;
 public interface ContragentRepository extends CrudRepository<Contragent, Long> {
     @Query(nativeQuery = true, value = "select * from CONTRAGENT c where c.cnt_id = PKG_RIGHT.GETCNT_ID( c.cnt_id, :username )")
     List<Contragent> getAllByUser(@Param("username") String usename);
+    @Query(nativeQuery = true, value = "select * from CONTRAGENT c where c.cnt_id = PKG_RIGHT.GETCNT_ID( c.cnt_id, :username ) and c.cnt_id=:cnt_id")
+    List<Contragent> getByCnt_idandUser(@Param("username") String usename, @Param("cnt_id") Long cnt_id);
 }

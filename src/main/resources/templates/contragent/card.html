@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="contragent_body" th:remove="tag">
+        <form id="contragent-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="contragent-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="contragent-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="contragent-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="contragent-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="contragent-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="contragent-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="contragent-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="contragent-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-contragent" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let cnt_id_width, cnt_name_width;
+
+    let cnt_id_class, cnt_name_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+
+        cnt_id_width = "10%";
+        cnt_id_class = "small_size small_head_size small_footer_size";
+        cnt_name_width = "90%";
+        cnt_name_class = "small_size small_head_size small_footer_size";
+
+        $('#contragent-addbtn').removeClass('btn-sm');
+        $('#contragent-editbtn').removeClass('btn-sm');
+        $('#contragent-delbtn').removeClass('btn-sm');
+
+        $('#contragent-addbtn-sx').removeClass('btn-sm');
+        $('#contragent-editbtn-sx').removeClass('btn-sm');
+        $('#contragent-delbtn-sx').removeClass('btn-sm');
+        $('#contragent-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(smallScreenSize){
+        vDomParam = "Blfrtip";
+        cnt_id_width = "10%";
+        cnt_id_class = "small_size small_head_size small_footer_size";
+        cnt_name_width = "90%";
+        cnt_name_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        cnt_id_width = "10%";
+        cnt_id_class = "small_size small_head_size small_footer_size";
+        cnt_name_width = "90%";
+        cnt_name_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vContragnet;
+    vContragnet = {
+        table : '#table-contragent',
+        button_form: (mobileScreenSize) ? null : "#contragent-detail",
+        ajax : {
+            "url": /*[[@{/contragent/gettable}]]*/ "contragent/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "cnt_id",
+        switchControl : contragent_switchControl,
+        rowdata:{
+            cnt_id : null,
+            cnt_name : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{contragent.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": cnt_id_width, "className": cnt_id_class},
+            /*1*/{"title": /*[[#{contragent.cnt_name}]]*/ "cnt_name", "data": "cnt_name", "width": cnt_name_width, "className": cnt_name_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function contragent_switchControl(){
+        if(vContragnet.rowdata.cnt_id != null) {
+            $("#contragent-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#contragent-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#contragent-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#contragent-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#contragent-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#contragent-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#contragent-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#contragent-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+        vContragnetRateProductGroup.rowdata.cnt_id = vContragnet.rowdata.cnt_id;
+        recreateDataTable(vContragnetRateProductGroup);
+    }
+
+    $('.contragent_btn_control').on('click', function (){
+        $("#contragent-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#contragent-addbtn').click(function (){
+        $('#contragent_modal_addbtn').removeAttr('hidden');
+        $('#contragent_modal_editbtn').attr('hidden',true);
+        $('#contragent_modal_delbtn').attr('hidden',true);
+        fill_contragent_modal_detail(0);
+    });
+
+    $('#contragent-addbtn-sx').click(function (){
+        $('#contragent_modal_addbtn').removeAttr('hidden');
+        $('#contragent_modal_editbtn').attr('hidden',true);
+        $('#contragent_modal_delbtn').attr('hidden',true);
+        fill_contragent_modal_detail(0);
+    });
+// Edit Button
+    $('#contragent-editbtn').click(function (){
+        $('#contragent_modal_addbtn').attr('hidden',true);
+        $('#contragent_modal_editbtn').removeAttr('hidden');
+        $('#contragent_modal_delbtn').attr('hidden',true);
+        fill_contragent_modal_detail(1);
+    });
+
+    $('#contragent-editbtn-sx').click(function (){
+        $('#contragent_modal_addbtn').attr('hidden',true);
+        $('#contragent_modal_editbtn').removeAttr('hidden');
+        $('#contragent_modal_delbtn').attr('hidden',true);
+        fill_contragent_modal_detail(1);
+    });
+// Del Button
+    $('#contragent-delbtn').click(function (){
+        $('#contragent_modal_addbtn').attr('hidden',true);
+        $('#contragent_modal_editbtn').attr('hidden',true);
+        $('#contragent_modal_delbtn').removeAttr('hidden');
+        fill_contragent_modal_detail(2);
+    });
+
+    $('#contragent-delbtn-sx').click(function (){
+        $('#contragent_modal_addbtn').attr('hidden',true);
+        $('#contragent_modal_editbtn').attr('hidden',true);
+        $('#contragent_modal_delbtn').removeAttr('hidden');
+        fill_contragent_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#contragent_li').addClass('active').removeClass('collapsed');
+        $('#contragent_a').attr('aria-expanded',true);
+        $('#contragent').addClass('show');
+
+        $('#contragent_a').addClass('text-primary');
+
+        vContragnet.rowdata.cnt_id = /*[[${cnt_id}]]*/ null;
+
+        recreateDataTable(vContragnet);
+    });
+</script>
+
+</body>
+</html>

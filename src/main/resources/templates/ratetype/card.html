@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="ratetype_body" th:remove="tag">
+        <form id="ratetype-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="ratetype-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="ratetype-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="ratetype-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="ratetype-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="ratetype-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="ratetype-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="ratetype-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="ratetype-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-ratetype" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let frt_id_width, frt_name_width;
+
+    let frt_id_class, frt_name_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+
+        frt_id_width = "10%";
+        frt_id_class = "small_size small_head_size small_footer_size";
+        frt_name_width = "90%";
+        frt_name_class = "small_size small_head_size small_footer_size";
+
+        $('#ratetype-addbtn').removeClass('btn-sm');
+        $('#ratetype-editbtn').removeClass('btn-sm');
+        $('#ratetype-delbtn').removeClass('btn-sm');
+
+        $('#ratetype-addbtn-sx').removeClass('btn-sm');
+        $('#ratetype-editbtn-sx').removeClass('btn-sm');
+        $('#ratetype-delbtn-sx').removeClass('btn-sm');
+        $('#ratetype-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(smallScreenSize){
+        vDomParam = "Blfrtip";
+        frt_id_width = "10%";
+        frt_id_class = "small_size small_head_size small_footer_size";
+        frt_name_width = "90%";
+        frt_name_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        frt_id_width = "10%";
+        frt_id_class = "small_size small_head_size small_footer_size";
+        frt_name_width = "90%";
+        frt_name_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vRateType;
+    vRateType = {
+        table : '#table-ratetype',
+        button_form: (mobileScreenSize) ? null : "#ratetype-detail",
+        ajax : {
+            "url": /*[[@{/ratetype/gettable}]]*/ "ratetype/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "frt_id",
+        switchControl : ratetype_switchControl,
+        rowdata:{
+            frt_id : null,
+            frt_name : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{ratetype.frt_id}]]*/ "frt_id", "data": "frt_id", "width": frt_id_width, "className": frt_id_class},
+            /*1*/{"title": /*[[#{ratetype.frt_name}]]*/ "frt_name", "data": "frt_name", "width": frt_name_width, "className": frt_name_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function ratetype_switchControl(){
+        if(vRateType.rowdata.frt_id != null) {
+            $("#ratetype-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#ratetype-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#ratetype-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#ratetype-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#ratetype-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#ratetype-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#ratetype-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#ratetype-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.ratetype_btn_control').on('click', function (){
+        $("#ratetype-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#ratetype-addbtn').click(function (){
+        $('#ratetype_modal_addbtn').removeAttr('hidden');
+        $('#ratetype_modal_editbtn').attr('hidden',true);
+        $('#ratetype_modal_delbtn').attr('hidden',true);
+        fill_ratetype_modal_detail(0);
+    });
+
+    $('#ratetype-addbtn-sx').click(function (){
+        $('#ratetype_modal_addbtn').removeAttr('hidden');
+        $('#ratetype_modal_editbtn').attr('hidden',true);
+        $('#ratetype_modal_delbtn').attr('hidden',true);
+        fill_ratetype_modal_detail(0);
+    });
+// Edit Button
+    $('#ratetype-editbtn').click(function (){
+        $('#ratetype_modal_addbtn').attr('hidden',true);
+        $('#ratetype_modal_editbtn').removeAttr('hidden');
+        $('#ratetype_modal_delbtn').attr('hidden',true);
+        fill_ratetype_modal_detail(1);
+    });
+
+    $('#ratetype-editbtn-sx').click(function (){
+        $('#ratetype_modal_addbtn').attr('hidden',true);
+        $('#ratetype_modal_editbtn').removeAttr('hidden');
+        $('#ratetype_modal_delbtn').attr('hidden',true);
+        fill_ratetype_modal_detail(1);
+    });
+// Del Button
+    $('#ratetype-delbtn').click(function (){
+        $('#ratetype_modal_addbtn').attr('hidden',true);
+        $('#ratetype_modal_editbtn').attr('hidden',true);
+        $('#ratetype_modal_delbtn').removeAttr('hidden');
+        fill_ratetype_modal_detail(2);
+    });
+
+    $('#ratetype-delbtn-sx').click(function (){
+        $('#ratetype_modal_addbtn').attr('hidden',true);
+        $('#ratetype_modal_editbtn').attr('hidden',true);
+        $('#ratetype_modal_delbtn').removeAttr('hidden');
+        fill_ratetype_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#ratetype_li').addClass('active').removeClass('collapsed');
+        $('#ratetype_a').attr('aria-expanded',true);
+        $('#ratetype').addClass('show');
+
+        $('#ratetype_a').addClass('text-primary');
+
+        vRateType.rowdata.frt_id = /*[[${frt_id}]]*/ null;
+
+        recreateDataTable(vRateType);
+    });
+</script>
+
+</body>
+</html>
