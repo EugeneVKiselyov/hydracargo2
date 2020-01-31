@@ -3,14 +3,15 @@ package ua.com.idltd.hydracargo.contragent.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.contragent.repository.ContragentRepository;
-import ua.com.idltd.hydracargo.ratetype.repository.Fin_RateTypeRepository;
+import ua.com.idltd.hydracargo.productgroup.entity.Fin_ProductGroup;
+import ua.com.idltd.hydracargo.productgroup.repository.Fin_ProductGroupRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
-import java.util.Collections;
+import java.util.List;
 
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
@@ -19,16 +20,26 @@ import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 @RequestMapping("/contragent")
 public class ContragnetController {
 
-    private final ContragentRepository contragentRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public ContragnetController(ContragentRepository contragentRepository) {
+    private final ContragentRepository contragentRepository;
+    private final Fin_ProductGroupRepository fin_productGroupRepository;
+
+    public ContragnetController(ContragentRepository contragentRepository, Fin_ProductGroupRepository fin_productGroupRepository) {
         this.contragentRepository = contragentRepository;
+        this.fin_productGroupRepository = fin_productGroupRepository;
     }
 
     @RequestMapping(value = {"","/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView index(
     ){
         ModelAndView mav = new ModelAndView();
+
+        Iterable<Fin_ProductGroup> productionGroupList;
+        productionGroupList =  fin_productGroupRepository.findAll();
+        mav.addObject("productionGroupList", productionGroupList);
+
         mav.setViewName("/contragent/cover");
         return mav;
     }
@@ -43,9 +54,6 @@ public class ContragnetController {
         }
         return result;
     }
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @PostMapping("/add_contragent")
     public ModelAndView add_contragent(

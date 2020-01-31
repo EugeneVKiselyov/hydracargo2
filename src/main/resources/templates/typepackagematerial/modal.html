@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="typepackagematerial_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="typepackagematerial_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="typepackagematerial_modal_mode">
+            </div>
+
+            <div class="modal-content" id="typepackagematerial_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{typepackagematerial.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="typepackagematerial_modal_form" name="typepackagematerial_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <div class="col-12 col-md-2" id="typepackagematerial_modal_ftpm_id_row">
+                                <label for="typepackagematerial_modal_ftpm_id" class="form-label" th:text="'1. '+ #{typepackagematerial.ftpm_id}"></label>
+                                <input type="number" class="form-control" id="typepackagematerial_modal_ftpm_id" name="typepackagematerial_modal_ftpm_id" readonly>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-12 col-md-9" id="typepackagematerial_modal_ftpm_name_row">
+                                <label for="typepackagematerial_modal_ftpm_name" class="form-label" th:text="'2. '+#{typepackagematerial.ftpm_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="typepackagematerial_modal_ftpm_name" name="typepackagematerial_modal_ftpm_name">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="typepackagematerial_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="typepackagematerial_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="typepackagematerial_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="typepackagematerial_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_typepackagematerial_modal_detail() {
+        $("#typepackagematerial_modal_detail input[type=text]").val('');
+        $("#typepackagematerial_modal_detail input[type=number]").val('');
+        $("#typepackagematerial_modal_detail select").empty();
+        $("#typepackagematerial_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_typepackagematerial_modal_detail() {
+        $('#typepackagematerial_modal_ftpm_name').attr('required',true);
+
+        if($('#typepackagematerial_modal_mode').val() === "0"){
+            $('#typepackagematerial_modal_ftpm_id_row').attr('hidden',true);
+            $('#typepackagematerial_modal_ftpm_name').removeAttr('disabled');
+        }
+        else if($('#typepackagematerial_modal_mode').val() === "1"){
+            $('#typepackagematerial_modal_ftpm_id_row').removeAttr('hidden');
+            $('#typepackagematerial_modal_ftpm_name').removeAttr('disabled');
+        }
+        else{
+            $('#typepackagematerial_modal_ftpm_id_row').removeAttr('hidden');
+            $('#typepackagematerial_modal_ftpm_name').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_typepackagematerial_modal_detail(aMode){
+        $('#typepackagematerial_modal_mode').val(aMode);
+        clear_typepackagematerial_modal_detail();
+        block_typepackagematerial_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#typepackagematerial_modal_ftpm_id').val(vTypePackageMaterial.rowdata.ftpm_id);
+                        $('#typepackagematerial_modal_ftpm_name').val(vTypePackageMaterial.rowdata.ftpm_name);
+
+                        $('#typepackagematerial_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#typepackagematerial_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#typepackagematerial_modal_addbtn').on('click', function(){
+    $('#typepackagematerial_modal_form').submit();
+});
+// Edit button script
+$('#typepackagematerial_modal_editbtn').on('click', function(){
+    $('#typepackagematerial_modal_form').submit();
+});
+// Del button script
+$('#typepackagematerial_modal_delbtn').on('click', function(){
+    $('#typepackagematerial_modal_form').submit();
+});
+
+//Add Client Address
+function addRateType(){
+    let RowID = vTypePackageMaterial.rowdata.ftpm_id;
+    $.ajax({
+        url: /*[[ @{/typepackagematerial/add_typepackagematerial} ]]*/ "/typepackagematerial/add_typepackagematerial",
+        type: 'POST',
+        data: {
+            "ftpm_name": $('#typepackagematerial_modal_ftpm_name').val()
+        },
+        success: function (result) {
+            $('#typepackagematerial_modal').modal('hide');
+            vTypePackageMaterial.rowdata.ftpm_id = RowID;
+            $(vTypePackageMaterial.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editRateType(){
+    let RowID = vTypePackageMaterial.rowdata.ftpm_id;
+    $.ajax({
+        url: /*[[ @{/typepackagematerial/edit_typepackagematerial} ]]*/ "/typepackagematerial/edit_typepackagematerial",
+        type: 'POST',
+        data: {
+            "ftpm_id": RowID,
+            "ftpm_name": $('#typepackagematerial_modal_ftpm_name').val()
+        },
+        success: function (result) {
+            $('#typepackagematerial_modal').modal('hide');
+            vTypePackageMaterial.rowdata.ftpm_id = RowID;
+            $(vTypePackageMaterial.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delRateType(){
+    let RowID = vTypePackageMaterial.rowdata.ftpm_id;
+    $.ajax({
+        url: /*[[ @{/typepackagematerial/del_typepackagematerial} ]]*/ "/typepackagematerial/del_typepackagematerial",
+        type: 'POST',
+        data: {
+            "ftpm_id": RowID
+        },
+        success: function (result) {
+            $('#typepackagematerial_modal').modal('hide');
+            vTypePackageMaterial.rowdata.ftpm_id = null;
+            $(vTypePackageMaterial.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#typepackagematerial_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#typepackagematerial_modal_mode').val() === '0') {
+            addRateType();
+        }
+        else if($('#typepackagematerial_modal_mode').val() === '1') {
+            editRateType();
+        }
+        else if($('#typepackagematerial_modal_mode').val() === '2') {
+            delRateType();
+        }
+        return false;
+    }
+});
+
+// OnChange Functions
+</script>
+
+</body>
+</html>

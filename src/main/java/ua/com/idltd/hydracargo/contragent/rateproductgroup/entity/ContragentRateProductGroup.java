@@ -16,13 +16,13 @@ public class ContragentRateProductGroup {
   public Long cnt_id;
 
   @Column(name = "FRT_ID")
-  public Long FRT_ID;
+  public Long frt_id;
 
   @Column(name = "FPG_ID")
   public Long fpg_id;
 
   @Column(name = "FCR_PRICE")
-  public Double FCR_PRICE;
+  public Double fcr_price;
 
   @Column(name = "FCR_PRICE_BRAND")
   public Double fcr_price_brand;

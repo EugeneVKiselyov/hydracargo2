@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="ratepackagematerial_body" th:remove="tag">
+        <form id="ratepackagematerial-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="ratepackagematerial-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="ratepackagematerial-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="ratepackagematerial-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="ratepackagematerial-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="ratepackagematerial-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="ratepackagematerial-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="ratepackagematerial-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="ratepackagematerial-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-ratepackagematerial" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParamPackageMaterial;
+
+    let crpm_fcrm_id_width, crpm_cnt_id_width, crpm_frt_id_width, crpm_ftpm_id_width, crpm_ftpm_price_width, crpm_ftpm_price_brand_width;
+
+    let crpm_fcrm_id_class, crpm_cnt_id_class, crpm_frt_id_class, crpm_ftpm_id_class, crpm_ftpm_price_class, crpm_ftpm_price_brand_class;
+
+    let crpm_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let crpm_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(crpm_mobileScreenSize){
+        vDomParamPackageMaterial =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+        crpm_fcrm_id_width = "";
+        crpm_fcrm_id_class = "none";
+        crpm_cnt_id_width = "";
+        crpm_cnt_id_class = "none";
+        crpm_frt_id_width = "";
+        crpm_frt_id_class = "none";
+        crpm_ftpm_id_width = "10%";
+        crpm_ftpm_id_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_width = "10%";
+        crpm_ftpm_price_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_brand_width = "10%";
+        crpm_ftpm_price_brand_class = "small_size small_head_size small_footer_size";
+
+        $('#ratepackagematerial-addbtn').removeClass('btn-sm');
+        $('#ratepackagematerial-editbtn').removeClass('btn-sm');
+        $('#ratepackagematerial-delbtn').removeClass('btn-sm');
+
+        $('#ratepackagematerial-addbtn-sx').removeClass('btn-sm');
+        $('#ratepackagematerial-editbtn-sx').removeClass('btn-sm');
+        $('#ratepackagematerial-delbtn-sx').removeClass('btn-sm');
+        $('#ratepackagematerial-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(crpm_smallScreenSize){
+        vDomParamPackageMaterial = "Blfrtip";
+        crpm_fcrm_id_width = "";
+        crpm_fcrm_id_class = "none";
+        crpm_cnt_id_width = "";
+        crpm_cnt_id_class = "none";
+        crpm_frt_id_width = "";
+        crpm_frt_id_class = "none";
+        crpm_ftpm_id_width = "10%";
+        crpm_ftpm_id_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_width = "10%";
+        crpm_ftpm_price_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_brand_width = "10%";
+        crpm_ftpm_price_brand_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParamPackageMaterial = "Blfrtip";
+        crpm_fcrm_id_width = "";
+        crpm_fcrm_id_class = "none";
+        crpm_cnt_id_width = "";
+        crpm_cnt_id_class = "none";
+        crpm_frt_id_width = "";
+        crpm_frt_id_class = "none";
+        crpm_ftpm_id_width = "10%";
+        crpm_ftpm_id_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_width = "10%";
+        crpm_ftpm_price_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_brand_width = "10%";
+        crpm_ftpm_price_brand_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vContragnetRatePackageMaterial;
+    vContragnetRatePackageMaterial = {
+        table : '#table-ratepackagematerial',
+        button_form: (crpm_mobileScreenSize) ? null : "#ratepackagematerial-detail",
+        ajax : {
+            "url": /*[[@{/ratepackagematerial/gettable}]]*/ "ratepackagematerial/gettable",
+            "type": "post",
+            "data": function ( d ) {
+                d.cnt_id = vContragnetRatePackageMaterial.rowdata.cnt_id;
+            }
+        },
+        key : "fcrm_id",
+        switchControl : ratepackagematerial_switchControl,
+        rowdata:{
+            fcrm_id : null,
+            cnt_id : null,
+            frt_id : null,
+            ftpm_id : null,
+            ftpm_price : null,
+            ftpm_price_brand : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParamPackageMaterial,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{contragentratepackagematerial.fcrm_id}]]*/ "fcrm_id", "data": "fcrm_id", "width": crpm_fcrm_id_width, "className": crpm_fcrm_id_class},
+            /*1*/{"title": /*[[#{contragentratepackagematerial.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": crpm_cnt_id_width, "className": crpm_cnt_id_class},
+            /*2*/{"title": /*[[#{contragentratepackagematerial.frt_id}]]*/ "frt_id", "data": "frt_id", "width": crpm_frt_id_width, "className": crpm_frt_id_class},
+            /*3*/{"title": /*[[#{contragentratepackagematerial.ftpm_id}]]*/ "ftpm_id", "data": "ftpm_id", "width": crpm_ftpm_id_width, "className": crpm_ftpm_id_class},
+            /*4*/{"title": /*[[#{contragentratepackagematerial.ftpm_price}]]*/ "ftpm_price", "data": "ftpm_price", "width": crpm_ftpm_price_width, "className": crpm_ftpm_price_class},
+            /*5*/{"title": /*[[#{contragentratepackagematerial.ftpm_price_brand}]]*/ "ftpm_price_brand", "data": "ftpm_price_brand", "width": crpm_ftpm_price_brand_width, "className": crpm_ftpm_price_brand_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function ratepackagematerial_switchControl(){
+        if(vContragnetRatePackageMaterial.rowdata.fcrm_id != null) {
+            $("#ratepackagematerial-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#ratepackagematerial-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#ratepackagematerial-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#ratepackagematerial-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#ratepackagematerial-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#ratepackagematerial-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#ratepackagematerial-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#ratepackagematerial-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.ratepackagematerial_btn_control').on('click', function (){
+        $("#ratepackagematerial-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#ratepackagematerial-addbtn').click(function (){
+        $('#ratepackagematerial_modal_addbtn').removeAttr('hidden');
+        $('#ratepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_ratepackagematerial_modal_detail(0);
+    });
+
+    $('#ratepackagematerial-addbtn-sx').click(function (){
+        $('#ratepackagematerial_modal_addbtn').removeAttr('hidden');
+        $('#ratepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_ratepackagematerial_modal_detail(0);
+    });
+// Edit Button
+    $('#ratepackagematerial-editbtn').click(function (){
+        $('#ratepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_editbtn').removeAttr('hidden');
+        $('#ratepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_ratepackagematerial_modal_detail(1);
+    });
+
+    $('#ratepackagematerial-editbtn-sx').click(function (){
+        $('#ratepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_editbtn').removeAttr('hidden');
+        $('#ratepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_ratepackagematerial_modal_detail(1);
+    });
+// Del Button
+    $('#ratepackagematerial-delbtn').click(function (){
+        $('#ratepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_delbtn').removeAttr('hidden');
+        fill_ratepackagematerial_modal_detail(2);
+    });
+
+    $('#ratepackagematerial-delbtn-sx').click(function (){
+        $('#ratepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#ratepackagematerial_modal_delbtn').removeAttr('hidden');
+        fill_ratepackagematerial_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+        vContragnetRatePackageMaterial.rowdata.fcrm_id = /*[[${fcrm_id}]]*/ null;
+        recreateDataTable(vContragnetRatePackageMaterial);
+    });
+</script>
+
+</body>
+</html>

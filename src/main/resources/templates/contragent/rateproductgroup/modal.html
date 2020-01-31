@@ -25,37 +25,53 @@
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
+                        </div><!-- Row 1 -->
+                        <div class="form-row">
                             <div class="col-12 col-md-2" id="rateproductgroup_modal_cnt_id_row">
-                                <label for="rateproductgroup_modal_cnt_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.cnt_id}"></label>
+                                <label for="rateproductgroup_modal_cnt_id" class="form-label" th:text="'2. '+ #{contragentrateproductgroup.cnt_id}"></label>
                                 <input type="number" class="form-control" id="rateproductgroup_modal_cnt_id" name="rateproductgroup_modal_cnt_id" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
+                        </div><!-- Row 2 -->
+                        <div class="form-row">
                             <div class="col-12 col-md-2" id="rateproductgroup_modal_frt_id_row">
-                                <label for="rateproductgroup_modal_frt_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.frt_id}"></label>
+                                <label for="rateproductgroup_modal_frt_id" class="form-label" th:text="'3. '+ #{contragentrateproductgroup.frt_id}"></label>
                                 <input type="number" class="form-control" id="rateproductgroup_modal_frt_id" name="rateproductgroup_modal_frt_id" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
+                        </div><!-- Row 3 -->
+                        <div class="form-row">
                             <div class="col-12 col-md-2" id="rateproductgroup_modal_fpg_id_row">
-                                <label for="rateproductgroup_modal_fpg_id" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fpg_id}"></label>
-                                <input type="number" class="form-control" id="rateproductgroup_modal_fpg_id" name="rateproductgroup_modal_fpg_id" readonly>
+                                <label for="rateproductgroup_modal_fpg_id" class="form-label" th:text="'4. '+ #{contragentrateproductgroup.fpg_id}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="rateproductgroup_modal_fpg_id" name="rateproductgroup_modal_fpg_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="productionGroup : ${productionGroupList}"
+                                            th:value="${productionGroup.fpg_id}"
+                                            th:text="${productionGroup.fpg_name}"
+                                    ></option>
+                                </select>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
+                        </div><!-- Row 4 -->
+                        <div class="form-row">
                             <div class="col-12 col-md-2" id="rateproductgroup_modal_fcr_price_row">
-                                <label for="rateproductgroup_modal_fcr_price" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fcr_price}"></label>
-                                <input type="number" class="form-control" id="rateproductgroup_modal_fcr_price" name="rateproductgroup_modal_fcr_price" readonly>
+                                <label for="rateproductgroup_modal_fcr_price" class="form-label" th:text="'5. '+ #{contragentrateproductgroup.fcr_price}"></label>
+                                <input type="text" class="form-control" id="rateproductgroup_modal_fcr_price" name="rateproductgroup_modal_fcr_price" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
+                        </div><!-- Row 5 -->
+                        <div class="form-row">
                             <div class="col-12 col-md-2" id="rateproductgroup_modal_fcr_price_brand_row">
-                                <label for="rateproductgroup_modal_fcr_price_brand" class="form-label" th:text="'1. '+ #{contragentrateproductgroup.fcr_price_brand}"></label>
-                                <input type="number" class="form-control" id="rateproductgroup_modal_fcr_price_brand" name="rateproductgroup_modal_fcr_price_brand" readonly>
+                                <label for="rateproductgroup_modal_fcr_price_brand" class="form-label" th:text="'6. '+ #{contragentrateproductgroup.fcr_price_brand}"></label>
+                                <input type="text" class="form-control" id="rateproductgroup_modal_fcr_price_brand" name="rateproductgroup_modal_fcr_price_brand" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
-                        </div><!-- Row 1 -->
+                        </div><!-- Row 6 -->
                     </form>
                 </div><!-- Body -->
                 <div class="modal-footer">
@@ -75,7 +91,7 @@
     function clear_rateproductgroup_modal_detail() {
         $("#rateproductgroup_modal_detail input[type=text]").val('');
         $("#rateproductgroup_modal_detail input[type=number]").val('');
-        $("#rateproductgroup_modal_detail select").empty();
+        $("#rateproductgroup_modal_detail select").val(null);
         $("#rateproductgroup_modal_detail textarea").val('');
     }
 
@@ -90,15 +106,31 @@
 
         if($('#rateproductgroup_modal_mode').val() === "0"){
             $('#rateproductgroup_modal_fcr_id_row').attr('hidden',true);
-            // $('#rateproductgroup_modal_cnt_name').removeAttr('disabled');
+            $('#rateproductgroup_modal_fcr_id').attr('disabled',true);
+            $('#rateproductgroup_modal_cnt_id').attr('disabled',true);
+            $('#rateproductgroup_modal_frt_id').attr('disabled',true);
+            $('#rateproductgroup_modal_fpg_id').removeAttr('disabled'); $('#rateproductgroup_modal_fpg_id').removeAttr('readonly');
+            $('#rateproductgroup_modal_fcr_price').removeAttr('disabled'); $('#rateproductgroup_modal_fcr_price').removeAttr('readonly');
+            $('#rateproductgroup_modal_fcr_price_brand').removeAttr('disabled'); $('#rateproductgroup_modal_fcr_price_brand').removeAttr('readonly');
         }
         else if($('#rateproductgroup_modal_mode').val() === "1"){
             $('#rateproductgroup_modal_fcr_id_row').removeAttr('hidden');
-            // $('#rateproductgroup_modal_cnt_name').removeAttr('disabled');
+            $('#rateproductgroup_modal_fcr_id').attr('disabled',true);
+            $('#rateproductgroup_modal_cnt_id').attr('disabled',true);
+            $('#rateproductgroup_modal_frt_id').attr('disabled',true);
+            $('#rateproductgroup_modal_fpg_id').attr('disabled',true);
+            $('#rateproductgroup_modal_fcr_price').removeAttr('disabled'); $('#rateproductgroup_modal_fcr_price').removeAttr('readonly');
+            $('#rateproductgroup_modal_fcr_price_brand').removeAttr('disabled'); $('#rateproductgroup_modal_fcr_price_brand').removeAttr('readonly');
         }
         else{
             $('#rateproductgroup_modal_fcr_id_row').removeAttr('hidden');
-            // $('#rateproductgroup_modal_cnt_name').attr('disabled',true);
+            $('#rateproductgroup_modal_fcr_id').attr('disabled',true);
+            $('#rateproductgroup_modal_cnt_id').attr('disabled',true);
+            $('#rateproductgroup_modal_frt_id').attr('disabled',true);
+            $('#rateproductgroup_modal_fpg_id').attr('disabled',true);
+            $('#rateproductgroup_modal_fcr_price').attr('disabled',true);
+            $('#rateproductgroup_modal_fcr_price_brand').attr('disabled',true);
+
         }
     }
 
@@ -113,7 +145,7 @@
                     ).then(function () {
                         $('#rateproductgroup_modal_fcr_id').val(vContragnetRateProductGroup.rowdata.fcr_id);
                         $('#rateproductgroup_modal_cnt_id').val(vContragnetRateProductGroup.rowdata.cnt_id);
-                        $('#rateproductgroup_modal_frt_id').val(vContragnetRateProductGroup.rowdata.frt_id);
+                        $('#rateproductgroup_modal_frt_id').val(1);
                         $('#rateproductgroup_modal_fpg_id').val(vContragnetRateProductGroup.rowdata.fpg_id);
                         $('#rateproductgroup_modal_fcr_price').val(vContragnetRateProductGroup.rowdata.fcr_price);
                         $('#rateproductgroup_modal_fcr_price_brand').val(vContragnetRateProductGroup.rowdata.fcr_price_brand);
@@ -124,6 +156,9 @@
         else if(aMode === 0) {
             $.when(
             ).then(function () {
+                $('#rateproductgroup_modal_cnt_id').val(vContragnetRateProductGroup.rowdata.cnt_id);
+                $('#rateproductgroup_modal_frt_id').val(1);
+
                 $('#rateproductgroup_modal').modal('show');
             });
         }
@@ -149,11 +184,11 @@ function addContragentRate(){
         url: /*[[ @{/rateproductgroup/add_contragentratepg} ]]*/ "/rateproductgroup/add_contragentratepg",
         type: 'POST',
         data: {
-            "cnt_name": $('#rateproductgroup_modal_cnt_id').val(),
-            "cnt_name": $('#rateproductgroup_modal_frt_id').val(),
-            "cnt_name": $('#rateproductgroup_modal_fpg_id').val(),
-            "cnt_name": $('#rateproductgroup_modal_fcr_price').val(),
-            "cnt_name": $('#rateproductgroup_modal_fcr_price_brand').val()
+            "cnt_id": $('#rateproductgroup_modal_cnt_id').val(),
+            "frt_id": $('#rateproductgroup_modal_frt_id').val(),
+            "fpg_id": $('#rateproductgroup_modal_fpg_id').val(),
+            "fcr_price": $('#rateproductgroup_modal_fcr_price').val(),
+            "fcr_price_brand": $('#rateproductgroup_modal_fcr_price_brand').val()
         },
         success: function (result) {
             $('#rateproductgroup_modal').modal('hide');
@@ -170,12 +205,9 @@ function editContragentRate(){
         url: /*[[ @{/rateproductgroup/edit_contragentratepg} ]]*/ "/rateproductgroup/edit_contragentratepg",
         type: 'POST',
         data: {
-            "fcr_id": fcr_id,
-            "cnt_name": $('#rateproductgroup_modal_cnt_id').val(),
-            "cnt_name": $('#rateproductgroup_modal_frt_id').val(),
-            "cnt_name": $('#rateproductgroup_modal_fpg_id').val(),
-            "cnt_name": $('#rateproductgroup_modal_fcr_price').val(),
-            "cnt_name": $('#rateproductgroup_modal_fcr_price_brand').val()
+            "fcr_id": RowID,
+            "fcr_price": $('#rateproductgroup_modal_fcr_price').val(),
+            "fcr_price_brand": $('#rateproductgroup_modal_fcr_price_brand').val()
         },
         success: function (result) {
             $('#rateproductgroup_modal').modal('hide');

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="typepackagematerial_body" th:remove="tag">
+        <form id="typepackagematerial-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="typepackagematerial-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="typepackagematerial-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="typepackagematerial-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="typepackagematerial-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="typepackagematerial-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="typepackagematerial-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="typepackagematerial-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="typepackagematerial-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-typepackagematerial" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let ftpm_id_width, ftpm_name_width;
+
+    let ftpm_id_class, ftpm_name_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+
+        ftpm_id_width = "10%";
+        ftpm_id_class = "small_size small_head_size small_footer_size";
+        ftpm_name_width = "90%";
+        ftpm_name_class = "small_size small_head_size small_footer_size";
+
+        $('#typepackagematerial-addbtn').removeClass('btn-sm');
+        $('#typepackagematerial-editbtn').removeClass('btn-sm');
+        $('#typepackagematerial-delbtn').removeClass('btn-sm');
+
+        $('#typepackagematerial-addbtn-sx').removeClass('btn-sm');
+        $('#typepackagematerial-editbtn-sx').removeClass('btn-sm');
+        $('#typepackagematerial-delbtn-sx').removeClass('btn-sm');
+        $('#typepackagematerial-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(smallScreenSize){
+        vDomParam = "Blfrtip";
+        ftpm_id_width = "10%";
+        ftpm_id_class = "small_size small_head_size small_footer_size";
+        ftpm_name_width = "90%";
+        ftpm_name_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        ftpm_id_width = "10%";
+        ftpm_id_class = "small_size small_head_size small_footer_size";
+        ftpm_name_width = "90%";
+        ftpm_name_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vTypePackageMaterial;
+    vTypePackageMaterial = {
+        table : '#table-typepackagematerial',
+        button_form: (mobileScreenSize) ? null : "#typepackagematerial-detail",
+        ajax : {
+            "url": /*[[@{/typepackagematerial/gettable}]]*/ "typepackagematerial/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "ftpm_id",
+        switchControl : typepackagematerial_switchControl,
+        rowdata:{
+            ftpm_id : null,
+            ftpm_name : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{typepackagematerial.ftpm_id}]]*/ "ftpm_id", "data": "ftpm_id", "width": ftpm_id_width, "className": ftpm_id_class},
+            /*1*/{"title": /*[[#{typepackagematerial.ftpm_name}]]*/ "ftpm_name", "data": "ftpm_name", "width": ftpm_name_width, "className": ftpm_name_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function typepackagematerial_switchControl(){
+        if(vTypePackageMaterial.rowdata.ftpm_id != null) {
+            $("#typepackagematerial-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#typepackagematerial-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#typepackagematerial-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#typepackagematerial-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#typepackagematerial-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#typepackagematerial-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#typepackagematerial-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#typepackagematerial-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.typepackagematerial_btn_control').on('click', function (){
+        $("#typepackagematerial-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#typepackagematerial-addbtn').click(function (){
+        $('#typepackagematerial_modal_addbtn').removeAttr('hidden');
+        $('#typepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_typepackagematerial_modal_detail(0);
+    });
+
+    $('#typepackagematerial-addbtn-sx').click(function (){
+        $('#typepackagematerial_modal_addbtn').removeAttr('hidden');
+        $('#typepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_typepackagematerial_modal_detail(0);
+    });
+// Edit Button
+    $('#typepackagematerial-editbtn').click(function (){
+        $('#typepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_editbtn').removeAttr('hidden');
+        $('#typepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_typepackagematerial_modal_detail(1);
+    });
+
+    $('#typepackagematerial-editbtn-sx').click(function (){
+        $('#typepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_editbtn').removeAttr('hidden');
+        $('#typepackagematerial_modal_delbtn').attr('hidden',true);
+        fill_typepackagematerial_modal_detail(1);
+    });
+// Del Button
+    $('#typepackagematerial-delbtn').click(function (){
+        $('#typepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_delbtn').removeAttr('hidden');
+        fill_typepackagematerial_modal_detail(2);
+    });
+
+    $('#typepackagematerial-delbtn-sx').click(function (){
+        $('#typepackagematerial_modal_addbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_editbtn').attr('hidden',true);
+        $('#typepackagematerial_modal_delbtn').removeAttr('hidden');
+        fill_typepackagematerial_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#typepackagematerial_li').addClass('active').removeClass('collapsed');
+        $('#typepackagematerial_a').attr('aria-expanded',true);
+        $('#typepackagematerial').addClass('show');
+
+        $('#typepackagematerial_a').addClass('text-primary');
+
+        vTypePackageMaterial.rowdata.ftpm_id = /*[[${ftpm_id}]]*/ null;
+
+        recreateDataTable(vTypePackageMaterial);
+    });
+</script>
+
+</body>
+</html>

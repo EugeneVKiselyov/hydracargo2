@@ -32,8 +32,22 @@
             </div>
             <div class="card-body pt-0 collapse show" id="contragentrateproductgroup_div">
                 <div>
-<!--                    <span th:replace="conragentrateproductgroup/modal :: contragent_modal_body"></span>-->
+                    <span th:replace="contragent/rateproductgroup/modal :: rateproductgroup_modal_body"></span>
                     <span th:replace="contragent/rateproductgroup/card :: rateproductgroup_body"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#contragentratepackagematerial_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#contragentratepackagematerial_div" data-toggle="collapse" th:text="#{contragentratepackagematerial.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="contragentratepackagematerial_div">
+                <div>
+                    <span th:replace="contragent/ratepackagematerial/modal :: ratepackagematerial_modal_body"></span>
+                    <span th:replace="contragent/ratepackagematerial/card :: ratepackagematerial_body"></span>
                 </div>
             </div>
         </div>
@@ -42,7 +56,11 @@
 
 <span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
 
+<script th:replace="contragent/rateproductgroup/modal :: cardscript"></script>
 <script th:replace="contragent/rateproductgroup/card :: cardscript"></script>
+
+<script th:replace="contragent/ratepackagematerial/modal :: cardscript"></script>
+<script th:replace="contragent/ratepackagematerial/card :: cardscript"></script>
 
 <script th:replace="contragent/modal :: cardscript"></script>
 <script th:replace="contragent/card :: cardscript"></script>
