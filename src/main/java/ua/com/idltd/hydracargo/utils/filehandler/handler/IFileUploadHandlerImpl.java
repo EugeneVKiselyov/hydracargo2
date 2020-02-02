@@ -83,7 +83,7 @@ public abstract class IFileUploadHandlerImpl implements IFileUploadHandler {
     public void saveatomlog(FileLogStatusEnum status, String atom, String error) {
         FilehandlerAtomLog fhal;
         fhal=new FilehandlerAtomLog();
-        fhal.setFHL_ID(fhl.getFhl_Id());
+        fhal.setFhl_id(fhl.getFhl_Id());
         fhal.setFhal_atom(atom);
         fhal.setFhal_error(error);
         fhal.setFhal_status(status.toString());

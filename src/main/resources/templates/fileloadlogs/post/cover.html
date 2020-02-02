@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{fileloadlogs.post.caption})"></head>
+
+<body> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+
+<div class="row">
+    <div class="col-4 pl-2 pr-2 pt-0">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#fileloadlogs_post_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#contragent_div" data-toggle="collapse" th:text="#{fileloadlogs.post.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="fileloadlogs_post_div">
+                <div>
+<!--                    <span th:replace="contragent/modal :: contragent_modal_body"></span>-->
+                    <span th:replace="fileloadlogs/post/card :: fileloadlogs_post_body"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8 pl-2 pr-2 pt-0">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#filehandleatomlog_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#filehandleatomlog_div" data-toggle="collapse" th:text="#{fileloadlogs.post.atom.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="filehandleatomlog_div">
+                <div>
+                    <span th:replace="fileloadlogs/post/atom/card :: filehandleatomlog_body"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<!--<script th:replace="contragent/rateproductgroup/modal :: cardscript"></script>-->
+<script th:replace="fileloadlogs/post/atom/card :: cardscript"></script>
+
+<!--<script th:replace="fileloadlogs/post/modal :: cardscript"></script>-->
+<script th:replace="fileloadlogs/post/card :: cardscript"></script>
+</body>
+</html>

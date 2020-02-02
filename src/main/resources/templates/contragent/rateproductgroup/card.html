@@ -24,9 +24,9 @@
 <script th:fragment="cardscript" th:inline="javascript">
     let vDomParamContRateProdGr;
 
-    let crpg_fcr_id_width, crpg_cnt_id_width, crpg_frt_id_width, crpg_fpg_id_width, crpg_fcr_price_width, crpg_fcr_price_brand_width;
+    let crpg_fcr_id_width, crpg_cnt_id_width, crpg_frt_id_width, crpg_fpg_id_width, crpg_fpg_name_width, crpg_fcr_price_width, crpg_fcr_price_brand_width;
 
-    let crpg_fcr_id_class, crpg_cnt_id_class, crpg_frt_id_class, crpg_fpg_id_class, crpg_fcr_price_class, crpg_fcr_price_brand_class;
+    let crpg_fcr_id_class, crpg_cnt_id_class, crpg_frt_id_class, crpg_fpg_id_class, crpg_fpg_name_class, crpg_fcr_price_class, crpg_fcr_price_brand_class;
 
     let crpg_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
     let crpg_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
@@ -43,11 +43,13 @@
         crpg_cnt_id_class = "none";
         crpg_frt_id_width = "";
         crpg_frt_id_class = "none";
-        crpg_fpg_id_width = "10%";
-        crpg_fpg_id_class = "small_size small_head_size small_footer_size";
-        crpg_fcr_price_width = "10%";
+        crpg_fpg_id_width = "";
+        crpg_fpg_id_class = "none";
+        crpg_fpg_name_width = "60%";
+        crpg_fpg_name_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_width = "20%";
         crpg_fcr_price_class = "small_size small_head_size small_footer_size";
-        crpg_fcr_price_brand_width = "10%";
+        crpg_fcr_price_brand_width = "20%";
         crpg_fcr_price_brand_class = "small_size small_head_size small_footer_size";
 
         $('#rateproductgroup-addbtn').removeClass('btn-sm');
@@ -67,11 +69,13 @@
         crpg_cnt_id_class = "none";
         crpg_frt_id_width = "";
         crpg_frt_id_class = "none";
-        crpg_fpg_id_width = "10%";
-        crpg_fpg_id_class = "small_size small_head_size small_footer_size";
-        crpg_fcr_price_width = "10%";
+        crpg_fpg_id_width = "";
+        crpg_fpg_id_class = "none";
+        crpg_fpg_name_width = "60%";
+        crpg_fpg_name_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_width = "20%";
         crpg_fcr_price_class = "small_size small_head_size small_footer_size";
-        crpg_fcr_price_brand_width = "10%";
+        crpg_fcr_price_brand_width = "20%";
         crpg_fcr_price_brand_class = "small_size small_head_size small_footer_size";
     }
     else{
@@ -82,11 +86,13 @@
         crpg_cnt_id_class = "none";
         crpg_frt_id_width = "";
         crpg_frt_id_class = "none";
-        crpg_fpg_id_width = "10%";
-        crpg_fpg_id_class = "small_size small_head_size small_footer_size";
-        crpg_fcr_price_width = "10%";
+        crpg_fpg_id_width = "";
+        crpg_fpg_id_class = "none";
+        crpg_fpg_name_width = "60%";
+        crpg_fpg_name_class = "small_size small_head_size small_footer_size";
+        crpg_fcr_price_width = "20%";
         crpg_fcr_price_class = "small_size small_head_size small_footer_size";
-        crpg_fcr_price_brand_width = "10%";
+        crpg_fcr_price_brand_width = "20%";
         crpg_fcr_price_brand_class = "small_size small_head_size small_footer_size";
     }
 
@@ -108,6 +114,7 @@
             cnt_id : null,
             frt_id : null,
             fpg_id : null,
+            fpg_name : null,
             fcr_price : null,
             fcr_price_brand : null
         },
@@ -124,8 +131,9 @@
             /*1*/{"title": /*[[#{contragentrateproductgroup.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": crpg_cnt_id_width, "className": crpg_cnt_id_class},
             /*2*/{"title": /*[[#{contragentrateproductgroup.frt_id}]]*/ "frt_id", "data": "frt_id", "width": crpg_frt_id_width, "className": crpg_frt_id_class},
             /*3*/{"title": /*[[#{contragentrateproductgroup.fpg_id}]]*/ "fpg_id", "data": "fpg_id", "width": crpg_fpg_id_width, "className": crpg_fpg_id_class},
-            /*4*/{"title": /*[[#{contragentrateproductgroup.fcr_price}]]*/ "fcr_price", "data": "fcr_price", "width": crpg_fcr_price_width, "className": crpg_fcr_price_class},
-            /*5*/{"title": /*[[#{contragentrateproductgroup.fcr_price_brand}]]*/ "fcr_price_brand", "data": "fcr_price_brand", "width": crpg_fcr_price_brand_width, "className": crpg_fcr_price_brand_class}
+            /*4*/{"title": /*[[#{contragentrateproductgroup.fpg_name}]]*/ "fpg_name", "data": "fpg_name", "width": crpg_fpg_name_width, "className": crpg_fpg_name_class},
+            /*5*/{"title": /*[[#{contragentrateproductgroup.fcr_price}]]*/ "fcr_price", "data": "fcr_price", "width": crpg_fcr_price_width, "className": crpg_fcr_price_class},
+            /*6*/{"title": /*[[#{contragentrateproductgroup.fcr_price_brand}]]*/ "fcr_price_brand", "data": "fcr_price_brand", "width": crpg_fcr_price_brand_width, "className": crpg_fcr_price_brand_class}
         ],
         pageLength: 25,
         copy_button: true,

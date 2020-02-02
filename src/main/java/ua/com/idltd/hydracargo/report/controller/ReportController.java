@@ -10,6 +10,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,9 @@ public class ReportController {
     @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     @RequestMapping(value="/pdf", method = {GET,POST})
     public void exportReportToPdf(
@@ -145,7 +149,15 @@ public class ReportController {
             case 3 : report = "/static/report/Full_Dis_Loadfile_Xls.jasper"; break;
             case 4 : report = "/static/report/Labels_Dis_10x14.jasper"; break;
             case 7 : report = "/static/report/Report_7.jasper"; break;
-            case 8 : report = "/static/report/Report_8.jasper"; break;
+            case 8 : {
+                        if (activeProfile.equalsIgnoreCase("ipex")||
+                            activeProfile.equalsIgnoreCase("ipex_test")) {
+                            report = "/static/report/Report_8_Ipex.jasper";
+                        } else {
+                            report = "/static/report/Report_8.jasper";
+                        }
+                        break;
+                     }
             case 10 : report = "/static/report/Report_10.jasper"; break;
             case 11 : report = "/static/report/Report_5_pdf.jasper"; break;
             case 12 : report = "/static/report/Scan_1_xls.jasper"; break;

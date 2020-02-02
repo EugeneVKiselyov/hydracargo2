@@ -24,9 +24,9 @@
 <script th:fragment="cardscript" th:inline="javascript">
     let vDomParamPackageMaterial;
 
-    let crpm_fcrm_id_width, crpm_cnt_id_width, crpm_frt_id_width, crpm_ftpm_id_width, crpm_ftpm_price_width, crpm_ftpm_price_brand_width;
+    let crpm_fcrm_id_width, crpm_cnt_id_width, crpm_frt_id_width, crpm_ftpm_id_width, crpm_ftpm_name_width, crpm_ftpm_price_width, crpm_ftpm_price_brand_width;
 
-    let crpm_fcrm_id_class, crpm_cnt_id_class, crpm_frt_id_class, crpm_ftpm_id_class, crpm_ftpm_price_class, crpm_ftpm_price_brand_class;
+    let crpm_fcrm_id_class, crpm_cnt_id_class, crpm_frt_id_class, crpm_ftpm_id_class, crpm_ftpm_name_class, crpm_ftpm_price_class, crpm_ftpm_price_brand_class;
 
     let crpm_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
     let crpm_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
@@ -43,11 +43,13 @@
         crpm_cnt_id_class = "none";
         crpm_frt_id_width = "";
         crpm_frt_id_class = "none";
-        crpm_ftpm_id_width = "10%";
-        crpm_ftpm_id_class = "small_size small_head_size small_footer_size";
-        crpm_ftpm_price_width = "10%";
+        crpm_ftpm_id_width = "";
+        crpm_ftpm_id_class = "";
+        crpm_ftpm_name_width = "60%";
+        crpm_ftpm_name_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_width = "20%";
         crpm_ftpm_price_class = "small_size small_head_size small_footer_size";
-        crpm_ftpm_price_brand_width = "10%";
+        crpm_ftpm_price_brand_width = "20%";
         crpm_ftpm_price_brand_class = "small_size small_head_size small_footer_size";
 
         $('#ratepackagematerial-addbtn').removeClass('btn-sm');
@@ -67,11 +69,13 @@
         crpm_cnt_id_class = "none";
         crpm_frt_id_width = "";
         crpm_frt_id_class = "none";
-        crpm_ftpm_id_width = "10%";
-        crpm_ftpm_id_class = "small_size small_head_size small_footer_size";
-        crpm_ftpm_price_width = "10%";
+        crpm_ftpm_id_width = "";
+        crpm_ftpm_id_class = "none";
+        crpm_ftpm_name_width = "60%";
+        crpm_ftpm_name_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_width = "20%";
         crpm_ftpm_price_class = "small_size small_head_size small_footer_size";
-        crpm_ftpm_price_brand_width = "10%";
+        crpm_ftpm_price_brand_width = "20%";
         crpm_ftpm_price_brand_class = "small_size small_head_size small_footer_size";
     }
     else{
@@ -82,11 +86,13 @@
         crpm_cnt_id_class = "none";
         crpm_frt_id_width = "";
         crpm_frt_id_class = "none";
-        crpm_ftpm_id_width = "10%";
-        crpm_ftpm_id_class = "small_size small_head_size small_footer_size";
-        crpm_ftpm_price_width = "10%";
+        crpm_ftpm_id_width = "";
+        crpm_ftpm_id_class = "none";
+        crpm_ftpm_name_width = "60%";
+        crpm_ftpm_name_class = "small_size small_head_size small_footer_size";
+        crpm_ftpm_price_width = "20%";
         crpm_ftpm_price_class = "small_size small_head_size small_footer_size";
-        crpm_ftpm_price_brand_width = "10%";
+        crpm_ftpm_price_brand_width = "20%";
         crpm_ftpm_price_brand_class = "small_size small_head_size small_footer_size";
     }
 
@@ -109,7 +115,8 @@
             frt_id : null,
             ftpm_id : null,
             ftpm_price : null,
-            ftpm_price_brand : null
+            ftpm_price_brand : null,
+            ftpm_name : null
         },
         ordering: true,
         order: [
@@ -124,8 +131,9 @@
             /*1*/{"title": /*[[#{contragentratepackagematerial.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": crpm_cnt_id_width, "className": crpm_cnt_id_class},
             /*2*/{"title": /*[[#{contragentratepackagematerial.frt_id}]]*/ "frt_id", "data": "frt_id", "width": crpm_frt_id_width, "className": crpm_frt_id_class},
             /*3*/{"title": /*[[#{contragentratepackagematerial.ftpm_id}]]*/ "ftpm_id", "data": "ftpm_id", "width": crpm_ftpm_id_width, "className": crpm_ftpm_id_class},
-            /*4*/{"title": /*[[#{contragentratepackagematerial.ftpm_price}]]*/ "ftpm_price", "data": "ftpm_price", "width": crpm_ftpm_price_width, "className": crpm_ftpm_price_class},
-            /*5*/{"title": /*[[#{contragentratepackagematerial.ftpm_price_brand}]]*/ "ftpm_price_brand", "data": "ftpm_price_brand", "width": crpm_ftpm_price_brand_width, "className": crpm_ftpm_price_brand_class}
+            /*4*/{"title": /*[[#{contragentratepackagematerial.ftpm_name}]]*/ "ftpm_name", "data": "ftpm_name", "width": crpm_ftpm_name_width, "className": crpm_ftpm_name_class},
+            /*5*/{"title": /*[[#{contragentratepackagematerial.ftpm_price}]]*/ "ftpm_price", "data": "ftpm_price", "width": crpm_ftpm_price_width, "className": crpm_ftpm_price_class},
+            /*6*/{"title": /*[[#{contragentratepackagematerial.ftpm_price_brand}]]*/ "ftpm_price_brand", "data": "ftpm_price_brand", "width": crpm_ftpm_price_brand_width, "className": crpm_ftpm_price_brand_class}
         ],
         pageLength: 25,
         copy_button: true,

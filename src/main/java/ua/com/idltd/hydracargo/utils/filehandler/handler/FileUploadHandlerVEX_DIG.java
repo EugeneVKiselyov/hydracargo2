@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.idltd.hydracargo.declaration_cache.entity.Declaration_cache;
 import ua.com.idltd.hydracargo.declaration_cache.repository.Declaration_cacheRepository;
@@ -30,6 +31,7 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
+import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
 //import org.apache.tika.Tika;
@@ -198,8 +200,11 @@ public class FileUploadHandlerVEX_DIG extends IFileUploadHandlerPostImpl {
 
             saveatomlog(FileLogStatusEnum.SUCCESS,mapper.writeValueAsString(declaration_cache),null);
             result = true;
-        } catch (Exception e) {
-            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_cache),e.getMessage());
+        } catch (JpaSystemException e) {
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_cache), String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getMostSpecificCause().getLocalizedMessage()));
+            result=false;
+        }  catch (Exception e) {
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_cache),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, ConvertTraceExceptionToText(e)));
             result=false;
         }
         return result;

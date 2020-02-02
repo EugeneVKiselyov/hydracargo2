@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="fileloadlogs_post_body" th:remove="tag">
+        <div><table id="table-fileloadlogs_post" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomParam;
+
+    let fhlb_id_width, fhlb_name_width, fhl_id_width, fhlb_date_width, fhlb_user_width;
+
+    let fhlb_id_class, fhlb_name_class, fhl_id_class, fhlb_date_class, fhlb_user_class;
+
+    let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(mobileScreenSize){
+        vDomParam =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+
+        fhlb_id_width = "20%";
+        fhlb_id_class = "small_size small_head_size small_footer_size";
+        fhlb_name_width = "50%";
+        fhlb_name_class = "small_size small_head_size small_footer_size";
+        fhl_id_width = "";
+        fhl_id_class = "none";
+        fhlb_date_width = "30%";
+        fhlb_date_class = "small_size small_head_size small_footer_size";
+        fhlb_user_width = "";
+        fhlb_user_class = "none";
+
+    }
+    else if(smallScreenSize){
+        vDomParam = "Blfrtip";
+        fhlb_id_width = "20%";
+        fhlb_id_class = "small_size small_head_size small_footer_size";
+        fhlb_name_width = "50%";
+        fhlb_name_class = "small_size small_head_size small_footer_size";
+        fhl_id_width = "";
+        fhl_id_class = "none";
+        fhlb_date_width = "30%";
+        fhlb_date_class = "small_size small_head_size small_footer_size";
+        fhlb_user_width = "";
+        fhlb_user_class = "none";
+    }
+    else{
+        vDomParam = "Blfrtip";
+        fhlb_id_width = "20%";
+        fhlb_id_class = "small_size small_head_size small_footer_size";
+        fhlb_name_width = "50%";
+        fhlb_name_class = "small_size small_head_size small_footer_size";
+        fhl_id_width = "";
+        fhl_id_class = "none";
+        fhlb_date_width = "30%";
+        fhlb_date_class = "small_size small_head_size small_footer_size";
+        fhlb_user_width = "";
+        fhlb_user_class = "none";
+    }
+
+    var vFileloadlogs_post;
+    vFileloadlogs_post = {
+        table : '#table-fileloadlogs_post',
+        button_form: (mobileScreenSize) ? null : "#fileloadlogs_post-detail",
+        ajax : {
+            "url": /*[[@{/fileloadlogs/post/gettable}]]*/ "/fileloadlogs/post/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "fhlb_id",
+        switchControl : fileloadlogs_post_switchControl,
+        rowdata:{
+            fhlb_id : null,
+            fhlb_name : null,
+            fhl_id : null,
+            fhlb_date : null,
+            fhlb_user : null
+        },
+        ordering: true,
+        order: [
+            [0, "desc"]
+        ],
+        scrollX: true,
+        dom: vDomParam,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{fileloadlogs.post.fhlb_id}]]*/ "fhlb_id", "data": "fhlb_id", "width": fhlb_id_width, "className": fhlb_id_class},
+            /*1*/{"title": /*[[#{fileloadlogs.post.fhlb_name}]]*/ "fhlb_name", "data": "fhlb_name", "width": fhlb_name_width, "className": fhlb_name_class},
+            /*2*/{"title": /*[[#{fileloadlogs.post.fhl_id}]]*/ "fhl_id", "data": "fhl_id", "width": fhl_id_width, "className": fhl_id_class},
+            /*3*/{"title": /*[[#{fileloadlogs.post.fhlb_date}]]*/ "fhlb_date", "data": "fhlb_date", "width": fhlb_date_width, "className": fhlb_date_class},
+            /*4*/{"title": /*[[#{fileloadlogs.post.fhlb_user}]]*/ "fhlb_user", "data": "fhlb_user", "width": fhlb_user_width, "className": fhlb_user_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function fileloadlogs_post_switchControl(){
+            vFileHandleAtomLog.rowdata.fhl_id = vFileloadlogs_post.rowdata.fhl_id;
+            $(vFileHandleAtomLog.table).DataTable().ajax.reload(null, false);
+    }
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#fileloadlogs_post_li').addClass('active').removeClass('collapsed');
+        $('#fileloadlogs_post_a').attr('aria-expanded',true);
+        $('#fileloadlogs_post').addClass('show');
+
+        $('#fileloadlogs_post_a').addClass('text-primary');
+
+        vFileloadlogs_post.rowdata.fhlb_id = /*[[${fhlb_id}]]*/ null;
+
+        recreateDataTable(vFileloadlogs_post);
+    });
+</script>
+
+</body>
+</html>

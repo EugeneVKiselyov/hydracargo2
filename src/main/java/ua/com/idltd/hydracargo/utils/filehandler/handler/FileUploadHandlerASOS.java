@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.idltd.hydracargo.declaration_cache.repository.Declaration_cacheRepository;
 import ua.com.idltd.hydracargo.dispatch.entity.Dispatch;
@@ -32,6 +33,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
+import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
 
@@ -219,8 +221,11 @@ public class FileUploadHandlerASOS extends IFileUploadHandlerPostImpl {
 
             saveatomlog(FileLogStatusEnum.SUCCESS,mapper.writeValueAsString(loadAsos),null);
             result = true;
-        } catch (Exception e) {
-            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(loadAsos),e.getMessage());
+        } catch (JpaSystemException e) {
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(loadAsos), String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getMostSpecificCause().getLocalizedMessage()));
+            result=false;
+        }  catch (Exception e) {
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(loadAsos),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, ConvertTraceExceptionToText(e)));
             result=false;
         }
         return result;

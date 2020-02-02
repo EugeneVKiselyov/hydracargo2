@@ -3,6 +3,7 @@ package ua.com.idltd.hydracargo.contragent.rateproductgroup.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.contragent.rateproductgroup.repository.ContragentRateProductGroupRepository;
+import ua.com.idltd.hydracargo.contragent.rateproductgroup.repository.VContragentRateProductGroupRepository;
 import ua.com.idltd.hydracargo.contragent.repository.ContragentRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
@@ -22,16 +23,16 @@ public class ContragnetRateProductGroupController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final ContragentRateProductGroupRepository contragentRateProductGroupRepository;
+    private final VContragentRateProductGroupRepository vContragentRateProductGroupRepository;
 
-    public ContragnetRateProductGroupController(ContragentRateProductGroupRepository contragentRateProductGroupRepository) {
-        this.contragentRateProductGroupRepository = contragentRateProductGroupRepository;
+    public ContragnetRateProductGroupController(VContragentRateProductGroupRepository vContragentRateProductGroupRepository) {
+        this.vContragentRateProductGroupRepository = vContragentRateProductGroupRepository;
     }
 
     @PostMapping("/gettable")
     public JSONDatatable gettable(@RequestParam(name = "cnt_id", required = false) Long cnt_id) {
         JSONDatatable result = new JSONDatatable();
-        if (cnt_id!=null) result.setData(contragentRateProductGroupRepository.getRateByContragent(GetUserName(),cnt_id));
+        if (cnt_id!=null) result.setData(vContragentRateProductGroupRepository.getRateByContragent(GetUserName(),cnt_id));
         return result;
     }
 

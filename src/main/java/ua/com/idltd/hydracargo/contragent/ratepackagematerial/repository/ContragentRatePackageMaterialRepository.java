@@ -1,10 +1,10 @@
-package ua.com.idltd.hydracargo.contragent.ratepackagematerial.rateproductgroup.repository;
+package ua.com.idltd.hydracargo.contragent.ratepackagematerial.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ua.com.idltd.hydracargo.contragent.ratepackagematerial.rateproductgroup.entity.ContragentRatePackageMaterial;
+import ua.com.idltd.hydracargo.contragent.ratepackagematerial.entity.ContragentRatePackageMaterial;
 
 import java.util.List;
 

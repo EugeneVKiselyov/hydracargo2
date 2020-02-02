@@ -48,7 +48,7 @@
                                 </div>
                                 <h5 class="card-title" href="#productgroup_description_div" data-toggle="collapse" th:text="#{productgroup.caption}">Product group</h5>
                             </div>
-                            <div class="card-body pt-0 collapse show" id="productgroup_description_div">
+                            <div class="card-body pt-0 collapse show d-flex flex-column" id="productgroup_description_div">
                                 <div>
                                     <p class="card-text" th:text="#{productgroup.description}"></p>
                                     <a class="card-link" th:href="@{/productgroup}" th:text="#{general.run}"></a>
@@ -64,7 +64,7 @@
                                 </div>
                                 <h5 class="card-title" href="#ratetype_description_div" data-toggle="collapse" th:text="#{ratetype.caption}">Rate Type</h5>
                             </div>
-                            <div class="card-body pt-0 collapse show" id="ratetype_description_div">
+                            <div class="card-body pt-0 collapse show d-flex flex-column" id="ratetype_description_div">
                                 <div>
                                     <p class="card-text" th:text="#{ratetype.description}"></p>
                                     <a class="card-link" th:href="@{/ratetype}" th:text="#{general.run}"></a>

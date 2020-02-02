@@ -10,9 +10,9 @@ public class FilehandlerAtomLog {
   @Column(name = "FHAL_ID", nullable = false)
   @SequenceGenerator(name = "FILEHANDLER_ATOM_LOG_SEQ", sequenceName = "FILEHANDLER_ATOM_LOG_SEQ", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FILEHANDLER_ATOM_LOG_SEQ")
-  private Long fhal_Id;
-  @Column(name = "FHL_ID")
-  private Long FHL_ID;
+  private Long fhal_id;
+  @Column(name = "fhl_id")
+  private Long fhl_id;
   @Column(name = "FHAL_ATOM")
   @Lob
   private String fhal_atom;
@@ -21,20 +21,20 @@ public class FilehandlerAtomLog {
   @Column(name = "FHAL_STATUS")
   private String fhal_status;
 
-  public Long getFhal_Id() {
-    return fhal_Id;
+  public Long getFhal_id() {
+    return fhal_id;
   }
 
-  public void setFhal_Id(Long fhal_Id) {
-    this.fhal_Id = fhal_Id;
+  public void setFhal_id(Long fhal_id) {
+    this.fhal_id = fhal_id;
   }
 
-  public Long getFHL_ID() {
-    return FHL_ID;
+  public Long getFhl_id() {
+    return fhl_id;
   }
 
-  public void setFHL_ID(Long FHL_ID) {
-    this.FHL_ID = FHL_ID;
+  public void setFhl_id(Long fhl_id) {
+    this.fhl_id = fhl_id;
   }
 
   public String getFhal_atom() {

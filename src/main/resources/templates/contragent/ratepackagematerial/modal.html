@@ -45,7 +45,13 @@
                         <div class="form-row">
                             <div class="col-12 col-md-2" id="ratepackagematerial_modal_ftpm_id_row">
                                 <label for="ratepackagematerial_modal_ftpm_id" class="form-label" th:text="'4. '+ #{contragentratepackagematerial.ftpm_id}"></label>
-                                <input type="text" class="form-control" id="ratepackagematerial_modal_ftpm_id" name="ratepackagematerial_modal_ftpm_id" readonly>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="ratepackagematerial_modal_ftpm_id" name="ratepackagematerial_modal_ftpm_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="typePackageMaterial : ${typePackageMaterialList}"
+                                            th:value="${typePackageMaterial.ftpm_id}"
+                                            th:text="${typePackageMaterial.ftpm_name}"
+                                    ></option>
+                                </select>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
@@ -85,7 +91,7 @@
     function clear_ratepackagematerial_modal_detail() {
         $("#ratepackagematerial_modal_detail input[type=text]").val('');
         $("#ratepackagematerial_modal_detail input[type=number]").val('');
-        $("#ratepackagematerial_modal_detail select").empty();
+        $("#ratepackagematerial_modal_detail select").val(null);
         $("#ratepackagematerial_modal_detail textarea").val('');
     }
 
@@ -141,6 +147,7 @@
                         $('#ratepackagematerial_modal_cnt_id').val(vContragnetRatePackageMaterial.rowdata.cnt_id);
                         $('#ratepackagematerial_modal_frt_id').val(1);
                         $('#ratepackagematerial_modal_ftpm_id').val(vContragnetRatePackageMaterial.rowdata.ftpm_id);
+                        $('#ratepackagematerial_modal_ftpm_id').change();
                         $('#ratepackagematerial_modal_ftpm_price').val(vContragnetRatePackageMaterial.rowdata.ftpm_price);
                         $('#ratepackagematerial_modal_ftpm_price_brand').val(vContragnetRatePackageMaterial.rowdata.ftpm_price_brand);
 

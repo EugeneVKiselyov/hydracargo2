@@ -60,6 +60,25 @@
                             <div class="card flex-fill w-100 mb-2">
                                 <div class="card-header pb-0">
                                     <div class="card-actions float-right">
+                                        <a href="#error_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                    </div>
+                                    <h5 class="card-title" href="#error_description_div" data-toggle="collapse" th:text="#{error.center.caption}">Error center</h5>
+                                </div>
+                                <div class="card-body pt-0 collapse show" id="error_description_div">
+                                    <div>
+                                        <p class="card-text" th:text="#{error.center.description}"></p>
+                                        <a class="card-link" th:href="@{/errorcenter}" th:text="#{general.run}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row 1 -->
+
+                    <div class="row">
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                            <div class="card flex-fill w-100 mb-2">
+                                <div class="card-header pb-0">
+                                    <div class="card-actions float-right">
                                         <a href="#finance_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
                                     </div>
                                     <h5 class="card-title" href="#finance_description_div" data-toggle="collapse" th:text="#{finance.center.caption}">Finance</h5>
@@ -72,7 +91,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- Row 1 -->
+                    </div><!-- Row 2 -->
 
                     <div class="row">
                         <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
@@ -107,7 +126,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- Row 2 -->
+                    </div><!-- Row 3 -->
 
                     <div class="row">
                         <div class="col-12 pl-1 pr-1 col-xl-12 pl-xl-1 pr-xl-1 pt-0">
@@ -125,7 +144,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- Row 3 -->
+                    </div><!-- Row 4 -->
                 </div><!-- Main Div -->
 
                 <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="hasRole('ROLE_API')">

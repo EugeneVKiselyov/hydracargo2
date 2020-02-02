@@ -1,11 +1,11 @@
-package ua.com.idltd.hydracargo.contragent.ratepackagematerial.rateproductgroup.controller;
+package ua.com.idltd.hydracargo.contragent.ratepackagematerial.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.idltd.hydracargo.contragent.ratepackagematerial.rateproductgroup.repository.ContragentRatePackageMaterialRepository;
+import ua.com.idltd.hydracargo.contragent.ratepackagematerial.repository.VContragentRatePackageMaterialRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
 import javax.persistence.EntityManager;
@@ -23,16 +23,16 @@ public class ContragnetRatePackageMaterialController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final ContragentRatePackageMaterialRepository contragentRatePackageMaterialRepository;
+    private final VContragentRatePackageMaterialRepository vContragentRatePackageMaterialRepository;
 
-    public ContragnetRatePackageMaterialController(ContragentRatePackageMaterialRepository contragentRatePackageMaterialRepository) {
-        this.contragentRatePackageMaterialRepository = contragentRatePackageMaterialRepository;
+    public ContragnetRatePackageMaterialController(VContragentRatePackageMaterialRepository vContragentRatePackageMaterialRepository) {
+        this.vContragentRatePackageMaterialRepository = vContragentRatePackageMaterialRepository;
     }
 
     @PostMapping("/gettable")
     public JSONDatatable gettable(@RequestParam(name = "cnt_id", required = false) Long cnt_id) {
         JSONDatatable result = new JSONDatatable();
-        if (cnt_id!=null) result.setData(contragentRatePackageMaterialRepository.getRateByContragent(GetUserName(),cnt_id));
+        if (cnt_id!=null) result.setData(vContragentRatePackageMaterialRepository.getRateByContragent(GetUserName(),cnt_id));
         return result;
     }
 

@@ -6,6 +6,7 @@ import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.idltd.hydracargo.declaration_cache.entity.Declaration_cache;
 import ua.com.idltd.hydracargo.declaration_cache.repository.Declaration_cacheRepository;
@@ -32,6 +33,7 @@ import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
+import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
 //import org.apache.tika.Tika;
@@ -151,8 +153,11 @@ public class FileUploadHandlerVEX_SCAN extends IFileUploadHandlerPostImpl {
 
             saveatomlog(FileLogStatusEnum.SUCCESS,mapper.writeValueAsString(declaration_scan),null);
             result = true;
-        } catch (Exception e) {
-            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_scan),e.getMessage());
+        } catch (JpaSystemException e) {
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_scan), String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getMostSpecificCause().getLocalizedMessage()));
+            result=false;
+        }  catch (Exception e) {
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_scan),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, ConvertTraceExceptionToText(e)));
             result=false;
         }
         return result;

@@ -1,5 +1,6 @@
 package ua.com.idltd.hydracargo.utils;
 
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +18,12 @@ public class StaticUtils {
         return result;
     }
 
-    //Возвращает имя польхователя сессии
+    //Возвращает трассировку исключения как строку
     public static String ConvertTraceExceptionToText(Exception e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         return sw.toString();
     }
+
 }
