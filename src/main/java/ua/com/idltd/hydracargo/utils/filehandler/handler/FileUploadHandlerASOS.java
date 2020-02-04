@@ -164,7 +164,7 @@ public class FileUploadHandlerASOS extends IFileUploadHandlerPostImpl {
             savelog(FileLogStatusEnum.ERROR, e.getMessage());
             throw e;
         }
-        return new FileUploadResult(successCount,errorCount);
+        return new FileUploadResult(successCount,errorCount, fhl.getFhl_Id());
     }
 
     private static boolean isCellEmpty(Cell cell ){
@@ -225,7 +225,7 @@ public class FileUploadHandlerASOS extends IFileUploadHandlerPostImpl {
             saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(loadAsos), String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getMostSpecificCause().getLocalizedMessage()));
             result=false;
         }  catch (Exception e) {
-            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(loadAsos),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, ConvertTraceExceptionToText(e)));
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(loadAsos),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getLocalizedMessage()));
             result=false;
         }
         return result;

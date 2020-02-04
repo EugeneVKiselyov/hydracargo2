@@ -2,7 +2,6 @@ package ua.com.idltd.hydracargo.utils.filehandler.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -27,7 +26,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
@@ -120,7 +118,7 @@ public class FileUploadHandlerVEX extends IFileUploadHandlerPostImpl {
             savelog(FileLogStatusEnum.ERROR, e.getMessage());
             throw e;
         }
-        return new FileUploadResult(successCount,errorCount);
+        return new FileUploadResult(successCount,errorCount, fhl.getFhl_Id());
     }
 
     private static boolean isCellEmpty(Cell cell ){
@@ -196,7 +194,7 @@ public class FileUploadHandlerVEX extends IFileUploadHandlerPostImpl {
             saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_cache), String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getMostSpecificCause().getLocalizedMessage()));
             result=false;
         }  catch (Exception e) {
-            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_cache),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, ConvertTraceExceptionToText(e)));
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_cache),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getLocalizedMessage()));
             result=false;
         }
 

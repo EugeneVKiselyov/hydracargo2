@@ -77,13 +77,23 @@
 
 <span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
 
+<script th:replace="fileloadlogs/post/atom/card :: cardscript"></script>
+
 <script th:inline="javascript">
 
+
     $(document).ready(function () {
+
+        vFileHandleAtomLog.rowdata.fhal_id = /*[[${fhal_id}]]*/ null;
+        recreateDataTable(vFileHandleAtomLog);
+        $('#table-filehandleatomlog').DataTable().page.len(4).draw();
+
         var userdefault = {
             ep_id : /*[[${user_ep_id}]]*/ 0,
             cnt_id : /*[[${user_cnt_id}]]*/ 1
         }
+
+
 
         function setCard(card){
             $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][field='dis_documentdate']").text(card.dis_documentdate);
@@ -454,12 +464,18 @@
                         $("#successloaded").text(data.fileUploadResult.succressCount);
                         $("#errorcount").text(data.fileUploadResult.errorCount);
 
+                        vFileHandleAtomLog.rowdata.fhl_id = data.fileUploadResult.fhl_id;
+                        $(vFileHandleAtomLog.table).DataTable().ajax.reload(null, false);
+
                         $("#resultupload-modal-dialog").modal('show');
                     },
                     error: function (request) {
                         $("#shipmentsUpload-modal").modal('hide');
                         $(".shipmentsUpload_control").attr("disabled", false);
                         $("#ErrorMessage").text(request.responseText);
+
+                        vFileHandleAtomLog.rowdata.fhl_id = request.fileUploadResult.fhl_id;
+                        $(vFileHandleAtomLog.table).DataTable().ajax.reload(null, false);
 
                         $("#error-modal-dialog").modal('show');
                     }

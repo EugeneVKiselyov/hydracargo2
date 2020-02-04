@@ -8,14 +8,9 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.idltd.hydracargo.declaration_cache.entity.Declaration_cache;
-import ua.com.idltd.hydracargo.declaration_cache.repository.Declaration_cacheRepository;
 import ua.com.idltd.hydracargo.dispatch.entity.Dispatch;
 import ua.com.idltd.hydracargo.dispatch.repository.DispatchRepository;
-import ua.com.idltd.hydracargo.entrepot.entity.Entrepot;
-import ua.com.idltd.hydracargo.entrepot.repository.EntrepotRepository;
 import ua.com.idltd.hydracargo.exception.DispatchIdNullException;
-import ua.com.idltd.hydracargo.request.repository.RequestRepository;
 import ua.com.idltd.hydracargo.scan.entity.Declaration_scan;
 import ua.com.idltd.hydracargo.scan.repository.Declaration_scanRepository;
 import ua.com.idltd.hydracargo.utils.filehandler.FileUploadResult;
@@ -29,12 +24,10 @@ import ua.com.idltd.hydracargo.utils.filehandler.repository.FileHandlerLogReposi
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
 import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
-import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
 //import org.apache.tika.Tika;
 
@@ -110,7 +103,7 @@ public class FileUploadHandlerVEX_SCAN extends IFileUploadHandlerPostImpl {
             savelog(FileLogStatusEnum.ERROR, e.getMessage());
             throw e;
         }
-        return new FileUploadResult(successCount,errorCount);
+        return new FileUploadResult(successCount,errorCount, fhl.getFhl_Id());
     }
 
     private static boolean isCellEmpty(Cell cell ){
@@ -157,7 +150,7 @@ public class FileUploadHandlerVEX_SCAN extends IFileUploadHandlerPostImpl {
             saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_scan), String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getMostSpecificCause().getLocalizedMessage()));
             result=false;
         }  catch (Exception e) {
-            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_scan),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, ConvertTraceExceptionToText(e)));
+            saveatomlog(FileLogStatusEnum.ERROR,mapper.writeValueAsString(declaration_scan),String.format("Номер строки: %d%n Ошибка: %s", row.getRowNum()+1, e.getLocalizedMessage()));
             result=false;
         }
         return result;

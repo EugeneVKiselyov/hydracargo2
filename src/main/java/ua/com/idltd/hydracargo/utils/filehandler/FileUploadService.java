@@ -65,13 +65,15 @@ public class FileUploadService {
                                    String scountry_iso2,
                                    String rcountry_iso2,
                                    MultipartFile file) throws UnsupportedFileFormatException, UnsupportedFileTypeException, DispatchIdNullException, IOException {
-        FileUploadResult result=new FileUploadResult(0L,0L);
+
         FilehandlerLog fhl = new FilehandlerLog();
         fhl.setFhl_User(GetUserName());
 
         //создаем в логе запись когда начали и что записываем
         fhl.setFhl_StartDate(new Date(System.currentTimeMillis()));
         savelog(fhl,FileLogStatusEnum.SUCCESS,"Load file:"+file.getOriginalFilename());
+
+        FileUploadResult result;
 
         try {
             //записываем в базу загружаемый файл
