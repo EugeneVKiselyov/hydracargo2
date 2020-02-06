@@ -24,6 +24,16 @@
         </div>
     </div>
     <div class="row w-100 h-25">
+        <div class="mb-3 w-100">
+            <div id="scanresultdiv" class="alert alert-primary alert-dismissible" style="background-color: red" role="alert">
+                <h2 class="alert-message">
+                    <strong id="scanresultlabel" style="font-size: 5em;"></strong>
+                    <p><small id="scanresulttext"></small></p>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100 h-25">
         <div class="col-6 border border-primary"><table id="table-scan-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
         <div class="col-6 border border-primary"><table id="table-declaration-main" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
     </div>
@@ -34,6 +44,7 @@
 </span>
 
 <script th:fragment="cardscript" th:inline="javascript">
+    let locRefresh = false;
     let vDomParam;
 
     let ds_id_width, dis_id_width, ds_shipment_width, ds_color_width;
@@ -128,7 +139,8 @@
                 "url": /*[[@{/scan/get_main_table}]]*/ "scan/get_main_table",
                 "type": "post",
                 "data": function ( d ) {
-                    d.dis_id = vScanMain.rowdata.dis_id;
+                    // d.dis_id = vScanMain.rowdata.dis_id;
+                    d.dis_id = /*[[${dis_id}]]*/ null;
                 }
             },
             key : "ds_id",
@@ -172,7 +184,8 @@
             "url": /*[[@{/scan/get_declaration_notScan_table}]]*/ "scan/get_declaration_notScan_table",
             "type": "post",
             "data": function ( d ) {
-                d.dis_id = vDeclarationNotScan.rowdata.dis_id;
+                // d.dis_id = vDeclarationNotScan.rowdata.dis_id;
+                d.dis_id = /*[[${dis_id}]]*/ null;
             }
         },
         key : "dc_id",
@@ -209,7 +222,8 @@
             "url": /*[[@{/scan/get_scanerror_table}]]*/ "scan/get_scanerror_table",
             "type": "post",
             "data": function ( d ) {
-                d.dis_id = vScanErrorMain.rowdata.dis_id;
+                // d.dis_id = vScanErrorMain.rowdata.dis_id;
+                d.dis_id = /*[[${dis_id}]]*/ null;
             }
         },
         key : "ds_id",
@@ -259,7 +273,8 @@
             "url": /*[[@{/scan/get_scansuccess_table}]]*/ "scan/get_scansuccess_table",
             "type": "post",
             "data": function ( d ) {
-                d.dis_id = vScanSuccessMain.rowdata.dis_id;
+                // d.dis_id = vScanSuccessMain.rowdata.dis_id;
+                d.dis_id = /*[[${dis_id}]]*/ null;
             }
         },
         key : "ds_id",
@@ -321,7 +336,7 @@
         $("#shipment").focus();
     });
 
-    $('#shipmentScan-form-Save').on('click', function () {
+    function scansave() {
         $.ajax({
             url: /*[[@{/scan/scan_shipment}]]*/ "scan/scan_shipment",
             type: 'POST',
@@ -334,6 +349,16 @@
                 $(".shipmentScan_control").attr("disabled", true);
             },
             success : function (data, textStatus){
+                $("#scanresultlabel").text(data.shipment);
+                $("#scanresultdiv").css( "background-color", data.ds_color );
+                switch(data.result) {
+                    case 0: $("#scanresulttext").text("OK"); break;
+                    case 1: $("#scanresulttext").text("Найдено в загрузочном файле но нет в раскраске"); break;
+                    case 2: $("#scanresulttext").text("Найдено в раскраске но нет в загрузочном файле"); break;
+                    case 3: $("#scanresulttext").text("Не найдено нигде"); break;
+                    case 4: $("#scanresulttext").text("Повторное сканирование не найденного нигде"); break;
+                    default : case 3: $("#scanresulttext").text("Ошибка!!!!!!");
+                }
                 $("#shipment").val("");
                 scanMainRefresh();
                 $(".shipmentScan_control").attr("disabled", false);
@@ -345,33 +370,15 @@
                 $(".shipmentScan_control").attr("disabled", false);
             }
         })
+    };
+
+    $('#shipmentScan-form-Save').on('click', function () {
+        scansave();
     });
 
     $('#shipment').keypress(function(e){
         if(e.which == 13) {
-            $.ajax({
-                url: /*[[@{/scan/scan_shipment}]]*/ "scan/scan_shipment",
-                type: 'POST',
-                async : true,
-                cache: false,
-                contentType: false,
-                processData: false,
-                data : new FormData( $("#shipmentScan-form")[0] ),
-                beforeSend : function (data){
-                    $(".shipmentScan_control").attr("disabled", true);
-                },
-                success : function (data, textStatus){
-                    $("#shipment").val("");
-                    scanMainRefresh();
-                    $(".shipmentScan_control").attr("disabled", false);
-                    $("#shipment").focus();
-                },
-                error: function (request) {
-                    $("#ErrorMessage").text(request.responseText);
-                    $("#error-modal-dialog").modal('show');
-                    $(".shipmentScan_control").attr("disabled", false);
-                }
-            });
+            scansave();
         }
     });
 

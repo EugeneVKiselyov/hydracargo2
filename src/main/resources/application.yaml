@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ipex
+    active: vex
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     properties.hibernate.proc.param_null_passing : true
@@ -70,7 +70,7 @@ telegram :
 ---
 
 spring:
-  profiles: prod
+  profiles: vex
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     dataSourceClassName : oracle.jdbc.pool.OracleDataSource
