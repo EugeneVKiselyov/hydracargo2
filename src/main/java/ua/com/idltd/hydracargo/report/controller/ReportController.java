@@ -100,6 +100,7 @@ public class ReportController {
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
             SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
             configuration.setOnePagePerSheet(false);
+            configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
             exporter.exportReport();
         }
@@ -146,21 +147,21 @@ public class ReportController {
 //            case 1 : report = "/static/report/Labels_Dis_A4.jasper"; break;
             case 1 : report = "/static/report/Labels_Dis_A4_1page1Label.jasper"; break;
             case 2 : report = "/static/report/Full_Dis_Inform_A4.jasper"; break;
-            case 3 : report = "/static/report/Full_Dis_Loadfile_Xls.jasper"; break;
+            case 3 : report = "/static/report/3_BootFile_VEX_XLS.jasper"; break;
             case 4 : report = "/static/report/Labels_Dis_10x14.jasper"; break;
-            case 7 : report = "/static/report/Report_7.jasper"; break;
+            case 7 : report = "/static/report/7_Report_XLS.jasper"; break;
             case 8 : {
                         if (activeProfile.equalsIgnoreCase("ipex")||
                             activeProfile.equalsIgnoreCase("ipex_test")) {
-                            report = "/static/report/Report_8_Ipex.jasper";
+                            report = "/static/report/8_Report_IPEX_XLS.jasper";
                         } else {
-                            report = "/static/report/Report_8.jasper";
+                            report = "/static/report/8_Report_VEX_XLS.jasper";
                         }
                         break;
                      }
-            case 10 : report = "/static/report/Report_10.jasper"; break;
+            case 10 : report = "/static/report/10_Report_XLS.jasper"; break;
             case 11 : report = "/static/report/Report_5_pdf.jasper"; break;
-            case 12 : report = "/static/report/Scan_1_xls.jasper"; break;
+            case 12 : report = "/static/report/12_Scan_XLS.jasper"; break;
         }
         return report;
     }

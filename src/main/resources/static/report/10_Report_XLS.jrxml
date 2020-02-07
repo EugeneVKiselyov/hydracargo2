@@ -13,6 +13,7 @@
 	<property name="net.sf.jasperreports.export.xls.freeze.row" value="2"/>
 	<property name="net.sf.jasperreports.export.xls.freeze.column" value="B"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 	<parameter name="DIS_ID" class="java.lang.String"/>
 	<queryString language="plsql">
 		<![CDATA[{call HCARGO.PKG_REPORT .REPORT_10($P{DIS_ID},$P{ORACLE_REF_CURSOR})}]]>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Declaration_Xls" pageWidth="2500" pageHeight="595" orientation="Landscape" columnWidth="2500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="523328c3-282f-4e96-ba09-dfbd73c4b027">
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boot File Xls" pageWidth="2500" pageHeight="595" orientation="Landscape" columnWidth="2500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="523328c3-282f-4e96-ba09-dfbd73c4b027">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.column" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.row" value="2"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BootFiles\DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -14,6 +14,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 	<parameter name="vDIS_ID" class="java.lang.String"/>
 	<queryString language="plsql">
 		<![CDATA[{call HCARGO.PKG_REPORT.Declaration_Detail($P{vDIS_ID},$P{ORACLE_REF_CURSOR})}]]>
@@ -27,10 +28,10 @@
 	<field name="DESCRIPTION" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="DESCRIPTION"/>
 	</field>
-	<field name="QTY" class="java.lang.String">
+	<field name="QTY" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="QTY"/>
 	</field>
-	<field name="VALUE" class="java.lang.String">
+	<field name="VALUE" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="VALUE"/>
 	</field>
 	<field name="TWEIGHT" class="java.math.BigDecimal">
@@ -505,7 +506,7 @@
 	</columnHeader>
 	<detail>
 		<band height="15" splitType="Stretch">
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="100" height="15" uuid="4666428e-e0a6-4130-a5fd-3da10f88e9b5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -520,7 +521,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SHIPMENT}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="100" y="0" width="50" height="15" uuid="c109156c-dd08-4ed8-babe-e0cefd49a30b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -535,7 +536,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{BOX}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="150" y="0" width="200" height="15" uuid="219a92eb-978e-4be4-8105-2646336e4c70">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -550,7 +551,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="350" y="0" width="50" height="15" uuid="46c026e0-b5c0-4cb5-9624-bb486e97fcf3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -565,7 +566,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{QTY}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="50" height="15" uuid="929570cd-333b-43e1-ad20-d3678a683e7b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -580,7 +581,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VALUE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="450" y="0" width="50" height="15" uuid="f850de34-0dc1-4d19-b126-92274ae10638">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -595,7 +596,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TWEIGHT}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="500" y="0" width="50" height="15" uuid="2d4f0274-c754-487d-bae0-6d0b421dc9e5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -610,7 +611,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TVALUE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="550" y="0" width="100" height="15" uuid="16238226-50eb-4964-b759-52e64443f1e4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -625,7 +626,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COMMENT}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="650" y="0" width="100" height="15" uuid="b91a5a73-a9ac-4c1d-a73d-039518d8c2c9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -640,7 +641,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TRACKING}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="750" y="0" width="200" height="15" uuid="52fae1da-87d5-4772-982d-d312a3056168">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -655,7 +656,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SNAME}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="950" y="0" width="100" height="15" uuid="7123453b-4931-4595-8fd8-fd0e985f6b20">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -670,7 +671,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SCITY}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1050" y="0" width="200" height="15" uuid="88b32d2a-7126-4f9f-88fe-c436e8960191">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -685,7 +686,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SADDRESS}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1250" y="0" width="50" height="15" uuid="e538e526-403f-457d-aa3d-efb4cd77b004">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -700,7 +701,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SZIP}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1300" y="0" width="100" height="15" uuid="288c568c-aedf-4c19-993e-a6aeea7bc377">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -715,7 +716,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SPHONE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1400" y="0" width="100" height="15" uuid="c1749879-ec3f-4880-afd9-111c2efb5970">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -730,7 +731,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RFNAME}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1500" y="0" width="100" height="15" uuid="570ead37-efdb-4b20-972a-2863743c345e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -745,7 +746,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RLNAME}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1600" y="0" width="100" height="15" uuid="69fd6607-c086-4c03-84bd-ce1f7bbd1a88">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -760,7 +761,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RREGION}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1700" y="0" width="50" height="15" uuid="89dc2442-45e3-4652-a403-5c0029173f54">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -775,7 +776,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RCTYPE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1750" y="0" width="100" height="15" uuid="e5839916-8037-4494-94ca-c09eab1de338">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -790,7 +791,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RCITY}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1850" y="0" width="50" height="15" uuid="ad872994-61b9-43aa-a4ee-e82d41328300">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -805,7 +806,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RSTYPE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1900" y="0" width="150" height="15" uuid="31c6519d-7d71-49db-9b6e-276e680debd6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -820,7 +821,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RSTREET}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="2050" y="0" width="50" height="15" uuid="c4e1fe01-d7ae-453a-8793-72a50e9ec2a4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -835,7 +836,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RBLD}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="2100" y="0" width="50" height="15" uuid="d4ba89f7-3ab1-486e-9626-a2bf968cbab0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -850,7 +851,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RAPT}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="2150" y="0" width="50" height="15" uuid="cb407913-b34d-4ef0-8cf5-aacc51f1b78c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
