@@ -44,7 +44,7 @@ public class ScanController {
     @RequestMapping(value = {"","/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView index(@RequestParam(value="dis_id") Long dis_id
     ){
-        Dispatch dispatch = dispatchRepository.findById(dis_id).orElse(null);
+        Dispatch dispatch = dispatchRepository.findById(dis_id).orElse(new Dispatch());
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("dis_id", dis_id);
@@ -107,7 +107,7 @@ public class ScanController {
                          break;
                 case 1 :
                 case 3 :
-                case 4 : link_result_color="red";
+                case 4 : link_result_color="silver";
                 break;
             }
             result = ResponseEntity.ok(new ScanResult(link_result,link_result_color,shipment));
