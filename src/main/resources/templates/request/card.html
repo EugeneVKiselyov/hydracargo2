@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="request_body" th:remove="tag">
+        <form id="request-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="request-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="request-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="request-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="request-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="request-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="request-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="request-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="request-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-request" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+    var vRequest;
+    vRequest = {
+        table : '#table-request',
+        button_form: "#request-detail",
+        ajax : {
+            "url": /*[[@{/request/gettable}]]*/ "request/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "req_id",
+        switchControl : request_switchControl,
+        rowdata:{
+            req_id : null,
+            req_num : null,
+            cnt_id : null,
+            cnt_name : null,
+            bs_id : null,
+            bs_name : null,
+            rs_id : null,
+            rs_name : null,
+            req_date : null,
+            ep_id : null,
+            ep_code : null,
+            ep_id_dest : null,
+            ep_code_dest : null,
+            req_weight_p : null,
+            req_weight_f : null,
+            req_seatsnum_p : null,
+            req_seatsnum_f : null,
+            req_arrival_date_p : null,
+            req_arrival_date_f : null,
+            req_departure_date : null,
+            req_ep_dest_date : null,
+            req_contragent_date : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: "Blfrtip",
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{request.req_id}]]*/ "req_id", "data": "req_id", "width": "", "className": "none"},
+            /*1*/{"title": /*[[#{request.req_num}]]*/ "req_num", "data": "req_num", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*2*/{"title": /*[[#{request.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": "", "className": "none"},
+            /*3*/{"title": /*[[#{request.cnt_name}]]*/ "cnt_name", "data": "cnt_name", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*4*/{"title": /*[[#{request.bs_id}]]*/ "bs_id", "data": "bs_id", "width": "", "className": "none"},
+            /*5*/{"title": /*[[#{request.bs_name}]]*/ "bs_name", "data": "bs_name", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*6*/{"title": /*[[#{request.rs_id}]]*/ "rs_id", "data": "rs_id", "width": "", "className": "none"},
+            /*7*/{"title": /*[[#{request.rs_name}]]*/ "rs_name", "data": "rs_name", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*8*/{"title": /*[[#{request.req_date}]]*/ "req_date", "data": "req_date", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*9*/{"title": /*[[#{request.ep_id}]]*/ "ep_id", "data": "ep_id", "width": "", "className": "none"},
+            /*10*/{"title": /*[[#{request.ep_code}]]*/ "ep_code", "data": "ep_code", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*11*/{"title": /*[[#{request.ep_id_dest}]]*/ "ep_id_dest", "data": "ep_id_dest", "width": "", "className": "none"},
+            /*12*/{"title": /*[[#{request.ep_code_dest}]]*/ "ep_code_dest", "data": "ep_code_dest", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*13*/{"title": /*[[#{request.req_weight_p}]]*/ "req_weight_p", "data": "req_weight_p", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*14*/{"title": /*[[#{request.req_weight_f}]]*/ "req_weight_f", "data": "req_weight_f", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*15*/{"title": /*[[#{request.req_seatsnum_p}]]*/ "req_seatsnum_p", "data": "req_seatsnum_p", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*16*/{"title": /*[[#{request.req_seatsnum_f}]]*/ "req_seatsnum_f", "data": "req_seatsnum_f", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+
+            /*17*/{"title": /*[[#{request.req_arrival_date_p}]]*/ "req_arrival_date_p", "data": "req_arrival_date_p", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*18*/{"title": /*[[#{request.req_arrival_date_f}]]*/ "req_arrival_date_f", "data": "req_arrival_date_f", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*19*/{"title": /*[[#{request.req_departure_date}]]*/ "req_departure_date", "data": "req_departure_date", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*20*/{"title": /*[[#{request.req_ep_dest_date}]]*/ "req_ep_dest_date", "data": "req_ep_dest_date", "width": "30%", "className": "small_size small_head_size small_footer_size"},
+            /*21*/{"title": /*[[#{request.req_contragent_date}]]*/ "req_contragent_date", "data": "req_contragent_date", "width": "30%", "className": "small_size small_head_size small_footer_size"}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function request_switchControl(){
+        if(vRequest.rowdata.req_id != null) {
+            $("#request-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#request-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#request-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#request-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#request-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#request-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#request-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#request-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.request_btn_control').on('click', function (){
+        $("#request-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#request-addbtn').click(function (){
+        $('#request_modal_addbtn').removeAttr('hidden');
+        $('#request_modal_editbtn').attr('hidden',true);
+        $('#request_modal_delbtn').attr('hidden',true);
+        fill_request_modal_detail(0);
+    });
+
+    $('#request-addbtn-sx').click(function (){
+        $('#request_modal_addbtn').removeAttr('hidden');
+        $('#request_modal_editbtn').attr('hidden',true);
+        $('#request_modal_delbtn').attr('hidden',true);
+        fill_request_modal_detail(0);
+    });
+// Edit Button
+    $('#request-editbtn').click(function (){
+        $('#request_modal_addbtn').attr('hidden',true);
+        $('#request_modal_editbtn').removeAttr('hidden');
+        $('#request_modal_delbtn').attr('hidden',true);
+        fill_request_modal_detail(1);
+    });
+
+    $('#request-editbtn-sx').click(function (){
+        $('#request_modal_addbtn').attr('hidden',true);
+        $('#request_modal_editbtn').removeAttr('hidden');
+        $('#request_modal_delbtn').attr('hidden',true);
+        fill_request_modal_detail(1);
+    });
+// Del Button
+    $('#request-delbtn').click(function (){
+        $('#request_modal_addbtn').attr('hidden',true);
+        $('#request_modal_editbtn').attr('hidden',true);
+        $('#request_modal_delbtn').removeAttr('hidden');
+        fill_request_modal_detail(2);
+    });
+
+    $('#request-delbtn-sx').click(function (){
+        $('#request_modal_addbtn').attr('hidden',true);
+        $('#request_modal_editbtn').attr('hidden',true);
+        $('#request_modal_delbtn').removeAttr('hidden');
+        fill_request_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#request_li').addClass('active').removeClass('collapsed');
+        $('#request_a').attr('aria-expanded',true);
+        $('#request').addClass('show');
+
+        $('#request_a').addClass('text-primary');
+
+        vRequest.rowdata.req_id = /*[[${req_id}]]*/ null;
+
+        recreateDataTable(vRequest);
+    });
+</script>
+
+</body>
+</html>

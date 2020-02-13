@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="request_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="request_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="request_modal_mode">
+            </div>
+
+            <div class="modal-content" id="request_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{request.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="request_modal_form" name="request_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <input type="number" class="form-control" id="request_modal_req_id" name="request_modal_req_id" hidden>
+
+                            <div class="col-3 col-md-3" id="request_modal_req_num_row">
+                                <label for="request_modal_req_num" class="form-label" th:text="#{request.req_num}"></label>
+                                <input type="text" class="form-control" id="request_modal_req_num" name="request_modal_req_num">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_bs_id_row">
+                                <label for="request_modal_bs_id" class="form-label" th:text="#{request.bs_name}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_bs_id" name="request_modal_bs_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="business : ${businessList}"
+                                            th:value="${business.bs_id}"
+                                            th:text="${business.bs_name}"
+                                            th:selected="${business.bs_id == bs_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_rs_id_row">
+                                <label for="request_modal_rs_id" class="form-label" th:text="#{request.rs_name}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_rs_id" name="request_modal_rs_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="request_status : ${request_statusList}"
+                                            th:value="${request_status.rs_id}"
+                                            th:text="${request_status.rs_name}"
+                                            th:selected="${request_status.rs_id == rs_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_date_row">
+                                <label for="request_modal_req_date" class="form-label" th:text="#{request.req_date}"></label>
+                                <input type="date" class="form-control" id="request_modal_req_date" name="request_modal_req_date">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                        <div class="form-row">
+                            <div class="col-12 col-md-12" id="request_modal_cnt_id_row">
+                                <label for="request_modal_cnt_id" class="form-label" th:text="#{request.cnt_name}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_cnt_id" name="request_modal_cnt_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="contragent : ${contragentList}"
+                                            th:value="${contragent.cnt_id}"
+                                            th:text="${contragent.cnt_code + ' : ' + contragent.cnt_name}"
+                                            th:selected="${contragent.cnt_id == cnt_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 2 -->
+                        <div class="form-row">
+                            <div class="col-6 col-md-6" id="request_modal_ep_id_row">
+                                <label for="request_modal_ep_id" class="form-label" th:text="#{request.ep_code}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_ep_id" name="request_modal_ep_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="entrepot : ${entrepotList}"
+                                            th:value="${entrepot.ep_id}"
+                                            th:text="${entrepot.ep_code}"
+                                            th:selected="${entrepot.ep_id == ep_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-6 col-md-6" id="request_modal_ep_id_dest_row">
+                                <label for="request_modal_ep_id_dest" class="form-label" th:text="#{request.ep_code_dest}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_ep_id_dest" name="request_modal_ep_id_dest" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="entrepot_dest : ${entrepotList}"
+                                            th:value="${entrepot_dest.ep_id}"
+                                            th:text="${entrepot_dest.ep_code}"
+                                            th:selected="${entrepot_dest.ep_id == ep_id_dest}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 3 -->
+                        <div class="form-row">
+                            <div class="col-3 col-md-3" id="request_modal_req_weight_p_row">
+                                <label for="request_modal_req_weight_p" class="form-label" th:text="#{request.req_weight_p}"></label>
+                                <input type="number" step="0.01" class="form-control" id="request_modal_req_weight_p" name="request_modal_req_weight_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_weight_f_row">
+                                <label for="request_modal_req_weight_f" class="form-label" th:text="#{request.req_weight_f}"></label>
+                                <input type="number" step="0.01" class="form-control" id="request_modal_req_weight_f" name="request_modal_req_weight_f">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_seatsnum_p_row">
+                                <label for="request_modal_req_seatsnum_p" class="form-label" th:text="#{request.req_seatsnum_p}"></label>
+                                <input type="number" class="form-control" id="request_modal_req_seatsnum_p" name="request_modal_req_seatsnum_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_seatsnum_f_row">
+                                <label for="request_modal_req_seatsnum_f" class="form-label" th:text="#{request.req_seatsnum_f}"></label>
+                                <input type="number" class="form-control" id="request_modal_req_seatsnum_f" name="request_modal_req_seatsnum_f">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+
+                        </div><!-- Row 4 -->
+                        <div class="form-row">
+                            <div class="col-3 col-md-3" id="request_modal_req_arrival_date_p_row">
+                                <label for="request_modal_req_arrival_date_p" class="form-label" th:text="#{request.req_arrival_date_p}"></label>
+                                <input type="date" class="form-control" id="request_modal_req_arrival_date_p" name="request_modal_req_arrival_date_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_arrival_date_f_row">
+                                <label for="request_modal_req_arrival_date_f" class="form-label" th:text="#{request.req_arrival_date_f}"></label>
+                                <input type="date" class="form-control" id="request_modal_req_arrival_date_f" name="request_modal_req_arrival_date_f">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_departure_date_row">
+                                <label for="request_modal_req_departure_date" class="form-label" th:text="#{request.req_departure_date}"></label>
+                                <input type="date" class="form-control" id="request_modal_req_departure_date" name="request_modal_req_departure_date">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-3 col-md-3" id="request_modal_req_ep_dest_date_row">
+                                <label for="request_modal_req_ep_dest_date" class="form-label" th:text="#{request.req_ep_dest_date}"></label>
+                                <input type="date" class="form-control" id="request_modal_req_ep_dest_date" name="request_modal_req_ep_dest_date">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 5 -->
+                        <div class="form-row">
+                            <div class="col-3 col-md-3" id="request_modal_req_contragent_date_row">
+                                <label for="request_modal_req_contragent_date" class="form-label" th:text="#{request.req_contragent_date}"></label>
+                                <input type="date" class="form-control" id="request_modal_req_contragent_date" name="request_modal_req_contragent_date">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 6 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="request_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="request_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="request_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="request_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_request_modal_detail() {
+        $("#request_modal_detail input[type=text]").val('');
+        $("#request_modal_detail input[type=number]").val('');
+        $("#request_modal_detail select").val(null);
+        $("#request_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_request_modal_detail() {
+        $('#request_modal_req_num').attr('required',true);
+
+        if($('#request_modal_mode').val() === "0"){
+            $('#request_modal_req_id_row').attr('hidden',true);
+            $('#request_modal_req_num').removeAttr('disabled');
+        }
+        else if($('#request_modal_mode').val() === "1"){
+            $('#request_modal_req_id_row').removeAttr('hidden');
+            $('#request_modal_req_num').removeAttr('disabled');
+        }
+        else{
+            $('#request_modal_req_id_row').removeAttr('hidden');
+            $('#request_modal_req_num').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_request_modal_detail(aMode){
+        $('#request_modal_mode').val(aMode);
+        clear_request_modal_detail();
+        block_request_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#request_modal_req_id').val(vRequest.rowdata.req_id);
+                        $('#request_modal_req_num').val(vRequest.rowdata.req_num);
+                        $('#request_modal_cnt_id').val(vRequest.rowdata.cnt_id).change();
+                        $('#request_modal_bs_id').val(vRequest.rowdata.bs_id).change();
+                        $('#request_modal_rs_id').val(vRequest.rowdata.rs_id).change();
+                        $('#request_modal_req_date').val(vRequest.rowdata.req_date).change();
+                        $('#request_modal_ep_id').val(vRequest.rowdata.ep_id).change();
+                        $('#request_modal_ep_id_dest').val(vRequest.rowdata.ep_id_dest).change();
+                        $('#request_modal_req_weight_p').val(vRequest.rowdata.req_weight_p);
+                        $('#request_modal_req_weight_f').val(vRequest.rowdata.req_weight_f);
+                        $('#request_modal_req_seatsnum_p').val(vRequest.rowdata.req_seatsnum_p);
+                        $('#request_modal_req_seatsnum_f').val(vRequest.rowdata.req_seatsnum_f);
+
+                        $('#request_modal_req_arrival_date_p').val(vRequest.rowdata.req_arrival_date_p).change();
+                        $('#request_modal_req_arrival_date_f').val(vRequest.rowdata.req_arrival_date_f).change();
+                        $('#request_modal_req_departure_date').val(vRequest.rowdata.req_departure_date).change();
+                        $('#request_modal_req_ep_dest_date').val(vRequest.rowdata.req_ep_dest_date).change();
+                        $('#request_modal_req_contragent_date').val(vRequest.rowdata.req_contragent_date).change();
+                        $('#request_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+
+                $('#request_modal_req_id').val(null);
+                $('#request_modal_req_num').val(null);
+                $('#request_modal_bs_id').val(0).change();
+                $('#request_modal_rs_id').val(0).change();
+                $('#request_modal_req_date').val("2020-02-11").change();
+                $('#request_modal_ep_id').val(0).change();
+                $('#request_modal_ep_id_dest').val(0).change();
+                $('#request_modal_req_weight_p').val(null);
+                $('#request_modal_req_weight_f').val(null);
+                $('#request_modal_req_seatsnum_p').val(null);
+                $('#request_modal_req_seatsnum_f').val(null);
+
+                $('#request_modal_req_arrival_date_p').val(null).change();
+                $('#request_modal_req_arrival_date_f').val(null).change();
+                $('#request_modal_req_departure_date').val(null).change();
+                $('#request_modal_req_ep_dest_date').val(null).change();
+                $('#request_modal_req_contragent_date').val(null).change();
+
+                $('#request_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#request_modal_addbtn').on('click', function(){
+    $('#request_modal_form').submit();
+});
+// Edit button script
+$('#request_modal_editbtn').on('click', function(){
+    $('#request_modal_form').submit();
+});
+// Del button script
+$('#request_modal_delbtn').on('click', function(){
+    $('#request_modal_form').submit();
+});
+
+//Add Client Address
+function addRequest(){
+    let RowID = vRequest.rowdata.req_id;
+    $.ajax({
+        url: /*[[ @{/request/add_request} ]]*/ "/request/add_request",
+        type: 'POST',
+        data: {
+            "cnt_id": $('#request_modal_cnt_id').val(),
+            "req_num": $('#request_modal_req_num').val(),
+            "bs_id": $('#request_modal_bs_id').val(),
+            "rs_id": $('#request_modal_rs_id').val(),
+            "req_date": $('#request_modal_req_date').val(),
+            "ep_id": $('#request_modal_ep_id').val(),
+            "ep_id_dest": $('#request_modal_ep_id_dest').val(),
+            "req_weight_p": $('#request_modal_req_weight_p').val(),
+            "req_weight_f": $('#request_modal_req_weight_f').val(),
+            "req_seatsnum_p": $('#request_modal_req_seatsnum_p').val(),
+            "req_seatsnum_f": $('#request_modal_req_seatsnum_f').val(),
+            "req_arrival_date_p": $('#request_modal_req_arrival_date_p').val(),
+            "req_arrival_date_f": $('#request_modal_req_arrival_date_f').val(),
+            "req_departure_date": $('#request_modal_req_departure_date').val(),
+            "req_ep_dest_date": $('#request_modal_req_ep_dest_date').val(),
+            "req_contragent_date": $('#request_modal_req_contragent_date').val(),
+        },
+        success: function (result) {
+            $('#request_modal').modal('hide');
+            vRequest.rowdata.req_id = result;
+            $(vRequest.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editRequest(){
+    let RowID = vRequest.rowdata.req_id;
+    $.ajax({
+        url: /*[[ @{/request/edit_request} ]]*/ "/request/edit_request",
+        type: 'POST',
+        data: {
+            "req_id" : RowID,
+            "cnt_id": $('#request_modal_cnt_id').val(),
+            "req_num": $('#request_modal_req_num').val(),
+            "bs_id": $('#request_modal_bs_id').val(),
+            "rs_id": $('#request_modal_rs_id').val(),
+            "req_date": $('#request_modal_req_date').val(),
+            "ep_id": $('#request_modal_ep_id').val(),
+            "ep_id_dest": $('#request_modal_ep_id_dest').val(),
+            "req_weight_p": $('#request_modal_req_weight_p').val(),
+            "req_weight_f": $('#request_modal_req_weight_f').val(),
+            "req_seatsnum_p": $('#request_modal_req_seatsnum_p').val(),
+            "req_seatsnum_f": $('#request_modal_req_seatsnum_f').val(),
+            "req_arrival_date_p": $('#request_modal_req_arrival_date_p').val(),
+            "req_arrival_date_f": $('#request_modal_req_arrival_date_f').val(),
+            "req_departure_date": $('#request_modal_req_departure_date').val(),
+            "req_ep_dest_date": $('#request_modal_req_ep_dest_date').val(),
+            "req_contragent_date": $('#request_modal_req_contragent_date').val(),
+        },
+        success: function (result) {
+            $('#request_modal').modal('hide');
+            vRequest.rowdata.req_id = RowID;
+            $(vRequest.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delRequest(){
+    let RowID = vRequest.rowdata.req_id;
+    $.ajax({
+        url: /*[[ @{/request/del_request} ]]*/ "/request/del_request",
+        type: 'POST',
+        data: {
+            "req_id": RowID
+        },
+        success: function (result) {
+            $('#request_modal').modal('hide');
+            vRequest.rowdata.req_id = null;
+            $(vRequest.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#request_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#request_modal_mode').val() === '0') {
+            addRequest();
+        }
+        else if($('#request_modal_mode').val() === '1') {
+            editRequest();
+        }
+        else if($('#request_modal_mode').val() === '2') {
+            delRequest();
+        }
+        return false;
+    }
+});
+
+
+// OnChange Functions
+</script>
+
+</body>
+</html>

@@ -60,6 +60,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Value("${telegram.BOT_CREATOR_ID}")
     private int BOT_CREATOR_ID;
 
+    @Value("${telegram.INFO}")
+    private String INFOMESSAGE;
+
     @Autowired
     public TelegramBot(@Qualifier("messageSource") MessageSource messageSourceBase, TelegramBotLogRepository telegramBotLogRepository, TelegramUserRepository telegramUserRepository, TelegramVehicleRepository telegramVehicleRepository, TelegramVehicleMessageRepository telegramVehicleMessageRepository, Scheduler_TelegramTaskRepository scheduler_telegramTaskRepository, TelegramStandartMessageRepository telegramStandartMessageRepository) {
         this.telegramBotLogRepository = telegramBotLogRepository;
@@ -263,7 +266,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 sendMessage = sendMsg(messageSourceBase.getMessage("enter.truck.number", null, botUser.getLocale()),botUser);
                 break;
             case 7: //Информация
-                sendMessage = sendMsg(messageSourceBase.getMessage("ee.express.info", null, botUser.getLocale()), botUser);
+                sendMessage = sendMsg(messageSourceBase.getMessage(INFOMESSAGE, null, botUser.getLocale()), botUser);
                 break;
             default:
                 String command = telegramBotLogRepository.getPreviosMessage(Long.valueOf(message.getFrom().getId()));
@@ -275,7 +278,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                         sendMessage = sendMsg(addTruck(registrationNumber,botUser),botUser);
                         break;
                     default:
-                        sendMessage = sendMsg(messageSourceBase.getMessage("ee.express.info", null, botUser.getLocale()), botUser);
+                        sendMessage = sendMsg(messageSourceBase.getMessage(INFOMESSAGE, null, botUser.getLocale()), botUser);
                         break;
                 }
                 break;
@@ -302,7 +305,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         switch (message_code.intValue()) {
             case 7: //Информация
-                sendMessage = sendMsg(messageSourceBase.getMessage("ee.express.info", null, botUser.getLocale()), botUser);
+                sendMessage = sendMsg(messageSourceBase.getMessage(INFOMESSAGE, null, botUser.getLocale()), botUser);
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {

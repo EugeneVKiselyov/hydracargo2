@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.column" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.row" value="2"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BootFiles\DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -28,10 +28,10 @@
 	<field name="DESCRIPTION" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="DESCRIPTION"/>
 	</field>
-	<field name="QTY" class="java.math.BigDecimal">
+	<field name="QTY" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="QTY"/>
 	</field>
-	<field name="VALUE" class="java.math.BigDecimal">
+	<field name="VALUE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="VALUE"/>
 	</field>
 	<field name="TWEIGHT" class="java.math.BigDecimal">

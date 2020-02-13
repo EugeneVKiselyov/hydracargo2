@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Scan XLS" pageWidth="2500" pageHeight="595" orientation="Landscape" columnWidth="2500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="fea196ad-ca65-4972-bc71-92b2b9223505">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BootFiles\DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 	<parameter name="vDIS_ID" class="java.lang.String"/>
 	<queryString language="plsql">
@@ -13,6 +13,9 @@
 	</field>
 	<field name="DS_SCANFOUND" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="DS_SCANFOUND"/>
+	</field>
+	<field name="DIS_ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="DIS_ID"/>
 	</field>
 	<field name="DC_ID" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="DC_ID"/>
@@ -26,10 +29,10 @@
 	<field name="DESCRIPTION" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="DESCRIPTION"/>
 	</field>
-	<field name="QTY" class="java.math.BigDecimal">
+	<field name="QTY" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="QTY"/>
 	</field>
-	<field name="VALUE" class="java.math.BigDecimal">
+	<field name="VALUE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="VALUE"/>
 	</field>
 	<field name="TWEIGHT" class="java.math.BigDecimal">
