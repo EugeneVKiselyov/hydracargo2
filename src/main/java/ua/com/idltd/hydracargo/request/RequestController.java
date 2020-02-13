@@ -3,6 +3,7 @@ package ua.com.idltd.hydracargo.request;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.business.entity.Business;
@@ -33,6 +34,7 @@ public class RequestController {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private RequestFilter currentFilter;
 
     private final VRequestRepository requestRepository;
     private final ContragentRepository contragentRepository;
@@ -46,12 +48,30 @@ public class RequestController {
         this.businessRepository = businessRepository;
         this.request_statusRepository = request_statusRepository;
         this.entrepotRepository = entrepotRepository;
+        this.currentFilter=new RequestFilter();
+    }
+
+
+    @PostMapping("/set_filter")
+    public ResponseEntity<?> set_filter(final RequestFilter filter
+    ) {
+        ResponseEntity<?> result;
+        try{
+            currentFilter.setCnt_id(filter.getCnt_id());
+            currentFilter.setEp_id(filter.getEp_id());
+            result = ResponseEntity.ok(currentFilter);
+        }
+        catch (Exception e) {
+            result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return result;
     }
 
     @RequestMapping(value = {"","/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView index(
+    public ModelAndView index(ModelAndView mav, final RequestFilter filter
     ){
-        ModelAndView mav = new ModelAndView();
+//        filter.setEp_id(1L);
+        mav.addObject("filter",filter);
 
         Iterable<Contragent> contragentList;
         contragentList =  contragentRepository.getAllByUser(GetUserName());
@@ -73,14 +93,28 @@ public class RequestController {
         return mav;
     }
 
+    private int getfilter_num(Long req_id,Long cnt_id,Long ep_id){
+       int result=0;
+       if (req_id!=null) result=result+1;
+       if (cnt_id!=null) result=result+10;
+       if (ep_id!=null) result=result+100;
+       return result;
+    }
     @PostMapping("/gettable")
     public JSONDatatable gettable(@RequestParam(name = "req_id", required = false) Long req_id) {
         JSONDatatable result = new JSONDatatable();
-        if (req_id != null) {
-            result.setData(requestRepository.getByReq_idandUser(GetUserName(),req_id));
-        }else {
-            result.setData(requestRepository.getAllByUser(GetUserName()));
+        int i = getfilter_num(req_id,currentFilter.getCnt_id(),currentFilter.getEp_id());
+        switch (i) {
+            case 0 : result.setData(requestRepository.getAllByUser(GetUserName())); break;
+            case 1 : result.setData(requestRepository.getByReq_idandUser(GetUserName(),req_id)); break;
+            case 10 : result.setData(requestRepository.getByCnt_idandUser(GetUserName(),currentFilter.getCnt_id())); break;
+            case 100 : result.setData(requestRepository.getByEp_idandUser(GetUserName(),currentFilter.getEp_id())); break;
+            case 11 : result.setData(requestRepository.getByReq_idandCnt_idandUser(GetUserName(),req_id,currentFilter.getCnt_id())); break;
+            case 101 : result.setData(requestRepository.getByReq_idandEp_idandUser(GetUserName(),req_id,currentFilter.getEp_id())); break;
+            case 110 : result.setData(requestRepository.getByCnt_idandEp_idandUser(GetUserName(),currentFilter.getCnt_id(),currentFilter.getEp_id())); break;
+            case 111 : result.setData(requestRepository.getByReq_idandCnt_idandEp_idandUser(GetUserName(),req_id,currentFilter.getCnt_id(),currentFilter.getEp_id())); break;
         }
+
         return result;
     }
 

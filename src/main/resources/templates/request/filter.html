@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="request_filter_body" th:remove="tag">
+    <div class="card">
+            <form class="form-inline w-100" id="request_filter" name="request_filter" action="#" th:action="@{/request/set_filter}" th:object="${filter}" method="post" data-toggle="validator">
+                <div class="col-6">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" th:text="#{request.cnt_name}"></label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" style="width:100%; float:left;" data-toggle="select2" th:field="*{cnt_id}">
+                                    <option th:value="-1" th:text="#{general.all}" th:selected="${filter.cnt_id == null}">Все</option>
+                                    <option th:each="contragent : ${contragentList}"
+                                            th:value="${contragent.cnt_id}"
+                                            th:text="${contragent.cnt_code + ' : ' + contragent.cnt_name}"
+                                    ></option>
+                                </select>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-6">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" th:text="#{request.ep_code}"></label>
+                            <div class="col-sm-10">
+                            <select class="form-control select2" style="width:100%; float:left;" data-toggle="select2" th:field="*{ep_id}">
+                                <option th:value="-1" th:text="#{general.all}" th:selected="${filter.ep_id == null}">Все</option>
+                                <option th:each="entrepot : ${entrepotList}"
+                                        th:value="${entrepot.ep_id}"
+                                        th:text="${entrepot.ep_code}"
+                                ></option>
+                            </select>
+                            </div>
+                        </div>
+                </div>
+            </form>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    $( "#request_filter :input" ).change(function() {
+        $.ajax({
+            url: /*[[ @{/request/set_filter} ]]*/ "/request/set_filter",
+            type: 'POST',
+            data: $("#request_filter").serialize(),
+            success: function (result) {
+                $(vRequest.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

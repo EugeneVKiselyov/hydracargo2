@@ -4,7 +4,8 @@
 <body>
 
 <span th:fragment="request_body" th:remove="tag">
-        <form id="request-detail" class="mb-2" hidden>
+
+    <form id="request-detail" class="mb-2" hidden>
             <input name="mode" value="0" hidden>
               <div id="request-btn-large" class="d-none d-sm-block">
                  <button type="button" id="request-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
@@ -18,8 +19,9 @@
               </div>
         </form>
         
-        <div><table id="table-request" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+    <div><table id="table-request" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
 </span>
+
 
 <script th:fragment="cardscript" th:inline="javascript">
 
