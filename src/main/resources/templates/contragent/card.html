@@ -24,9 +24,9 @@
 <script th:fragment="cardscript" th:inline="javascript">
     let vDomParam;
 
-    let cnt_id_width, cnt_name_width;
+    let cnt_id_width, cnt_code_width, cnt_name_width;
 
-    let cnt_id_class, cnt_name_class;
+    let cnt_id_class, cnt_code_class, cnt_name_class;
 
     let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
     let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
@@ -40,7 +40,9 @@
 
         cnt_id_width = "10%";
         cnt_id_class = "small_size small_head_size small_footer_size";
-        cnt_name_width = "90%";
+        cnt_code_width = "20%";
+        cnt_code_class = "small_size small_head_size small_footer_size";
+        cnt_name_width = "70%";
         cnt_name_class = "small_size small_head_size small_footer_size";
 
         $('#contragent-addbtn').removeClass('btn-sm');
@@ -56,14 +58,18 @@
         vDomParam = "Blfrtip";
         cnt_id_width = "10%";
         cnt_id_class = "small_size small_head_size small_footer_size";
-        cnt_name_width = "90%";
+        cnt_code_width = "20%";
+        cnt_code_class = "small_size small_head_size small_footer_size";
+        cnt_name_width = "70%";
         cnt_name_class = "small_size small_head_size small_footer_size";
     }
     else{
         vDomParam = "Blfrtip";
         cnt_id_width = "10%";
         cnt_id_class = "small_size small_head_size small_footer_size";
-        cnt_name_width = "90%";
+        cnt_code_width = "20%";
+        cnt_code_class = "small_size small_head_size small_footer_size";
+        cnt_name_width = "70%";
         cnt_name_class = "small_size small_head_size small_footer_size";
     }
 
@@ -81,7 +87,8 @@
         switchControl : contragent_switchControl,
         rowdata:{
             cnt_id : null,
-            cnt_name : null
+            cnt_name : null,
+            cnt_code : null
         },
         ordering: true,
         order: [
@@ -93,7 +100,8 @@
         },
         columns : [
             /*0*/{"title": /*[[#{contragent.cnt_id}]]*/ "cnt_id", "data": "cnt_id", "width": cnt_id_width, "className": cnt_id_class},
-            /*1*/{"title": /*[[#{contragent.cnt_name}]]*/ "cnt_name", "data": "cnt_name", "width": cnt_name_width, "className": cnt_name_class}
+            /*1*/{"title": /*[[#{contragent.cnt_code}]]*/ "cnt_code", "data": "cnt_code", "width": cnt_id_width, "className": cnt_id_class},
+            /*2*/{"title": /*[[#{contragent.cnt_name}]]*/ "cnt_name", "data": "cnt_name", "width": cnt_name_width, "className": cnt_name_class}
         ],
         pageLength: 25,
         copy_button: true,

@@ -19,14 +19,22 @@
                 <div class="modal-body mb-1">
                     <form id="contragent_modal_form" name="contragent_modal_form" class="was-validated" novalidate>
                         <div class="form-row">
-                            <div class="col-12 col-md-2" id="contragent_modal_cnt_id_row">
-                                <label for="contragent_modal_cnt_id" class="form-label" th:text="'1. '+ #{contragent.cnt_id}"></label>
+                            <div class="col-4" id="contragent_modal_cnt_id_row">
+                                <label for="contragent_modal_cnt_id" class="form-label" th:text=" #{contragent.cnt_id}"></label>
                                 <input type="number" class="form-control" id="contragent_modal_cnt_id" name="contragent_modal_cnt_id" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
-                            <div class="col-12 col-md-9" id="contragent_modal_cnt_name_row">
-                                <label for="contragent_modal_cnt_name" class="form-label" th:text="'2. '+#{contragent.cnt_name}"></label>
+                            <div class="col-8" id="contragent_modal_cnt_code_row">
+                                <label for="contragent_modal_cnt_code" class="form-label" th:text="#{contragent.cnt_code}"></label>
+                                <input type="text" class="form-control" id="contragent_modal_cnt_code" name="contragent_modal_cnt_code">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12" id="contragent_modal_cnt_name_row">
+                                <label for="contragent_modal_cnt_name" class="form-label" th:text="#{contragent.cnt_name}"></label>
                                 <input type="text" maxlength="120" class="form-control" id="contragent_modal_cnt_name" name="contragent_modal_cnt_name">
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
@@ -60,15 +68,18 @@
         $('#contragent_modal_cnt_name').attr('required',true);
 
         if($('#contragent_modal_mode').val() === "0"){
-            $('#contragent_modal_cnt_id_row').attr('hidden',true);
+            $('#contragent_modal_cnt_id').attr('hidden',true);
+            $('#contragent_modal_cnt_code').removeAttr('disabled');
             $('#contragent_modal_cnt_name').removeAttr('disabled');
         }
         else if($('#contragent_modal_mode').val() === "1"){
-            $('#contragent_modal_cnt_id_row').removeAttr('hidden');
+            $('#contragent_modal_cnt_id').removeAttr('hidden');
+            $('#contragent_modal_cnt_code').removeAttr('disabled');
             $('#contragent_modal_cnt_name').removeAttr('disabled');
         }
         else{
-            $('#contragent_modal_cnt_id_row').removeAttr('hidden');
+            $('#contragent_modal_cnt_id').removeAttr('hidden');
+            $('#contragent_modal_cnt_code').attr('disabled',true);
             $('#contragent_modal_cnt_name').attr('disabled',true);
         }
     }
@@ -83,6 +94,7 @@
                     $.when(                        
                     ).then(function () {
                         $('#contragent_modal_cnt_id').val(vContragnet.rowdata.cnt_id);
+                        $('#contragent_modal_cnt_code').val(vContragnet.rowdata.cnt_code);
                         $('#contragent_modal_cnt_name').val(vContragnet.rowdata.cnt_name);
 
                         $('#contragent_modal').modal('show');
@@ -116,6 +128,7 @@ function addContragent(){
         url: /*[[ @{/contragent/add_contragent} ]]*/ "/contragent/add_contragent",
         type: 'POST',
         data: {
+            "cnt_code": $('#contragent_modal_cnt_code').val(),
             "cnt_name": $('#contragent_modal_cnt_name').val()
         },
         success: function (result) {
@@ -134,6 +147,7 @@ function editContragent(){
         type: 'POST',
         data: {
             "cnt_id": RowID,
+            "cnt_code": $('#contragent_modal_cnt_code').val(),
             "cnt_name": $('#contragent_modal_cnt_name').val()
         },
         success: function (result) {

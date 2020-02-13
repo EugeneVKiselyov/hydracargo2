@@ -70,7 +70,6 @@ public class RequestController {
     @RequestMapping(value = {"","/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView index(ModelAndView mav, final RequestFilter filter
     ){
-//        filter.setEp_id(1L);
         mav.addObject("filter",filter);
 
         Iterable<Contragent> contragentList;

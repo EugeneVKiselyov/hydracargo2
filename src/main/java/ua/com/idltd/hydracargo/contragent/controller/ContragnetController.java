@@ -64,13 +64,16 @@ public class ContragnetController {
 
     @PostMapping("/add_contragent")
     public ModelAndView add_contragent(
+            @RequestParam(name = "cnt_code", required = false) String cnt_code,
             @RequestParam(name = "cnt_name", required = false) String cnt_name
     ) {
         try{
             StoredProcedureQuery AddProductQuery = entityManager
                     .createStoredProcedureQuery("PKG_ADMIN.pr_AddContragent")
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                    .setParameter(1, cnt_name)
+                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                    .setParameter(1, cnt_code)
+                    .setParameter(2, cnt_name)
                     ;
             AddProductQuery.execute();
         }
@@ -84,6 +87,7 @@ public class ContragnetController {
     @PostMapping("/edit_contragent")
     public ModelAndView edit_contragent(
             @RequestParam(name = "cnt_id", required = false) Long cnt_id,
+            @RequestParam(name = "cnt_code", required = false) String cnt_code,
             @RequestParam(name = "cnt_name", required = false) String cnt_name
     ) {
         try{
@@ -91,8 +95,10 @@ public class ContragnetController {
                     .createStoredProcedureQuery("PKG_ADMIN.pr_EditContragent")
                     .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, String.class, ParameterMode.IN)
                     .setParameter(1, cnt_id)
-                    .setParameter(2, cnt_name)
+                    .setParameter(2, cnt_code)
+                    .setParameter(3, cnt_name)
                     ;
             EditProductQuery.execute();
         }
