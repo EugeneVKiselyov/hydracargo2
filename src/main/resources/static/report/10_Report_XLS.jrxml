@@ -393,8 +393,8 @@
 	<detail>
 		<band height="40" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="100" height="40" uuid="00857464-7630-4a4b-bfe3-ec9dcad7f494">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="100" height="40" uuid="00857464-7630-4a4b-bfe3-ec9dcad7f494">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -408,8 +408,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_SHIPMENT}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="0" width="60" height="40" uuid="9e5a7ba6-d524-4045-8fc4-cc7f51e6ab20">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="100" y="0" width="60" height="40" uuid="9e5a7ba6-d524-4045-8fc4-cc7f51e6ab20">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -423,8 +423,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_CREATEDATE}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="160" y="0" width="60" height="40" uuid="d3cd7c54-e216-41f3-bbe4-e24cf2932b40">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="160" y="0" width="60" height="40" uuid="d3cd7c54-e216-41f3-bbe4-e24cf2932b40">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -438,8 +438,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TYPEMEB}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="220" y="0" width="50" height="40" uuid="b6a88bd0-21a1-46b1-be23-e7c3b046ce54">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="220" y="0" width="50" height="40" uuid="b6a88bd0-21a1-46b1-be23-e7c3b046ce54">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -453,8 +453,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_QTY}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="270" y="0" width="50" height="40" uuid="fc6d962d-f82a-45cc-9855-0b1ece99690a">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="270" y="0" width="50" height="40" uuid="fc6d962d-f82a-45cc-9855-0b1ece99690a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -468,8 +468,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_TWEIGHT}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="320" y="0" width="80" height="40" uuid="ecafd3d6-8b7a-4f39-b11c-b9ae345b4a2a">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="320" y="0" width="80" height="40" uuid="ecafd3d6-8b7a-4f39-b11c-b9ae345b4a2a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -483,8 +483,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_TVALUE}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="400" y="0" width="50" height="40" uuid="3af91b42-03f5-4eea-818d-34f07796c2ec">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="50" height="40" uuid="3af91b42-03f5-4eea-818d-34f07796c2ec">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -498,8 +498,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_CURRENCY}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="450" y="0" width="150" height="40" uuid="63bb11e6-60ec-42f2-817d-21ec5a4a4a1f">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="450" y="0" width="150" height="40" uuid="63bb11e6-60ec-42f2-817d-21ec5a4a4a1f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -513,8 +513,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_DESCRIPTION}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="600" y="0" width="50" height="40" uuid="3df8dbaf-eae2-4acb-befd-8dc7bc20903c">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="600" y="0" width="50" height="40" uuid="3df8dbaf-eae2-4acb-befd-8dc7bc20903c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -528,8 +528,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_SCOUNTRY}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="650" y="0" width="100" height="40" uuid="0a0ee6ec-e91b-499e-94f7-4fc976d07b8d">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="650" y="0" width="100" height="40" uuid="0a0ee6ec-e91b-499e-94f7-4fc976d07b8d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -543,8 +543,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_SNAME}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="750" y="0" width="150" height="40" uuid="5697e25b-63ee-455b-a0a6-81e1b0e0d88a">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="750" y="0" width="150" height="40" uuid="5697e25b-63ee-455b-a0a6-81e1b0e0d88a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -558,8 +558,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_SADDRESS}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="900" y="0" width="100" height="40" uuid="acc8bb71-c22f-4640-bb04-e2828fa22321">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="900" y="0" width="100" height="40" uuid="acc8bb71-c22f-4640-bb04-e2828fa22321">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -573,8 +573,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_RNAME}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1000" y="0" width="150" height="40" uuid="3a6e7719-a1c2-490d-ac7a-36c7823d6260">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1000" y="0" width="150" height="40" uuid="3a6e7719-a1c2-490d-ac7a-36c7823d6260">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -588,8 +588,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DC_RADDRESS}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1150" y="0" width="60" height="40" uuid="b62a155c-1b36-47f7-913c-7342033afcb8">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1150" y="0" width="60" height="40" uuid="b62a155c-1b36-47f7-913c-7342033afcb8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -603,8 +603,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{AWB}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1210" y="0" width="65" height="40" uuid="55299cfe-fa5f-437e-8fe7-7107edff5a24">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1210" y="0" width="65" height="40" uuid="55299cfe-fa5f-437e-8fe7-7107edff5a24">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -618,8 +618,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DATE_ETD}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1275" y="0" width="65" height="40" uuid="286e6317-991c-4d6f-b9bf-84b8f26a04ec">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1275" y="0" width="65" height="40" uuid="286e6317-991c-4d6f-b9bf-84b8f26a04ec">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -633,8 +633,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DATE_RECIVED}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1340" y="0" width="65" height="40" uuid="81c7dfd9-d632-4171-9c19-74aa2c2ad390">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1340" y="0" width="65" height="40" uuid="81c7dfd9-d632-4171-9c19-74aa2c2ad390">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -648,8 +648,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DATE_LOCATE}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1405" y="0" width="65" height="40" uuid="665125ea-1ec6-415c-86a4-a084c8ca1af5">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1405" y="0" width="65" height="40" uuid="665125ea-1ec6-415c-86a4-a084c8ca1af5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -663,8 +663,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DATE_STORE}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1470" y="0" width="65" height="40" uuid="da19cbf0-0de3-470f-95e9-97fb28b3e523">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1470" y="0" width="65" height="40" uuid="da19cbf0-0de3-470f-95e9-97fb28b3e523">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -678,8 +678,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DATE_OUT}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1535" y="0" width="65" height="40" uuid="0e4d0490-51f0-4844-9d11-8832d1f3e1c5">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1535" y="0" width="65" height="40" uuid="0e4d0490-51f0-4844-9d11-8832d1f3e1c5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="box_body" th:remove="tag">
+        <form id="box-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="box-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="box-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="box-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="box-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="box-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="box-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="box-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="box-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-box" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomBox;
+
+    let box_id_width, req_id_width, box_num_width, box_weight_p_width, box_lenght_p_width, box_width_p_width, box_height_p_width, box_volume_weight_p_width, box_packing_date_width, box_dis_id_width, box_cost_width;
+
+    let box_id_class, req_id_class, box_num_class, box_weight_p_class, box_lenght_p_class, box_width_p_class, box_height_p_class, box_volume_weight_p_class, box_packing_date_class, box_dis_id_class, box_cost_class;
+
+    let box_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let box_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(box_mobileScreenSize){
+        vDomBox =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+        box_id_width = "";  box_id_class = "none";
+        req_id_width = "";  req_id_class = "none";
+        box_dis_id_width = ""; box_dis_id_class = "none";
+        box_num_width = "10%"; box_num_class = "small_size small_head_size small_footer_size";
+        box_weight_p_width = "10%"; box_weight_p_class = "small_size small_head_size small_footer_size";
+        box_lenght_p_width = "10%"; box_lenght_p_class = "small_size small_head_size small_footer_size";
+        box_width_p_width = "10%"; box_width_p_class = "small_size small_head_size small_footer_size";
+        box_height_p_width = "10%"; box_height_p_class = "small_size small_head_size small_footer_size";
+        box_volume_weight_p_width = "10%"; box_volume_weight_p_class = "small_size small_head_size small_footer_size";
+        box_packing_date_width = "30%"; box_packing_date_class = "small_size small_head_size small_footer_size";
+        box_cost_width = "10%"; box_cost_class = "small_size small_head_size small_footer_size";
+
+        $('#box-addbtn').removeClass('btn-sm');
+        $('#box-editbtn').removeClass('btn-sm');
+        $('#box-delbtn').removeClass('btn-sm');
+
+        $('#box-addbtn-sx').removeClass('btn-sm');
+        $('#box-editbtn-sx').removeClass('btn-sm');
+        $('#box-delbtn-sx').removeClass('btn-sm');
+        $('#box-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(box_smallScreenSize){
+        vDomBox = "Blfrtip";
+        box_id_width = "";  box_id_class = "none";
+        req_id_width = "";  req_id_class = "none";
+        box_dis_id_width = ""; box_dis_id_class = "none";
+        box_num_width = "10%"; box_num_class = "small_size small_head_size small_footer_size";
+        box_weight_p_width = "10%"; box_weight_p_class = "small_size small_head_size small_footer_size";
+        box_lenght_p_width = "10%"; box_lenght_p_class = "small_size small_head_size small_footer_size";
+        box_width_p_width = "10%"; box_width_p_class = "small_size small_head_size small_footer_size";
+        box_height_p_width = "10%"; box_height_p_class = "small_size small_head_size small_footer_size";
+        box_volume_weight_p_width = "10%"; box_volume_weight_p_class = "small_size small_head_size small_footer_size";
+        box_packing_date_width = "30%"; box_packing_date_class = "small_size small_head_size small_footer_size";
+        box_cost_width = "10%"; box_cost_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomBox = "Blfrtip";
+        box_id_width = "";  box_id_class = "none";
+        req_id_width = "";  req_id_class = "none";
+        box_dis_id_width = ""; box_dis_id_class = "none";
+        box_num_width = "10%"; box_num_class = "small_size small_head_size small_footer_size";
+        box_weight_p_width = "10%"; box_weight_p_class = "small_size small_head_size small_footer_size";
+        box_lenght_p_width = "10%"; box_lenght_p_class = "small_size small_head_size small_footer_size";
+        box_width_p_width = "10%"; box_width_p_class = "small_size small_head_size small_footer_size";
+        box_height_p_width = "10%"; box_height_p_class = "small_size small_head_size small_footer_size";
+        box_volume_weight_p_width = "10%"; box_volume_weight_p_class = "small_size small_head_size small_footer_size";
+        box_packing_date_width = "30%"; box_packing_date_class = "small_size small_head_size small_footer_size";
+        box_cost_width = "10%"; box_cost_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vBox;
+    vBox = {
+        table : '#table-box',
+        button_form: (box_mobileScreenSize) ? null : "#box-detail",
+        ajax : {
+            "url": /*[[@{/box/gettable}]]*/ "box/gettable",
+            "type": "post",
+            "data": function ( d ) {
+                d.req_id = vBox.rowdata.req_id;
+            }
+        },
+        key : "box_id",
+        switchControl : box_switchControl,
+        rowdata:{
+            box_id : null,
+            req_id : null,
+            dis_id : null,
+            box_num : null,
+            box_weight_p : null,
+            box_lenght_p : null,
+            box_width_p : null,
+            box_height_p : null,
+            box_volume_weight_p : null,
+            box_packing_date : null,
+            box_cost : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomBox,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{box.box_id}]]*/ "box_id", "data": "box_id", "width": box_id_width, "className": box_id_class},
+            /*1*/{"title": /*[[#{box.req_id}]]*/ "req_id", "data": "req_id", "width": req_id_width, "className": req_id_class},
+            /*2*/{"title": /*[[#{box.dis_id}]]*/ "dis_id", "data": "dis_id", "width": box_dis_id_width, "className": box_dis_id_class},
+            /*3*/{"title": /*[[#{box.box_num}]]*/ "box_num", "data": "box_num", "width": box_num_width, "className": box_num_class},
+            /*4*/{"title": /*[[#{box.box_weight_p}]]*/ "box_weight_p", "data": "box_weight_p", "width": box_weight_p_width, "className": box_weight_p_class},
+            /*5*/{"title": /*[[#{box.box_lenght_p}]]*/ "box_lenght_p", "data": "box_lenght_p", "width": box_lenght_p_width, "className": box_lenght_p_class},
+            /*6*/{"title": /*[[#{box.box_width_p}]]*/ "box_width_p", "data": "box_width_p", "width": box_width_p_width, "className": box_width_p_class},
+            /*7*/{"title": /*[[#{box.box_height_p}]]*/ "box_height_p", "data": "box_height_p", "width": box_height_p_width, "className": box_height_p_class},
+            /*8*/{"title": /*[[#{box.box_volume_weight_p}]]*/ "box_volume_weight_p", "data": "box_volume_weight_p", "width": box_volume_weight_p_width, "className": box_volume_weight_p_class},
+            /*9*/{"title": /*[[#{box.box_packing_date}]]*/ "box_packing_date", "data": "box_packing_date", "width": box_packing_date_width, "className": box_packing_date_class},
+            /*10*/{"title": /*[[#{box.box_cost}]]*/ "box_cost", "data": "box_cost", "width": box_cost_width, "className": box_cost_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function box_switchControl(){
+        if(vBox.rowdata.box_id != null) {
+            $("#box-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#box-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#box-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#box-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.box_btn_control').on('click', function (){
+        $("#box-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#box-addbtn').click(function (){
+        $('#box_modal_addbtn').removeAttr('hidden');
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(0);
+    });
+
+    $('#box-addbtn-sx').click(function (){
+        $('#box_modal_addbtn').removeAttr('hidden');
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(0);
+    });
+// Edit Button
+    $('#box-editbtn').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').removeAttr('hidden');
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(1);
+    });
+
+    $('#box-editbtn-sx').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').removeAttr('hidden');
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(1);
+    });
+// Del Button
+    $('#box-delbtn').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').removeAttr('hidden');
+        fill_box_modal_detail(2);
+    });
+
+    $('#box-delbtn-sx').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').removeAttr('hidden');
+        fill_box_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+        vBox.rowdata.req_id = /*[[${req_id}]]*/ null;
+        recreateDataTable(vBox);
+    });
+</script>
+
+</body>
+</html>

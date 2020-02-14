@@ -25,7 +25,29 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 pl-2 pr-2 pt-0">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#box_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#box_div" data-toggle="collapse" th:text="#{box.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="box_div">
+                <div>
+                    <span th:replace="request/box/modal :: box_modal_body"></span>
+                    <span th:replace="request/box/card :: box_body"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<script th:replace="request/box/modal :: cardscript"></script>
+<script th:replace="request/box/card :: cardscript"></script>
 
 <script th:replace="request/filter :: cardscript"></script>
 <script th:replace="request/modal :: cardscript"></script>

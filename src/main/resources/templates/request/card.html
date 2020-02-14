@@ -116,6 +116,8 @@
             $("#request-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#request-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
+        vBox.rowdata.req_id = vRequest.rowdata.req_id;
+        $(vBox.table).DataTable().ajax.reload(null, false);
     }
 
     $('.request_btn_control').on('click', function (){
@@ -172,11 +174,9 @@
         $('#request_li').addClass('active').removeClass('collapsed');
         $('#request_a').attr('aria-expanded',true);
         $('#request').addClass('show');
-
         $('#request_a').addClass('text-primary');
 
         vRequest.rowdata.req_id = /*[[${req_id}]]*/ null;
-
         recreateDataTable(vRequest);
     });
 </script>

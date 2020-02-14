@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="box_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="box_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="box_modal_mode">
+            </div>
+
+            <div class="modal-content" id="box_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{box.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="box_modal_form" name="box_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <input type="number" class="form-control" id="box_modal_box_id" name="box_id" hidden>
+                            <input type="number" class="form-control" id="box_modal_req_id" name="req_id" hidden>
+                            <input type="number" class="form-control" id="box_modal_dis_id" name="dis_id" hidden>
+
+                            <div class="col-4" id="box_modal_box_num_row">
+                                <label for="box_modal_box_num" class="form-label" th:text="#{box.box_num}"></label>
+                                <input type="text" class="form-control" id="box_modal_box_num" name="box_num">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-4" id="box_modal_box_packing_date_row">
+                                <label for="box_modal_box_packing_date" class="form-label" th:text="#{box.box_packing_date}"></label>
+                                <input type="date" class="form-control" id="box_modal_box_packing_date" name="box_packing_date">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-4" id="box_modal_box_weight_p_row">
+                                <label for="box_modal_box_weight_p" class="form-label" th:text="#{box.box_weight_p}"></label>
+                                <input type="number" step="0.001" class="form-control" id="box_modal_box_weight_p" name="box_weight_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                        <div class="form-row">
+                            <div class="col-4" id="box_modal_box_lenght_p_row">
+                                <label for="box_modal_box_lenght_p" class="form-label" th:text="#{box.box_lenght_p}"></label>
+                                <input type="number" step="0.001" class="form-control" id="box_modal_box_lenght_p" name="box_lenght_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-4" id="box_modal_box_width_p_row">
+                                <label for="box_modal_box_width_p" class="form-label" th:text="#{box.box_width_p}"></label>
+                                <input type="number" step="0.001" class="form-control" id="box_modal_box_width_p" name="box_width_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-4" id="box_modal_box_height_p_row">
+                                <label for="box_modal_box_height_p" class="form-label" th:text="#{box.box_height_p}"></label>
+                                <input type="number" step="0.001" class="form-control" id="box_modal_box_height_p" name="box_height_p">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 2 -->
+                        <div class="form-row">
+                            <div class="col-6" id="box_modal_box_volume_weight_p_row">
+                                <label for="box_modal_box_volume_weight_p" class="form-label" th:text="#{box.box_volume_weight_p}"></label>
+                                <input type="number" step="any" class="form-control" id="box_modal_box_volume_weight_p" name="box_volume_weight_p" disabled>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-4" id="box_modal_box_cost_row">
+                                <label for="box_modal_box_cost" class="form-label" th:text="#{box.box_cost}"></label>
+                                <input type="number" step="0.01" class="form-control" id="box_modal_box_cost" name="box_cost">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 3 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="box_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="box_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>
+                    <button type="button" id="box_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="box_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+// Clear Fields
+    function clear_box_modal_detail() {
+        $("#box_modal_detail input[type=text]").val('');
+        $("#box_modal_detail input[type=number]").val('');
+        $("#box_modal_detail select").val(null);
+        $("#box_modal_detail textarea").val('');
+    }
+
+// Block And Required Fields
+    function block_box_modal_detail() {
+        $('#box_modal_box_num').attr('required',true);
+        $('#box_modal_box_packing_date').attr('required',true);
+        $('#box_modal_box_weight_p').attr('required',true);
+        $('#box_modal_box_lenght_p').attr('required',true);
+        $('#box_modal_box_width_p').attr('required',true);
+        $('#box_modal_box_height_p').attr('required',true);
+        $('#box_modal_box_volume_weight_p').attr('required',false);
+        $('#box_modal_box_cost').attr('required',false);
+        
+
+        if($('#box_modal_mode').val() === "0"){
+            $('#box_modal_box_num').removeAttr('disabled');
+            $('#box_modal_box_packing_date').removeAttr('disabled');
+            $('#box_modal_box_weight_p').removeAttr('disabled');
+            $('#box_modal_box_lenght_p').removeAttr('disabled');
+            $('#box_modal_box_width_p').removeAttr('disabled');
+            $('#box_modal_box_height_p').removeAttr('disabled');
+            $('#box_modal_box_volume_weight_p').attr('disabled',true);
+            $('#box_modal_box_cost').removeAttr('disabled');
+        }
+        else if($('#box_modal_mode').val() === "1"){
+            $('#box_modal_box_num').removeAttr('disabled');
+            $('#box_modal_box_packing_date').removeAttr('disabled');
+            $('#box_modal_box_weight_p').removeAttr('disabled');
+            $('#box_modal_box_lenght_p').removeAttr('disabled');
+            $('#box_modal_box_width_p').removeAttr('disabled');
+            $('#box_modal_box_height_p').removeAttr('disabled');
+            $('#box_modal_box_volume_weight_p').attr('disabled',true);
+            $('#box_modal_box_cost').removeAttr('disabled');
+        }
+        else{
+            $('#box_modal_box_num').attr('disabled',true);
+            $('#box_modal_box_packing_date').attr('disabled',true);
+            $('#box_modal_box_weight_p').attr('disabled',true);
+            $('#box_modal_box_lenght_p').attr('disabled',true);
+            $('#box_modal_box_width_p').attr('disabled',true);
+            $('#box_modal_box_height_p').attr('disabled',true);
+            $('#box_modal_box_volume_weight_p').attr('disabled',true);
+            $('#box_modal_box_cost').attr('disabled',true);
+        }
+    }
+
+// Load Function
+    function fill_box_modal_detail(aMode){
+        $('#box_modal_mode').val(aMode);
+        clear_box_modal_detail();
+        block_box_modal_detail();
+        
+        if(aMode > 0){
+                    $.when(                        
+                    ).then(function () {
+                        $('#box_modal_box_id').val(vBox.rowdata.box_id);
+                        $('#box_modal_req_id').val(vBox.rowdata.req_id);
+                        $('#box_modal_dis_id').val(vBox.rowdata.dis_id);
+                        $('#box_modal_box_num').val(vBox.rowdata.box_num);
+                        $('#box_modal_box_packing_date').val(vBox.rowdata.box_packing_date);
+                        $('#box_modal_box_weight_p').val(vBox.rowdata.box_weight_p);
+                        $('#box_modal_box_lenght_p').val(vBox.rowdata.box_lenght_p);
+                        $('#box_modal_box_width_p').val(vBox.rowdata.box_width_p);
+                        $('#box_modal_box_height_p').val(vBox.rowdata.box_height_p);
+                        $('#box_modal_box_volume_weight_p').val(vBox.rowdata.box_volume_weight_p);
+                        $('#box_modal_box_cost').val(vBox.rowdata.box_cost);
+                        $('#box_modal').modal('show');
+                    });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#box_modal_req_id').val(vRequest.rowdata.req_id);
+                $('#box_modal').modal('show');
+            });
+        }
+}
+
+// Add button script
+$('#box_modal_addbtn').on('click', function(){
+    $('#box_modal_form').submit();
+});
+// Edit button script
+$('#box_modal_editbtn').on('click', function(){
+    $('#box_modal_form').submit();
+});
+// Del button script
+$('#box_modal_delbtn').on('click', function(){
+    $('#box_modal_form').submit();
+});
+
+//Add Client Address
+function addBox(){
+    $.ajax({
+        url: /*[[ @{/box/add_box} ]]*/ "/box/add_box",
+        type: 'POST',
+        data: $("#box_modal_form").serialize(),
+        success: function (result) {
+            $('#box_modal').modal('hide');
+            vBox.rowdata.box_id = result;
+            $(vBox.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Edit Client Address
+function editBox(){
+    $.ajax({
+        url: /*[[ @{/box/edit_box} ]]*/ "/box/edit_box",
+        type: 'POST',
+        data: $("#box_modal_form").serialize(),
+        success: function (result) {
+            $('#box_modal').modal('hide');
+            $(vBox.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Delete button script
+function delBox(){
+    $.ajax({
+        url: /*[[ @{/box/del_box} ]]*/ "/box/del_box",
+        type: 'POST',
+        data: $("#box_modal_form").serialize(),
+        success: function (result) {
+            $('#box_modal').modal('hide');
+            vBox.rowdata.box_id = null;
+            $(vBox.table).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+//Validation Form
+$('#box_modal_form').validate({
+    rules: {
+        // amount: {
+        //     //money: true, // not a valid rule
+        //     required: true
+        // },
+        // comment: {
+        //     required: false
+        // }
+    },
+    errorPlacement: function(error,element) {
+        return true;
+    },
+    submitHandler: function (form) {
+        if($('#box_modal_mode').val() === '0') {
+            addBox();
+        }
+        else if($('#box_modal_mode').val() === '1') {
+            editBox();
+        }
+        else if($('#box_modal_mode').val() === '2') {
+            delBox();
+        }
+        return false;
+    }
+});
+
+// OnChange Functions
+</script>
+
+</body>
+</html>
