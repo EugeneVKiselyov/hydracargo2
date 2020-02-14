@@ -24,9 +24,9 @@
 <script th:fragment="cardscript" th:inline="javascript">
     let vDomBox;
 
-    let box_id_width, req_id_width, box_num_width, box_weight_p_width, box_lenght_p_width, box_width_p_width, box_height_p_width, box_volume_weight_p_width, box_packing_date_width, box_dis_id_width, box_cost_width;
+    let box_id_width, req_id_width, box_num_width, box_weight_p_width, box_lenght_p_width, box_width_p_width, box_height_p_width, box_volume_weight_p_width, box_packing_date_width, box_dis_id_width, box_cost_width, box_brand_width;
 
-    let box_id_class, req_id_class, box_num_class, box_weight_p_class, box_lenght_p_class, box_width_p_class, box_height_p_class, box_volume_weight_p_class, box_packing_date_class, box_dis_id_class, box_cost_class;
+    let box_id_class, req_id_class, box_num_class, box_weight_p_class, box_lenght_p_class, box_width_p_class, box_height_p_class, box_volume_weight_p_class, box_packing_date_class, box_dis_id_class, box_cost_class, box_brand_class;
 
     let box_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
     let box_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
@@ -46,8 +46,9 @@
         box_width_p_width = "10%"; box_width_p_class = "small_size small_head_size small_footer_size";
         box_height_p_width = "10%"; box_height_p_class = "small_size small_head_size small_footer_size";
         box_volume_weight_p_width = "10%"; box_volume_weight_p_class = "small_size small_head_size small_footer_size";
-        box_packing_date_width = "30%"; box_packing_date_class = "small_size small_head_size small_footer_size";
+        box_packing_date_width = "20%"; box_packing_date_class = "small_size small_head_size small_footer_size";
         box_cost_width = "10%"; box_cost_class = "small_size small_head_size small_footer_size";
+        box_brand_width = "10%"; box_brand_class = "small_size small_head_size small_footer_size";
 
         $('#box-addbtn').removeClass('btn-sm');
         $('#box-editbtn').removeClass('btn-sm');
@@ -69,8 +70,9 @@
         box_width_p_width = "10%"; box_width_p_class = "small_size small_head_size small_footer_size";
         box_height_p_width = "10%"; box_height_p_class = "small_size small_head_size small_footer_size";
         box_volume_weight_p_width = "10%"; box_volume_weight_p_class = "small_size small_head_size small_footer_size";
-        box_packing_date_width = "30%"; box_packing_date_class = "small_size small_head_size small_footer_size";
+        box_packing_date_width = "20%"; box_packing_date_class = "small_size small_head_size small_footer_size";
         box_cost_width = "10%"; box_cost_class = "small_size small_head_size small_footer_size";
+        box_brand_width = "10%"; box_brand_class = "small_size small_head_size small_footer_size";
     }
     else{
         vDomBox = "Blfrtip";
@@ -83,8 +85,9 @@
         box_width_p_width = "10%"; box_width_p_class = "small_size small_head_size small_footer_size";
         box_height_p_width = "10%"; box_height_p_class = "small_size small_head_size small_footer_size";
         box_volume_weight_p_width = "10%"; box_volume_weight_p_class = "small_size small_head_size small_footer_size";
-        box_packing_date_width = "30%"; box_packing_date_class = "small_size small_head_size small_footer_size";
+        box_packing_date_width = "20%"; box_packing_date_class = "small_size small_head_size small_footer_size";
         box_cost_width = "10%"; box_cost_class = "small_size small_head_size small_footer_size";
+        box_brand_width = "10%"; box_brand_class = "small_size small_head_size small_footer_size";
     }
 
     var vBox;
@@ -111,7 +114,8 @@
             box_height_p : null,
             box_volume_weight_p : null,
             box_packing_date : null,
-            box_cost : null
+            box_cost : null,
+            box_brand : null
         },
         ordering: true,
         order: [
@@ -121,6 +125,14 @@
         dom: vDomBox,
         createdRow: function( row, data, dataIndex ) {
         },
+        columnDefs:[
+            {"targets": [11], render: function (a, b, data, d) {
+                    if(data.box_brand === 0) { return '<a class=\"btn btn-xs\"><i class=\"align-middle text-danger fas fa-fw fa-times\"></i></a>';}
+                    else{return '<a class=\"btn btn-xs\"><i class=\"align-middle text-success fas fa-fw fa-check\"></i></a>';}
+                }},
+            {"targets": [9], type: 'de_datetime'}
+
+        ],
         columns : [
             /*0*/{"title": /*[[#{box.box_id}]]*/ "box_id", "data": "box_id", "width": box_id_width, "className": box_id_class},
             /*1*/{"title": /*[[#{box.req_id}]]*/ "req_id", "data": "req_id", "width": req_id_width, "className": req_id_class},
@@ -132,7 +144,8 @@
             /*7*/{"title": /*[[#{box.box_height_p}]]*/ "box_height_p", "data": "box_height_p", "width": box_height_p_width, "className": box_height_p_class},
             /*8*/{"title": /*[[#{box.box_volume_weight_p}]]*/ "box_volume_weight_p", "data": "box_volume_weight_p", "width": box_volume_weight_p_width, "className": box_volume_weight_p_class},
             /*9*/{"title": /*[[#{box.box_packing_date}]]*/ "box_packing_date", "data": "box_packing_date", "width": box_packing_date_width, "className": box_packing_date_class},
-            /*10*/{"title": /*[[#{box.box_cost}]]*/ "box_cost", "data": "box_cost", "width": box_cost_width, "className": box_cost_class}
+            /*10*/{"title": /*[[#{box.box_cost}]]*/ "box_cost", "data": "box_cost", "width": box_cost_width, "className": box_cost_class},
+            /*11*/{"title": /*[[#{box.box_brand}]]*/ "box_brand", "data": "box_brand", "width": box_brand_width, "className": box_brand_class}
         ],
         pageLength: 25,
         copy_button: true,

@@ -53,7 +53,8 @@ public class BoxController {
             @RequestParam(name = "box_height_p") Double box_height_p,
             @RequestParam(name = "box_volume_weight_p", required = false) Double box_volume_weight_p,
             @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date box_packing_date,
-            @RequestParam(name = "box_cost", required = false) Double box_cost
+            @RequestParam(name = "box_cost", required = false) Double box_cost,
+            @RequestParam(name = "box_brand") Long box_brand
     ) {
         ResponseEntity<?> result;
         try{
@@ -69,7 +70,8 @@ public class BoxController {
                     .registerStoredProcedureParameter(8, Double.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(9, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(10, Double.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(11, Long.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(11, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(12, Long.class, ParameterMode.OUT)
                     .setParameter(1, req_id)
                     .setParameter(2, dis_id)
                     .setParameter(3, box_num)
@@ -80,9 +82,10 @@ public class BoxController {
                     .setParameter(8, box_volume_weight_p)
                     .setParameter(9, box_packing_date)
                     .setParameter(10, box_cost)
+                    .setParameter(11, box_brand)
                     ;
             AddProductQuery.execute();
-            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(11));
+            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(12));
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +104,8 @@ public class BoxController {
             @RequestParam(name = "box_height_p") Double box_height_p,
             @RequestParam(name = "box_volume_weight_p", required = false) Double box_volume_weight_p,
             @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date box_packing_date,
-            @RequestParam(name = "box_cost", required = false) Double box_cost
+            @RequestParam(name = "box_cost", required = false) Double box_cost,
+            @RequestParam(name = "box_brand") Long box_brand
     ) {
         ResponseEntity<?> result;
         try{
@@ -118,6 +122,7 @@ public class BoxController {
                     .registerStoredProcedureParameter(9, Double.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(10, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(11, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(12, Long.class, ParameterMode.IN)
                     .setParameter(1, box_id)
                     .setParameter(2, req_id)
                     .setParameter(3, dis_id)
@@ -129,6 +134,7 @@ public class BoxController {
                     .setParameter(9, box_volume_weight_p)
                     .setParameter(10, box_packing_date)
                     .setParameter(11, box_cost)
+                    .setParameter(12, box_brand)
                     ;
             AddProductQuery.execute();
             result = ResponseEntity.ok(box_id);

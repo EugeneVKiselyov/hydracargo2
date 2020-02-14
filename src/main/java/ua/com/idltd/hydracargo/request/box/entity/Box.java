@@ -44,4 +44,7 @@ public class Box {
   @Column(name = "BOX_COST")
   public Float box_cost;
 
+  @Column(name = "BOX_BRAND")
+  public Long box_brand;
+
 }

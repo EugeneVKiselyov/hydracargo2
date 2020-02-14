@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: vex
+    active: ipex
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     properties.hibernate.proc.param_null_passing : true
@@ -167,12 +167,12 @@ telegram :
         servlet:
           context-path: /giba
 
-      telegram:
-        BOT_CREATOR_ID: 363275968
-        bot_start: true
-        BOT_TOKEN: 958005997:AAFYcIOpFPOH28RCtcjpSB7k-zE3rwWfbHc
-        BOT_USERNAME: g8user_bot
-        INFO: giba.info
+        telegram:
+          BOT_CREATOR_ID: 363275968
+          bot_start: true
+          BOT_TOKEN: 1089235418:AAGaTGDmBcl5a9ikbMKcP05_k_0XOE0jFVg
+          BOT_USERNAME: gibalogisticbot
+          INFO: giba.info
 
 ---
 
@@ -198,6 +198,6 @@ telegram :
         telegram:
           BOT_CREATOR_ID: 363275968
           bot_start: true
-          BOT_TOKEN: 1089235418:AAGaTGDmBcl5a9ikbMKcP05_k_0XOE0jFVg
-          BOT_USERNAME: gibalogisticbot
+          BOT_TOKEN: 958005997:AAFYcIOpFPOH28RCtcjpSB7k-zE3rwWfbHc
+          BOT_USERNAME: g8user_bot
           INFO: giba.info
