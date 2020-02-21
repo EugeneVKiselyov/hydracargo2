@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.request.box.repository.BoxRepository;
+import ua.com.idltd.hydracargo.request.box.repository.VBoxRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
 import javax.persistence.EntityManager;
@@ -29,9 +30,9 @@ public class BoxController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final BoxRepository boxRepository;
+    private final VBoxRepository boxRepository;
 
-    public BoxController(BoxRepository boxRepository) {
+    public BoxController(VBoxRepository boxRepository) {
         this.boxRepository = boxRepository;
     }
 
@@ -52,9 +53,14 @@ public class BoxController {
             @RequestParam(name = "box_width_p") Double box_width_p,
             @RequestParam(name = "box_height_p") Double box_height_p,
             @RequestParam(name = "box_volume_weight_p", required = false) Double box_volume_weight_p,
-            @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date box_packing_date,
+            @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date box_packing_date,
             @RequestParam(name = "box_cost", required = false) Double box_cost,
-            @RequestParam(name = "box_brand") Long box_brand
+            @RequestParam(name = "box_brand") Long box_brand,
+            @RequestParam(name = "box_fee") Double box_fee,
+            @RequestParam(name = "fpg_id", required = false) Long fpg_id,
+            @RequestParam(name = "ftpm_id", required = false) Long ftpm_id,
+            @RequestParam(name = "fit_id", required = false) Long fit_id,
+            @RequestParam(name = "box_description", required = false) String box_description
     ) {
         ResponseEntity<?> result;
         try{
@@ -71,7 +77,12 @@ public class BoxController {
                     .registerStoredProcedureParameter(9, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(10, Double.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(11, Long.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(12, Long.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(12, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(13, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(14, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(15, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(16, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(17, Long.class, ParameterMode.OUT)
                     .setParameter(1, req_id)
                     .setParameter(2, dis_id)
                     .setParameter(3, box_num)
@@ -83,9 +94,14 @@ public class BoxController {
                     .setParameter(9, box_packing_date)
                     .setParameter(10, box_cost)
                     .setParameter(11, box_brand)
+                    .setParameter(12, box_fee)
+                    .setParameter(13, fpg_id)
+                    .setParameter(14, ftpm_id)
+                    .setParameter(15, fit_id)
+                    .setParameter(16, box_description)
                     ;
             AddProductQuery.execute();
-            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(12));
+            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(17));
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -103,9 +119,14 @@ public class BoxController {
             @RequestParam(name = "box_width_p") Double box_width_p,
             @RequestParam(name = "box_height_p") Double box_height_p,
             @RequestParam(name = "box_volume_weight_p", required = false) Double box_volume_weight_p,
-            @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date box_packing_date,
+            @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date box_packing_date,
             @RequestParam(name = "box_cost", required = false) Double box_cost,
-            @RequestParam(name = "box_brand") Long box_brand
+            @RequestParam(name = "box_brand") Long box_brand,
+            @RequestParam(name = "box_fee") Double box_fee,
+            @RequestParam(name = "fpg_id", required = false) Long fpg_id,
+            @RequestParam(name = "ftpm_id", required = false) Long ftpm_id,
+            @RequestParam(name = "fit_id", required = false) Long fit_id,
+            @RequestParam(name = "box_description", required = false) String box_description
     ) {
         ResponseEntity<?> result;
         try{
@@ -123,6 +144,11 @@ public class BoxController {
                     .registerStoredProcedureParameter(10, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(11, Double.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(12, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(13, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(14, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(15, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(16, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(17, String.class, ParameterMode.IN)
                     .setParameter(1, box_id)
                     .setParameter(2, req_id)
                     .setParameter(3, dis_id)
@@ -135,6 +161,11 @@ public class BoxController {
                     .setParameter(10, box_packing_date)
                     .setParameter(11, box_cost)
                     .setParameter(12, box_brand)
+                    .setParameter(13, box_fee)
+                    .setParameter(14, fpg_id)
+                    .setParameter(15, ftpm_id)
+                    .setParameter(16, fit_id)
+                    .setParameter(17, box_description)
                     ;
             AddProductQuery.execute();
             result = ResponseEntity.ok(box_id);

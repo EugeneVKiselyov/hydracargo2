@@ -31,9 +31,13 @@
                             </div>
                             <div class="col-4" id="box_modal_box_packing_date_row">
                                 <label for="box_modal_box_packing_date" class="form-label" th:text="#{box.box_packing_date}"></label>
-                                <input type="date" class="form-control" id="box_modal_box_packing_date" name="box_packing_date">
-                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
-                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                                <div class="input-group">
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                    <input type="text" class="form-control" id="box_modal_box_packing_date" name="box_packing_date">
+                                    <button type="button" id="box_modal_box_packing_date_x" name="box_modal_box_packing_date_x" class="btn btn-outline-primary"><i class="fas fa-times"></i></button>
+                                    <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                    <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                                </div>
                             </div>
                             <div class="col-4" id="box_modal_box_weight_p_row">
                                 <label for="box_modal_box_weight_p" class="form-label" th:text="#{box.box_weight_p}"></label>
@@ -83,6 +87,65 @@
                                 </select>
                             </div>
                         </div><!-- Row 3 -->
+                        <div class="form-row">
+                            <div class="col-4" id="box_modal_box_fee_row">
+                                <label for="box_modal_box_fee" class="form-label" th:text="#{box.box_fee}"></label>
+                                <input type="number" step="0.01" class="form-control" id="box_modal_box_fee" name="box_fee">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 4 -->
+                        <div class="form-row">
+                            <div class="col-6 col-md-6" id="request_modal_fpg_id_row">
+                                <label for="box_modal_fpg_id" class="form-label" th:text="#{box.fpg_name}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="box_modal_fpg_id" name="fpg_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="productGroup : ${productGroupList}"
+                                            th:value="${productGroup.fpg_id}"
+                                            th:text="${productGroup.fpg_name}"
+                                            th:selected="${productGroup.fpg_id == fpg_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-6 col-md-6" id="request_modal_ftpm_id_dest_row">
+                                <label for="box_modal_ftpm_id" class="form-label" th:text="#{box.ftpm_name}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="box_modal_ftpm_id" name="ftpm_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="typePackageMaterial : ${typePackageMaterialList}"
+                                            th:value="${typePackageMaterial.ftpm_id}"
+                                            th:text="${typePackageMaterial.ftpm_name}"
+                                            th:selected="${typePackageMaterial.ftpm_id == ftpm_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 5 -->
+                        <div class="form-row">
+                            <div class="col-6 col-md-6" id="request_modal_fit_id_row">
+                                <label for="box_modal_fit_id" class="form-label" th:text="#{box.fit_name}"></label>
+                                <select type="text" class="form-control select2" data-toggle="select2" id="box_modal_fit_id" name="fit_id" >
+                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                    <option th:each="insurance_Type : ${insurance_TypeList}"
+                                            th:value="${insurance_Type.fit_id}"
+                                            th:text="${insurance_Type.fit_name}"
+                                            th:selected="${insurance_Type.fit_id == fit_id}"
+                                    ></option>
+                                </select>
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 5 -->
+                        <div class="form-row">
+                            <div class="col-12" id="box_modal_box_description_row">
+                                <label for="box_modal_box_description" class="form-label" th:text="#{box.box_description}"></label>
+                                <input type="text" class="form-control" id="box_modal_box_description" name="box_description">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div>
                     </form>
                 </div><!-- Body -->
                 <div class="modal-footer">
@@ -97,6 +160,17 @@
 </span>
 
 <script th:fragment="cardscript" th:inline="javascript">
+    $("#box_modal_box_packing_date").daterangepicker({
+        "singleDatePicker": true,
+        "locale": {
+            "format": "DD.MM.YYYY",
+            "separator": " - ",
+            "firstDay": 1
+        }
+    });
+    $('#box_modal_box_packing_date_x').on('click', function() {
+        $('#box_modal_box_packing_date').empty().val('');
+    });
 
 // Clear Fields
     function clear_box_modal_detail() {
@@ -117,11 +191,17 @@
         $('#box_modal_box_volume_weight_p').attr('required',false);
         $('#box_modal_box_cost').attr('required',false);
         $('#box_modal_box_brand').attr('required',true);
+        $('#box_modal_box_fee').attr('required',true);
+        $('#box_modal_fpg_id').attr('required',false);
+        $('#box_modal_ftpm_id').attr('required',false);
+        $('#box_modal_fit_id').attr('required',false);
+        $('#box_modal_box_description').attr('required',true);
         
 
         if($('#box_modal_mode').val() === "0"){
             $('#box_modal_box_num').removeAttr('disabled');
             $('#box_modal_box_packing_date').removeAttr('disabled');
+            $('#box_modal_box_packing_date_x').prop('disabled',false).removeClass('btn-outline-dark').addClass('btn-outline-primary');
             $('#box_modal_box_weight_p').removeAttr('disabled');
             $('#box_modal_box_lenght_p').removeAttr('disabled');
             $('#box_modal_box_width_p').removeAttr('disabled');
@@ -129,10 +209,16 @@
             $('#box_modal_box_volume_weight_p').attr('disabled',true);
             $('#box_modal_box_cost').removeAttr('disabled');
             $('#box_modal_box_brand').removeAttr('disabled');
+            $('#box_modal_box_fee').removeAttr('disabled');
+            $('#box_modal_fpg_id').removeAttr('disabled');
+            $('#box_modal_ftpm_id').removeAttr('disabled');
+            $('#box_modal_fit_id').removeAttr('disabled');
+            $('#box_modal_box_description').removeAttr('disabled');
         }
         else if($('#box_modal_mode').val() === "1"){
             $('#box_modal_box_num').removeAttr('disabled');
             $('#box_modal_box_packing_date').removeAttr('disabled');
+            $('#box_modal_box_packing_date_x').prop('disabled',false).removeClass('btn-outline-dark').addClass('btn-outline-primary');
             $('#box_modal_box_weight_p').removeAttr('disabled');
             $('#box_modal_box_lenght_p').removeAttr('disabled');
             $('#box_modal_box_width_p').removeAttr('disabled');
@@ -140,10 +226,16 @@
             $('#box_modal_box_volume_weight_p').attr('disabled',true);
             $('#box_modal_box_cost').removeAttr('disabled');
             $('#box_modal_box_brand').removeAttr('disabled');
+            $('#box_modal_box_fee').removeAttr('disabled');
+            $('#box_modal_fpg_id').removeAttr('disabled');
+            $('#box_modal_ftpm_id').removeAttr('disabled');
+            $('#box_modal_fit_id').removeAttr('disabled');
+            $('#box_modal_box_description').removeAttr('disabled');
         }
         else{
             $('#box_modal_box_num').attr('disabled',true);
             $('#box_modal_box_packing_date').attr('disabled',true);
+            $('#box_modal_box_packing_date_x').prop('disabled',true).removeClass('btn-outline-primary').addClass('btn-outline-dark');
             $('#box_modal_box_weight_p').attr('disabled',true);
             $('#box_modal_box_lenght_p').attr('disabled',true);
             $('#box_modal_box_width_p').attr('disabled',true);
@@ -151,6 +243,11 @@
             $('#box_modal_box_volume_weight_p').attr('disabled',true);
             $('#box_modal_box_cost').attr('disabled',true);
             $('#box_modal_box_brand').attr('disabled',true);
+            $('#box_modal_box_fee').attr('disabled',true);
+            $('#box_modal_fpg_id').attr('disabled',true);
+            $('#box_modal_ftpm_id').attr('disabled',true);
+            $('#box_modal_fit_id').attr('disabled',true);
+            $('#box_modal_box_description').attr('disabled',true);
         }
     }
 
@@ -167,7 +264,7 @@
                         $('#box_modal_req_id').val(vBox.rowdata.req_id);
                         $('#box_modal_dis_id').val(vBox.rowdata.dis_id);
                         $('#box_modal_box_num').val(vBox.rowdata.box_num);
-                        $('#box_modal_box_packing_date').val(vBox.rowdata.box_packing_date).change();
+                        $('#box_modal_box_packing_date').data('daterangepicker').setStartDate(moment(vBox.rowdata.box_packing_date).format('DD.MM.YYYY'));
                         $('#box_modal_box_weight_p').val(vBox.rowdata.box_weight_p);
                         $('#box_modal_box_lenght_p').val(vBox.rowdata.box_lenght_p);
                         $('#box_modal_box_width_p').val(vBox.rowdata.box_width_p);
@@ -175,6 +272,11 @@
                         $('#box_modal_box_volume_weight_p').val(vBox.rowdata.box_volume_weight_p);
                         $('#box_modal_box_cost').val(vBox.rowdata.box_cost);
                         $('#box_modal_box_brand').val(vBox.rowdata.box_brand).change();
+                        $('#box_modal_box_fee').val(vBox.rowdata.box_fee);
+                        $('#box_modal_fpg_id').val(vBox.rowdata.fpg_id).change();
+                        $('#box_modal_ftpm_id').val(vBox.rowdata.ftpm_id).change();
+                        $('#box_modal_fit_id').val(vBox.rowdata.fit_id).change();
+                        $('#box_modal_box_description').val(vBox.rowdata.box_description);
                         $('#box_modal').modal('show');
                     });
         }
@@ -183,6 +285,10 @@
             ).then(function () {
                 $('#box_modal_req_id').val(vRequest.rowdata.req_id);
                 $('#box_modal_box_brand').val(0).change();
+                $('#box_modal_fpg_id').val(null).change();
+                $('#box_modal_ftpm_id').val(null).change();
+                $('#box_modal_fit_id').val(0).change();
+                $('#box_modal_box_description').val("");
                 $('#box_modal').modal('show');
             });
         }

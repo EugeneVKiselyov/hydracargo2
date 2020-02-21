@@ -3,7 +3,6 @@ package ua.com.idltd.hydracargo.request;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.business.entity.Business;
@@ -12,9 +11,15 @@ import ua.com.idltd.hydracargo.contragent.entity.Contragent;
 import ua.com.idltd.hydracargo.contragent.repository.ContragentRepository;
 import ua.com.idltd.hydracargo.entrepot.entity.Entrepot;
 import ua.com.idltd.hydracargo.entrepot.repository.EntrepotRepository;
+import ua.com.idltd.hydracargo.insurancetype.entity.Fin_Insurance_Type;
+import ua.com.idltd.hydracargo.insurancetype.repository.Fin_Insurance_TypeRepository;
+import ua.com.idltd.hydracargo.productgroup.entity.Fin_ProductGroup;
+import ua.com.idltd.hydracargo.productgroup.repository.Fin_ProductGroupRepository;
 import ua.com.idltd.hydracargo.request.repository.VRequestRepository;
 import ua.com.idltd.hydracargo.request_status.entity.Request_status;
 import ua.com.idltd.hydracargo.request_status.repository.Request_statusRepository;
+import ua.com.idltd.hydracargo.typepackagematerial.ratetype.entity.Fin_TypePackageMaterial;
+import ua.com.idltd.hydracargo.typepackagematerial.ratetype.repository.Fin_TypePackageMaterialRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
 import javax.persistence.EntityManager;
@@ -41,13 +46,19 @@ public class RequestController {
     private final BusinessRepository businessRepository;
     private final Request_statusRepository request_statusRepository;
     private final EntrepotRepository entrepotRepository;
+    private final Fin_ProductGroupRepository fin_productGroupRepository;
+    private final Fin_TypePackageMaterialRepository fin_typePackageMaterialRepository;
+    private final Fin_Insurance_TypeRepository fin_insurance_typeRepository;
 
-    public RequestController(VRequestRepository requestRepository, ContragentRepository contragentRepository, BusinessRepository businessRepository, Request_statusRepository request_statusRepository, EntrepotRepository entrepotRepository) {
+    public RequestController(VRequestRepository requestRepository, ContragentRepository contragentRepository, BusinessRepository businessRepository, Request_statusRepository request_statusRepository, EntrepotRepository entrepotRepository, Fin_ProductGroupRepository fin_productGroupRepository, Fin_TypePackageMaterialRepository fin_typePackageMaterialRepository, Fin_Insurance_TypeRepository fin_insurance_typeRepository) {
         this.requestRepository = requestRepository;
         this.contragentRepository = contragentRepository;
         this.businessRepository = businessRepository;
         this.request_statusRepository = request_statusRepository;
         this.entrepotRepository = entrepotRepository;
+        this.fin_productGroupRepository = fin_productGroupRepository;
+        this.fin_typePackageMaterialRepository = fin_typePackageMaterialRepository;
+        this.fin_insurance_typeRepository = fin_insurance_typeRepository;
         this.currentFilter=new RequestFilter();
     }
 
@@ -88,6 +99,19 @@ public class RequestController {
         entrepotList =  entrepotRepository.findAll();
         mav.addObject("entrepotList", entrepotList);
 
+        //Для Box
+        Iterable<Fin_ProductGroup> productGroupList;
+        productGroupList =  fin_productGroupRepository.findAll();
+        mav.addObject("productGroupList", productGroupList);
+
+        Iterable<Fin_TypePackageMaterial> typePackageMaterialList;
+        typePackageMaterialList =  fin_typePackageMaterialRepository.findAll();
+        mav.addObject("typePackageMaterialList", typePackageMaterialList);
+
+        Iterable<Fin_Insurance_Type> insurance_TypeList;
+        insurance_TypeList =  fin_insurance_typeRepository.findAll();
+        mav.addObject("insurance_TypeList", insurance_TypeList);
+
         mav.setViewName("/request/cover");
         return mav;
     }
@@ -123,18 +147,18 @@ public class RequestController {
             @RequestParam(name = "req_num", required = false) String req_num,
             @RequestParam(name = "bs_id") Long bs_id,
             @RequestParam(name = "rs_id") Long rs_id,
-            @RequestParam(name = "req_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_date,
+            @RequestParam(name = "req_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_date,
             @RequestParam(name = "ep_id") Long ep_id,
             @RequestParam(name = "ep_id_dest") Long ep_id_dest,
             @RequestParam(name = "req_weight_p", required = false) Double req_weight_p,
             @RequestParam(name = "req_weight_f", required = false) Double req_weight_f,
             @RequestParam(name = "req_seatsnum_p", required = false) Long req_seatsnum_p,
             @RequestParam(name = "req_seatsnum_f", required = false) Long req_seatsnum_f,
-            @RequestParam(name = "req_arrival_date_p", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_arrival_date_p,
-            @RequestParam(name = "req_arrival_date_f", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_arrival_date_f,
-            @RequestParam(name = "req_departure_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_departure_date,
-            @RequestParam(name = "req_ep_dest_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_ep_dest_date,
-            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_contragent_date
+            @RequestParam(name = "req_arrival_date_p", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_arrival_date_p,
+            @RequestParam(name = "req_arrival_date_f", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_arrival_date_f,
+            @RequestParam(name = "req_departure_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_departure_date,
+            @RequestParam(name = "req_ep_dest_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_ep_dest_date,
+            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_contragent_date
     ) {
         ResponseEntity<?> result;
         try{
@@ -190,18 +214,18 @@ public class RequestController {
             @RequestParam(name = "req_num", required = false) String req_num,
             @RequestParam(name = "bs_id") Long bs_id,
             @RequestParam(name = "rs_id") Long rs_id,
-            @RequestParam(name = "req_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_date,
+            @RequestParam(name = "req_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_date,
             @RequestParam(name = "ep_id") Long ep_id,
             @RequestParam(name = "ep_id_dest") Long ep_id_dest,
             @RequestParam(name = "req_weight_p", required = false) Double req_weight_p,
             @RequestParam(name = "req_weight_f", required = false) Double req_weight_f,
             @RequestParam(name = "req_seatsnum_p", required = false) Long req_seatsnum_p,
             @RequestParam(name = "req_seatsnum_f", required = false) Long req_seatsnum_f,
-            @RequestParam(name = "req_arrival_date_p", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_arrival_date_p,
-            @RequestParam(name = "req_arrival_date_f", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_arrival_date_f,
-            @RequestParam(name = "req_departure_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_departure_date,
-            @RequestParam(name = "req_ep_dest_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_ep_dest_date,
-            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date req_contragent_date
+            @RequestParam(name = "req_arrival_date_p", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_arrival_date_p,
+            @RequestParam(name = "req_arrival_date_f", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_arrival_date_f,
+            @RequestParam(name = "req_departure_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_departure_date,
+            @RequestParam(name = "req_ep_dest_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_ep_dest_date,
+            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_contragent_date
     ) {
         ResponseEntity<?> result;
         try{

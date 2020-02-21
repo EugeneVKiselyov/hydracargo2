@@ -356,8 +356,8 @@
                     case 1: $("#scanresulttext").text("Найдено в загрузочном файле но нет в раскраске"); break;
                     case 2: $("#scanresulttext").text("Найдено в раскраске но нет в загрузочном файле"); break;
                     case 3: $("#scanresulttext").text("Не найдено нигде"); break;
-                    case 4: $("#scanresulttext").text("Повторное сканирование не найденного нигде"); break;
-                    default : case 3: $("#scanresulttext").text("Ошибка!!!!!!");
+                    case 4: $("#scanresulttext").text("Повторное сканирование"); break;
+                    default : $("#scanresulttext").text("Ошибка!!!!!!");
                 }
                 $("#shipment").val("");
                 scanMainRefresh();

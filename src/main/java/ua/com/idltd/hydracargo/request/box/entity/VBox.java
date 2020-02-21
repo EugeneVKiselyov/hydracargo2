@@ -5,12 +5,10 @@ import java.util.Date;
 
 @Entity
 @Table(name = "BOX")
-public class Box {
+public class VBox {
 
   @Id
   @Column(name = "BOX_ID", nullable = false)
-  @SequenceGenerator(name = "BOX_SEQ", sequenceName = "BOX_SEQ", allocationSize = 1, initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOX_SEQ")
   public Long box_id;
 
   @Column(name = "REQ_ID")
@@ -56,11 +54,23 @@ public class Box {
   @Column(name = "FPG_ID")
   public Long fpg_id;
 
+  @Column(name = "FPG_NAME")
+  public String fpg_name;
+
   @Column(name = "FTPM_ID")
   public Long ftpm_id;
 
+  @Column(name = "FTPM_NAME")
+  public String ftpm_name;
+
   @Column(name = "FIT_ID")
   public Long fit_id;
+
+  @Column(name = "FIT_NAME")
+  public String fit_name;
+
+  @Column(name = "FIT_PERCENT")
+  public Double fit_percent;
 
   @Column(name = "BOX_FEE")
   public Double box_fee;

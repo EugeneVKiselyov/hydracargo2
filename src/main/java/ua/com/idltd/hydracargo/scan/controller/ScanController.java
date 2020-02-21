@@ -100,16 +100,10 @@ public class ScanController {
                     .withCatalogName("pkg_scan")
                     .withFunctionName("scan_shipment");
             BigDecimal link_result = simpleJdbcCall.executeFunction(BigDecimal.class, in);
-            String link_result_color="#fff";
-            switch (link_result.intValue()){
-                case 0 :
-                case 2 : link_result_color=declaration_scanRepository.findColorByDis_idandSAndDs_shipment(dis_id,shipment);
-                         break;
-                case 1 :
-                case 3 :
-                case 4 : link_result_color="silver";
-                break;
-            }
+
+            String link_result_color = template.queryForObject(
+                    "select ds_color from Declaration_scan where dis_id = "+dis_id+" and ds_shipment like '%"+shipment+"%'",
+                    null, String.class);
             result = ResponseEntity.ok(new ScanResult(link_result,link_result_color,shipment));
 
         } catch (Exception e){
