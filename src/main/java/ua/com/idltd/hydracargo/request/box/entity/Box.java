@@ -68,4 +68,15 @@ public class Box {
   @Column(name = "BOX_DESCRIPTION")
   public String box_description;
 
+  @Column(name = "BOX_INSHIPMENT")
+  public String box_inshipment;
+
+  @Column(name = "BOX_SHIPMENT")
+  public String box_shipment;
+
+  @Column(name = "BOX_OUTSHIPMENT")
+  public String box_outshipment;
+
+  @Column(name = "BOX_CARPLATE")
+  public String box_carplate;
 }

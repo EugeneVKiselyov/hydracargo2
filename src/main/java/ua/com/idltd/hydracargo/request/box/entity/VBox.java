@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "BOX")
+@Table(name = "VBOX")
 public class VBox {
 
   @Id
@@ -38,6 +38,9 @@ public class VBox {
 
   @Column(name = "DIS_ID")
   public Long dis_id;
+
+  @Column(name = "DIS_NUM")
+  public String dis_num;
 
   @Column(name = "BOX_COST")
   public Float box_cost;
@@ -77,5 +80,17 @@ public class VBox {
 
   @Column(name = "BOX_DESCRIPTION")
   public String box_description;
+
+  @Column(name = "BOX_INSHIPMENT")
+  public String box_inshipment;
+
+  @Column(name = "BOX_SHIPMENT")
+  public String box_shipment;
+
+  @Column(name = "BOX_OUTSHIPMENT")
+  public String box_outshipment;
+
+  @Column(name = "BOX_CARPLATE")
+  public String box_carplate;
 
 }

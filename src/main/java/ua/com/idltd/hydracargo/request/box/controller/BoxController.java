@@ -55,12 +55,16 @@ public class BoxController {
             @RequestParam(name = "box_volume_weight_p", required = false) Double box_volume_weight_p,
             @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date box_packing_date,
             @RequestParam(name = "box_cost", required = false) Double box_cost,
-            @RequestParam(name = "box_brand") Long box_brand,
-            @RequestParam(name = "box_fee") Double box_fee,
+            @RequestParam(name = "box_brand", required = false) Long box_brand,
+            @RequestParam(name = "box_fee", required = false) Double box_fee,
             @RequestParam(name = "fpg_id", required = false) Long fpg_id,
             @RequestParam(name = "ftpm_id", required = false) Long ftpm_id,
             @RequestParam(name = "fit_id", required = false) Long fit_id,
-            @RequestParam(name = "box_description", required = false) String box_description
+            @RequestParam(name = "box_description", required = false) String box_description,
+            @RequestParam(name = "box_inshipment", required = false) String box_inshipment,
+            @RequestParam(name = "box_shipment", required = false) String box_shipment,
+            @RequestParam(name = "box_outshipment", required = false) String box_outshipment,
+            @RequestParam(name = "box_carplate", required = false) String box_carplate
     ) {
         ResponseEntity<?> result;
         try{
@@ -82,7 +86,11 @@ public class BoxController {
                     .registerStoredProcedureParameter(14, Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(15, Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(16, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(17, Long.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(17, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(18, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(19, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(20, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(21, Long.class, ParameterMode.OUT)
                     .setParameter(1, req_id)
                     .setParameter(2, dis_id)
                     .setParameter(3, box_num)
@@ -99,9 +107,13 @@ public class BoxController {
                     .setParameter(14, ftpm_id)
                     .setParameter(15, fit_id)
                     .setParameter(16, box_description)
+                    .setParameter(17, box_inshipment)
+                    .setParameter(18, box_shipment)
+                    .setParameter(19, box_outshipment)
+                    .setParameter(20, box_carplate)
                     ;
             AddProductQuery.execute();
-            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(17));
+            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(21));
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -121,12 +133,16 @@ public class BoxController {
             @RequestParam(name = "box_volume_weight_p", required = false) Double box_volume_weight_p,
             @RequestParam(name = "box_packing_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date box_packing_date,
             @RequestParam(name = "box_cost", required = false) Double box_cost,
-            @RequestParam(name = "box_brand") Long box_brand,
-            @RequestParam(name = "box_fee") Double box_fee,
+            @RequestParam(name = "box_brand", required = false) Long box_brand,
+            @RequestParam(name = "box_fee", required = false) Double box_fee,
             @RequestParam(name = "fpg_id", required = false) Long fpg_id,
             @RequestParam(name = "ftpm_id", required = false) Long ftpm_id,
             @RequestParam(name = "fit_id", required = false) Long fit_id,
-            @RequestParam(name = "box_description", required = false) String box_description
+            @RequestParam(name = "box_description", required = false) String box_description,
+            @RequestParam(name = "box_inshipment", required = false) String box_inshipment,
+            @RequestParam(name = "box_shipment", required = false) String box_shipment,
+            @RequestParam(name = "box_outshipment", required = false) String box_outshipment,
+            @RequestParam(name = "box_carplate", required = false) String box_carplate
     ) {
         ResponseEntity<?> result;
         try{
@@ -149,6 +165,10 @@ public class BoxController {
                     .registerStoredProcedureParameter(15, Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(16, Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(17, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(18, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(19, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(20, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(21, String.class, ParameterMode.IN)
                     .setParameter(1, box_id)
                     .setParameter(2, req_id)
                     .setParameter(3, dis_id)
@@ -166,6 +186,10 @@ public class BoxController {
                     .setParameter(15, ftpm_id)
                     .setParameter(16, fit_id)
                     .setParameter(17, box_description)
+                    .setParameter(18, box_inshipment)
+                    .setParameter(19, box_shipment)
+                    .setParameter(20, box_outshipment)
+                    .setParameter(21, box_carplate)
                     ;
             AddProductQuery.execute();
             result = ResponseEntity.ok(box_id);
