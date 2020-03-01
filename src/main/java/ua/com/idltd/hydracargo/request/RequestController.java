@@ -166,7 +166,9 @@ public class RequestController {
             @RequestParam(name = "req_arrival_date_f", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_arrival_date_f,
             @RequestParam(name = "req_departure_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_departure_date,
             @RequestParam(name = "req_ep_dest_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_ep_dest_date,
-            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_contragent_date
+            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_contragent_date,
+            @RequestParam(name = "req_fee", required = false) Double req_fee,
+            @RequestParam(name = "req_addexpenses", required = false) Double req_addexpenses
     ) {
         ResponseEntity<?> result;
         try{
@@ -188,7 +190,9 @@ public class RequestController {
                     .registerStoredProcedureParameter(14, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(15, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(16, Date.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(17, Long.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(17, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(18, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(19, Long.class, ParameterMode.OUT)
                     .setParameter(1, cnt_id)
                     .setParameter(2, req_num)
                     .setParameter(3, bs_id)
@@ -205,9 +209,11 @@ public class RequestController {
                     .setParameter(14, req_departure_date)
                     .setParameter(15, req_ep_dest_date)
                     .setParameter(16, req_contragent_date)
+                    .setParameter(17, req_fee)
+                    .setParameter(18, req_addexpenses)
                     ;
             AddProductQuery.execute();
-            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(17));
+            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(19));
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -233,7 +239,9 @@ public class RequestController {
             @RequestParam(name = "req_arrival_date_f", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_arrival_date_f,
             @RequestParam(name = "req_departure_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_departure_date,
             @RequestParam(name = "req_ep_dest_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_ep_dest_date,
-            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_contragent_date
+            @RequestParam(name = "req_contragent_date", required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date req_contragent_date,
+            @RequestParam(name = "req_fee", required = false) Double req_fee,
+            @RequestParam(name = "req_addexpenses", required = false) Double req_addexpenses
     ) {
         ResponseEntity<?> result;
         try{
@@ -255,7 +263,9 @@ public class RequestController {
                     .registerStoredProcedureParameter(14, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(15, Date.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(16, Date.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(17, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(17, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(18, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(19, Long.class, ParameterMode.IN)
                     .setParameter(1, cnt_id)
                     .setParameter(2, req_num)
                     .setParameter(3, bs_id)
@@ -272,7 +282,9 @@ public class RequestController {
                     .setParameter(14, req_departure_date)
                     .setParameter(15, req_ep_dest_date)
                     .setParameter(16, req_contragent_date)
-                    .setParameter(17, req_id)
+                    .setParameter(17, req_fee)
+                    .setParameter(18, req_addexpenses)
+                    .setParameter(19, req_id)
                     ;
             AddProductQuery.execute();
             result = ResponseEntity.ok(req_id);

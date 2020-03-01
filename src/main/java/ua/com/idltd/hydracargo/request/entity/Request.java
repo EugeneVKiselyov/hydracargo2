@@ -62,5 +62,9 @@ public class Request {
   @Column(name = "BS_ID")
   public Long bs_id;
 
+  @Column(name = "REQ_FEE")
+  public Double req_fee;
+  @Column(name = "REQ_ADDEXPENSES")
+  public Double req_addexpenses;
 
 }

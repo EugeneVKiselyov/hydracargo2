@@ -392,8 +392,7 @@ function addBox(){
         data: $("#box_modal_form").serialize(),
         success: function (result) {
             $('#box_modal').modal('hide');
-            vBox.rowdata.box_id = result;
-            $(vBox.table).DataTable().ajax.reload(null, false);
+            $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
 }
@@ -406,7 +405,7 @@ function editBox(){
         data: $("#box_modal_form").serialize(),
         success: function (result) {
             $('#box_modal').modal('hide');
-            $(vBox.table).DataTable().ajax.reload(null, false);
+            $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
 }
@@ -420,7 +419,7 @@ function delBox(){
         success: function (result) {
             $('#box_modal').modal('hide');
             vBox.rowdata.box_id = null;
-            $(vBox.table).DataTable().ajax.reload(null, false);
+            $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
 }

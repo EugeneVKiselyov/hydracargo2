@@ -11,7 +11,7 @@ import java.util.Date;
 @Subselect(
         "select CNT_ID, CNT_NAME, REQ_ID, REQ_NUM, BS_ID, BS_NAME, RS_ID, RS_NAME, REQ_DATE, EP_ID, EP_CODE, EP_ID_DEST, EP_CODE_DEST, " +
                 "REQ_WEIGHT_P, REQ_WEIGHT_F, REQ_SEATSNUM_P, REQ_SEATSNUM_F, " +
-                "REQ_ARRIVAL_DATE_P, REQ_ARRIVAL_DATE_F, REQ_DEPARTURE_DATE, REQ_EP_DEST_DATE, REQ_CONTRAGENT_DATE " +
+                "REQ_ARRIVAL_DATE_P, REQ_ARRIVAL_DATE_F, REQ_DEPARTURE_DATE, REQ_EP_DEST_DATE, REQ_CONTRAGENT_DATE, REQ_FEE, REQ_ADDEXPENSES " +
                 "from VREQUEST"
 )
 public class VRequest {
@@ -68,4 +68,9 @@ public class VRequest {
   @Column(name = "REQ_CONTRAGENT_DATE")
   @Temporal(TemporalType.DATE)
   public Date req_contragent_date;
+
+  @Column(name = "REQ_FEE")
+  public Double req_fee;
+  @Column(name = "REQ_ADDEXPENSES")
+  public Double req_addexpenses;
 }
