@@ -44,6 +44,9 @@
             type: 'POST',
             data: $("#request_filter").serialize(),
             success: function (result) {
+                vRequest.rowdata.req_id = null;
+                vBox.rowdata.box_id = null;
+                vBoxContent.rowdata.bc_id = null;
                 $(vRequest.table).DataTable().ajax.reload(null, false);
             }
         });

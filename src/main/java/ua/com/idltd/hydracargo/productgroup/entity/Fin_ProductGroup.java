@@ -14,6 +14,12 @@ public class Fin_ProductGroup {
     @Column(name = "FPG_NAME")
     private String fpg_name;
 
+    @Column(name = "FPG_PRICE")
+    private Double fpg_price;
+
+    @Column(name = "FPG_PRICE_BRAND")
+    private Double fpg_price_brand;
+
     public long getFpg_id() {
         return fpg_id;
     }
@@ -28,5 +34,21 @@ public class Fin_ProductGroup {
 
     public void setFpg_name(String fpg_name) {
         this.fpg_name = fpg_name;
+    }
+
+    public Double getFpg_price() {
+        return fpg_price;
+    }
+
+    public void setFpg_price(Double fpg_price) {
+        this.fpg_price = fpg_price;
+    }
+
+    public Double getFpg_price_brand() {
+        return fpg_price_brand;
+    }
+
+    public void setFpg_price_brand(Double fpg_price_brand) {
+        this.fpg_price_brand = fpg_price_brand;
     }
 }

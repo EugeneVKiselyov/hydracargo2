@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:include="layout/header :: header(title = #{Communication.Center.Caption})"></head>
+
+<body> <!-- right-to-left -->
+<div class="splash active">
+    <div class="splash-icon"></div>
+</div>
+
+<div class="wrapper">
+    <nav th:replace="fragments/leftmenu :: leftmenu">left menu</nav>
+
+    <div class="main">
+
+        <nav th:replace="fragments/navigation :: navigation">navigation</nav>
+
+        <main class="content pr-0 pl-0 mr-0 ml-0 mt-0" style="margin-top: 0">
+            <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="!isAuthenticated()">
+                <div class="row">
+                    <div class="col-12 pl-2 pr-2 col-xl-6 pl-xl-2 pr-xl-2 pt-0">
+                        <div class="card flex-fill w-100 mb-2">
+                            <div class="card-header pb-0">
+                                <div class="card-actions float-right">
+                                    <a href="#help_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                </div>
+                                <h5 class="card-title" href="#help_description_div" data-toggle="collapse" th:text="#{help.caption}">Help</h5>
+                            </div>
+                            <div class="card-body pt-0 collapse show" id="help_description_div">
+                                <div>
+                                    <p class="card-text" th:text="#{help.description}"></p>
+                                    <a class="card-link" th:href="@{/help}" th:text="#{general.run}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Start Div -->
+
+            <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')">
+
+                <div class="row">
+                    <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                        <div class="card flex-fill w-100 mb-2">
+                            <div class="card-header pb-0">
+                                <div class="card-actions float-right">
+                                    <a href="#telegramuser_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                </div>
+                                <h5 class="card-title" href="#telegramuser_description_div" data-toggle="collapse" th:text="#{Telegram.User}">Telegram users</h5>
+                            </div>
+                            <div class="card-body pt-0 collapse show d-flex flex-column" id="telegramuser_description_div">
+                                <div>
+                                    <p class="card-text" th:text="#{telegram.user.description}"></p>
+                                    <a class="card-link" th:href="@{/telegramuser}" th:text="#{general.run}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Row 1 -->
+                <div class="row">
+                    <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                        <div class="card flex-fill w-100 mb-2">
+                            <div class="card-header pb-0">
+                                <div class="card-actions float-right">
+                                    <a href="#telegram_messages_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                </div>
+                                <h5 class="card-title" href="#telegram_messages_description_div" data-toggle="collapse" th:text="#{Telegram.Messages}">Telegram Messages</h5>
+                            </div>
+                            <div class="card-body pt-0 collapse show d-flex flex-column" id="telegram_messages_description_div">
+                                <div>
+                                    <p class="card-text" th:text="#{telegram.messages.description}"></p>
+                                    <a class="card-link" th:href="@{/telegram_messages}" th:text="#{general.run}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                        <div class="card flex-fill w-100 mb-2">
+                            <div class="card-header pb-0">
+                                <div class="card-actions float-right">
+                                    <a href="#hcomm_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                </div>
+                                <h5 class="card-title" href="#hcomm_description_div" data-toggle="collapse" th:text="#{hcomm.line.caption}">Line</h5>
+                            </div>
+                            <div class="card-body pt-0 collapse show" id="hcomm_description_div">
+                                <div>
+                                    <p class="card-text" th:text="#{hcomm.line.description}"></p>
+                                    <a class="card-link" th:href="@{/telegram_line}" th:text="#{general.run}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Row 2 -->
+
+            </div><!-- Main Div -->
+
+        </main>
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<footer th:replace="layout/footer :: footer">Footer</footer>
+
+</body>
+</html>

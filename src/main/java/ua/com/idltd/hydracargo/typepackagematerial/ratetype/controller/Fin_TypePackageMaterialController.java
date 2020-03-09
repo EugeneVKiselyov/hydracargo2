@@ -1,5 +1,7 @@
 package ua.com.idltd.hydracargo.typepackagematerial.ratetype.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.typepackagematerial.ratetype.repository.Fin_TypePackageMaterialRepository;
@@ -10,6 +12,8 @@ import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import java.util.Collections;
+
+import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 
 
 @RestController
@@ -45,50 +49,66 @@ public class Fin_TypePackageMaterialController {
     private EntityManager entityManager;
 
     @PostMapping("/add_typepackagematerial")
-    public ModelAndView add_typepackagematerial(
-            @RequestParam(name = "ftpm_name") String ftpm_name
+    public ResponseEntity<?> add_typepackagematerial(
+            @RequestParam(name = "ftpm_name") String ftpm_name,
+            @RequestParam(name = "ftpm_price") Double ftpm_price,
+            @RequestParam(name = "ftpm_price_brand") Double ftpm_price_brand
     ) {
+        ResponseEntity<?> result;
         try{
-            StoredProcedureQuery AddProductQuery = entityManager
+            StoredProcedureQuery AddQuery = entityManager
                     .createStoredProcedureQuery("PKG_TYPEPACKAGEMATERIAL.pr_Add")
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(4, Long.class, ParameterMode.OUT)
                     .setParameter(1, ftpm_name)
+                    .setParameter(2, ftpm_price)
+                    .setParameter(3, ftpm_price_brand)
                     ;
-            AddProductQuery.execute();
+            AddQuery.execute();
+            result = ResponseEntity.ok(AddQuery.getOutputParameterValue(4));
         }
         catch (Exception e) {
-            System.out.println("Error:> "+e);
-            e.printStackTrace();
+            result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
+        return result;
     }
 
     @PostMapping("/edit_typepackagematerial")
-    public ModelAndView edit_typepackagematerial(
+    public ResponseEntity<?> edit_typepackagematerial(
             @RequestParam(name = "ftpm_id") Long ftpm_id,
-            @RequestParam(name = "ftpm_name") String ftpm_name
+            @RequestParam(name = "ftpm_name") String ftpm_name,
+            @RequestParam(name = "ftpm_price") Double ftpm_price,
+            @RequestParam(name = "ftpm_price_brand") Double ftpm_price_brand
     ) {
+        ResponseEntity<?> result;
         try{
             StoredProcedureQuery EditProductQuery = entityManager
                     .createStoredProcedureQuery("PKG_TYPEPACKAGEMATERIAL.pr_Edit")
                     .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, Double.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(4, Double.class, ParameterMode.IN)
                     .setParameter(1, ftpm_id)
                     .setParameter(2, ftpm_name)
+                    .setParameter(3, ftpm_price)
+                    .setParameter(4, ftpm_price_brand)
                     ;
             EditProductQuery.execute();
+            result = ResponseEntity.ok(ftpm_id);
         }
         catch (Exception e) {
-            System.out.println("Error:> "+e);
-            e.printStackTrace();
+            result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
+        return result;
     }
 
     @PostMapping("/del_typepackagematerial")
-    public ModelAndView del_ratetype(
+    public ResponseEntity<?> del_ratetype(
             @RequestParam(name = "ftpm_id") Long ftpm_id
     ) {
+        ResponseEntity<?> result;
         try{
             StoredProcedureQuery DelProductQuery = entityManager
                     .createStoredProcedureQuery("PKG_TYPEPACKAGEMATERIAL.pr_Del")
@@ -96,11 +116,11 @@ public class Fin_TypePackageMaterialController {
                     .setParameter(1, ftpm_id)
                     ;
             DelProductQuery.execute();
+            result = ResponseEntity.ok(ftpm_id);
         }
         catch (Exception e) {
-            System.out.println("Error:> "+e);
-            e.printStackTrace();
+            result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
+        return result;
     }
 }

@@ -20,18 +20,32 @@
                     <form id="productgroup_modal_form" name="productgroup_modal_form" class="was-validated" novalidate>
                         <div class="form-row">
                             <div class="col-12 col-md-2" id="productgroup_modal_fpg_id_row">
-                                <label for="productgroup_modal_fpg_id" class="form-label" th:text="'1. '+ #{productgroup.fpg_id}"></label>
-                                <input type="number" class="form-control" id="productgroup_modal_fpg_id" name="productgroup_modal_fpg_id" readonly>
+                                <label for="productgroup_modal_fpg_id" class="form-label" th:text="#{productgroup.fpg_id}"></label>
+                                <input type="number" class="form-control" id="productgroup_modal_fpg_id" name="fpg_id" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
                             <div class="col-12 col-md-9" id="productgroup_modal_fpg_name_row">
-                                <label for="productgroup_modal_fpg_name" class="form-label" th:text="'2. '+#{productgroup.fpg_name}"></label>
-                                <input type="text" maxlength="120" class="form-control" id="productgroup_modal_fpg_name" name="productgroup_modal_fpg_name">
+                                <label for="productgroup_modal_fpg_name" class="form-label" th:text="#{productgroup.fpg_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="productgroup_modal_fpg_name" name="fpg_name">
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
                         </div><!-- Row 1 -->
+                        <div class="form-row">
+                            <div class="col-6" id="productgroup_modal_fpg_price_row">
+                                <label for="productgroup_modal_fpg_price" class="form-label" th:text="#{productgroup.fpg_price}"></label>
+                                <input type="number" step="0.01" class="form-control" id="productgroup_modal_fpg_price" name="fpg_price">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-6" id="productgroup_modal_fpg_price_brand_row">
+                                <label for="productgroup_modal_fpg_price_brand" class="form-label" th:text="#{productgroup.fpg_price_brand}"></label>
+                                <input type="number" step="0.01" class="form-control" id="productgroup_modal_fpg_price_brand" name="fpg_price_brand">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 2 -->
                     </form>
                 </div><!-- Body -->
                 <div class="modal-footer">
@@ -58,18 +72,26 @@
 // Block And Required Fields
     function block_productgroup_modal_detail() {
         $('#productgroup_modal_fpg_name').attr('required',true);
+        $('#productgroup_modal_fpg_price').attr('required',true);
+        $('#productgroup_modal_fpg_price_brand').attr('required',true);
 
         if($('#productgroup_modal_mode').val() === "0"){
             $('#productgroup_modal_fpg_id_row').attr('hidden',true);
             $('#productgroup_modal_fpg_name').removeAttr('disabled');
+            $('#productgroup_modal_fpg_price').removeAttr('disabled');
+            $('#productgroup_modal_fpg_price_brand').removeAttr('disabled');
         }
         else if($('#productgroup_modal_mode').val() === "1"){
             $('#productgroup_modal_fpg_id_row').removeAttr('hidden');
             $('#productgroup_modal_fpg_name').removeAttr('disabled');
+            $('#productgroup_modal_fpg_price').removeAttr('disabled');
+            $('#productgroup_modal_fpg_price_brand').removeAttr('disabled');
         }
         else{
             $('#productgroup_modal_fpg_id_row').removeAttr('hidden');
             $('#productgroup_modal_fpg_name').attr('disabled',true);
+            $('#productgroup_modal_fpg_price').attr('disabled',true);
+            $('#productgroup_modal_fpg_price_brand').attr('disabled',true);
         }
     }
 
@@ -84,6 +106,8 @@
                     ).then(function () {
                         $('#productgroup_modal_fpg_id').val(vProductgroup.rowdata.fpg_id);
                         $('#productgroup_modal_fpg_name').val(vProductgroup.rowdata.fpg_name);
+                        $('#productgroup_modal_fpg_price').val(vProductgroup.rowdata.fpg_price);
+                        $('#productgroup_modal_fpg_price_brand').val(vProductgroup.rowdata.fpg_price_brand);
 
                         $('#productgroup_modal').modal('show');
                     });
@@ -111,16 +135,13 @@ $('#productgroup_modal_delbtn').on('click', function(){
 
 //Add Client Address
 function addProductGroup(){
-    let RowID = vProductgroup.rowdata.fpg_id;
     $.ajax({
         url: /*[[ @{/productgroup/add_productgroup} ]]*/ "/productgroup/add_productgroup",
         type: 'POST',
-        data: {
-            "fpg_name": $('#productgroup_modal_fpg_name').val()
-        },
+        data: $("#productgroup_modal_form").serialize(),
         success: function (result) {
             $('#productgroup_modal').modal('hide');
-            vProductgroup.rowdata.fpg_id = RowID;
+            vProductgroup.rowdata.fpg_id = result;
             $(vProductgroup.table).DataTable().ajax.reload(null, false);
         }
     });
@@ -128,17 +149,13 @@ function addProductGroup(){
 
 //Edit Client Address
 function editProductGroup(){
-    let RowID = vProductgroup.rowdata.fpg_id;
     $.ajax({
         url: /*[[ @{/productgroup/edit_productgroup} ]]*/ "/productgroup/edit_productgroup",
         type: 'POST',
-        data: {
-            "fpg_id": RowID,
-            "fpg_name": $('#productgroup_modal_fpg_name').val()
-        },
+        data: $("#productgroup_modal_form").serialize(),
         success: function (result) {
             $('#productgroup_modal').modal('hide');
-            vProductgroup.rowdata.fpg_id = RowID;
+            vProductgroup.rowdata.fpg_id = result;
             $(vProductgroup.table).DataTable().ajax.reload(null, false);
         }
     });
@@ -146,13 +163,10 @@ function editProductGroup(){
 
 // Delete button script
 function delProductGroup(){
-    let RowID = vProductgroup.rowdata.fpg_id;
     $.ajax({
         url: /*[[ @{/productgroup/del_productgroup} ]]*/ "/productgroup/del_productgroup",
         type: 'POST',
-        data: {
-            "fpg_id": RowID
-        },
+        data: $("#productgroup_modal_form").serialize(),
         success: function (result) {
             $('#productgroup_modal').modal('hide');
             vProductgroup.rowdata.fpg_id = null;
@@ -164,13 +178,15 @@ function delProductGroup(){
 //Validation Form
 $('#productgroup_modal_form').validate({
     rules: {
-        // amount: {
-        //     //money: true, // not a valid rule
-        //     required: true
-        // },
-        // comment: {
-        //     required: false
-        // }
+        fpg_name: {
+            required: true
+        },
+        fpg_price: {
+            required: true
+        },
+        fpg_price_brand: {
+            required: true
+        }
     },
     errorPlacement: function(error,element) {
         return true;

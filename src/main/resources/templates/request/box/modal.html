@@ -392,6 +392,8 @@ function addBox(){
         data: $("#box_modal_form").serialize(),
         success: function (result) {
             $('#box_modal').modal('hide');
+            vBox.rowdata.box_id = result;
+            vBoxContent.rowdata.bc_id = null;
             $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
@@ -419,6 +421,7 @@ function delBox(){
         success: function (result) {
             $('#box_modal').modal('hide');
             vBox.rowdata.box_id = null;
+            vBoxContent.rowdata.bc_id = null;
             $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });

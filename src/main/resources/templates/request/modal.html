@@ -431,7 +431,6 @@ $('#request_modal_delbtn').on('click', function(){
 
 //Add Client Address
 function addRequest(){
-    let RowID = vRequest.rowdata.req_id;
     $.ajax({
         url: /*[[ @{/request/add_request} ]]*/ "/request/add_request",
         type: 'POST',
@@ -439,6 +438,8 @@ function addRequest(){
         success: function (result) {
             $('#request_modal').modal('hide');
             vRequest.rowdata.req_id = result;
+            vBox.rowdata.box_id = null;
+            vBoxContent.rowdata.bc_id = null;
             $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
@@ -446,14 +447,12 @@ function addRequest(){
 
 //Edit Client Address
 function editRequest(){
-    let RowID = vRequest.rowdata.req_id;
     $.ajax({
         url: /*[[ @{/request/edit_request} ]]*/ "/request/edit_request",
         type: 'POST',
         data: $("#request_modal_form").serialize(),
         success: function (result) {
             $('#request_modal').modal('hide');
-            vRequest.rowdata.req_id = RowID;
             $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
@@ -461,16 +460,15 @@ function editRequest(){
 
 // Delete button script
 function delRequest(){
-    let RowID = vRequest.rowdata.req_id;
     $.ajax({
         url: /*[[ @{/request/del_request} ]]*/ "/request/del_request",
         type: 'POST',
-        data: {
-            "req_id": RowID
-        },
+        data: $("#request_modal_form").serialize(),
         success: function (result) {
             $('#request_modal').modal('hide');
             vRequest.rowdata.req_id = null;
+            vBox.rowdata.box_id = null;
+            vBoxContent.rowdata.bc_id = null;
             $(vRequest.table).DataTable().ajax.reload(null, false);
         }
     });
@@ -479,10 +477,10 @@ function delRequest(){
 //Validation Form
 $('#request_modal_form').validate({
     rules: {
-        // amount: {
-        //     //money: true, // not a valid rule
-        //     required: true
-        // },
+        cnt_id: {
+            //money: true, // not a valid rule
+            required: true
+        },
         // comment: {
         //     required: false
         // }

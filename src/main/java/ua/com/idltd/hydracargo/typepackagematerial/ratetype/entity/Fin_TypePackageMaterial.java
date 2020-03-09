@@ -14,6 +14,12 @@ public class Fin_TypePackageMaterial {
     @Column(name = "FTPM_NAME")
     private String ftpm_name;
 
+    @Column(name = "FTPM_PRICE")
+    private Double ftpm_price;
+
+    @Column(name = "FTPM_PRICE_BRAND")
+    private Double ftpm_price_brand;
+
     public long getFtpm_id() {
         return ftpm_id;
     }
@@ -28,5 +34,21 @@ public class Fin_TypePackageMaterial {
 
     public void setFtpm_name(String ftpm_name) {
         this.ftpm_name = ftpm_name;
+    }
+
+    public Double getFtpm_price() {
+        return ftpm_price;
+    }
+
+    public void setFtpm_price(Double ftpm_price) {
+        this.ftpm_price = ftpm_price;
+    }
+
+    public Double getFtpm_price_brand() {
+        return ftpm_price_brand;
+    }
+
+    public void setFtpm_price_brand(Double ftpm_price_brand) {
+        this.ftpm_price_brand = ftpm_price_brand;
     }
 }

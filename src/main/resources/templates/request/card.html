@@ -8,14 +8,16 @@
     <form id="request-detail" class="mb-2" hidden>
             <input name="mode" value="0" hidden>
               <div id="request-btn-large" class="d-none d-sm-block">
-                 <button type="button" id="request-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
-                 <button type="button" id="request-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
-                 <button type="button" id="request-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+                  <button type="button" id="request-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                  <button type="button" id="request-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                  <button type="button" id="request-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+                  <button type="button" id="request-exportbtn" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
               </div>
               <div id="request-btn-small" class="d-block d-sm-none">
-                 <button type="button" id="request-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
-                 <button type="button" id="request-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
-                 <button type="button" id="request-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+                  <button type="button" id="request-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                  <button type="button" id="request-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                  <button type="button" id="request-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+                  <button type="button" id="request-exportbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
               </div>
         </form>
         
@@ -116,18 +118,23 @@
         if(vRequest.rowdata.req_id != null) {
             $("#request-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#request-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#request-exportbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
 
             $("#request-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#request-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#request-exportbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
         }
         else{
             $("#request-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#request-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#request-exportbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
 
             $("#request-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#request-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#request-exportbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
         vBox.rowdata.req_id = vRequest.rowdata.req_id;
+        if (vBox.rowdata.req_id == null) vBox.rowdata.box_id = null;
         $(vBox.table).DataTable().ajax.reload(null, false);
     }
 

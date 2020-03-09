@@ -19,19 +19,33 @@
                 <div class="modal-body mb-1">
                     <form id="typepackagematerial_modal_form" name="typepackagematerial_modal_form" class="was-validated" novalidate>
                         <div class="form-row">
-                            <div class="col-12 col-md-2" id="typepackagematerial_modal_ftpm_id_row">
-                                <label for="typepackagematerial_modal_ftpm_id" class="form-label" th:text="'1. '+ #{typepackagematerial.ftpm_id}"></label>
-                                <input type="number" class="form-control" id="typepackagematerial_modal_ftpm_id" name="typepackagematerial_modal_ftpm_id" readonly>
+                            <div class="col-6" id="typepackagematerial_modal_ftpm_id_row">
+                                <label for="typepackagematerial_modal_ftpm_id" class="form-label" th:text="#{typepackagematerial.ftpm_id}"></label>
+                                <input type="number" class="form-control" id="typepackagematerial_modal_ftpm_id" name="ftpm_id" readonly>
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
-                            <div class="col-12 col-md-9" id="typepackagematerial_modal_ftpm_name_row">
-                                <label for="typepackagematerial_modal_ftpm_name" class="form-label" th:text="'2. '+#{typepackagematerial.ftpm_name}"></label>
-                                <input type="text" maxlength="120" class="form-control" id="typepackagematerial_modal_ftpm_name" name="typepackagematerial_modal_ftpm_name">
+                            <div class="col-6" id="typepackagematerial_modal_ftpm_name_row">
+                                <label for="typepackagematerial_modal_ftpm_name" class="form-label" th:text="#{typepackagematerial.ftpm_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="typepackagematerial_modal_ftpm_name" name="ftpm_name">
                                 <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
                                 <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
                             </div>
                         </div><!-- Row 1 -->
+                        <div class="form-row">
+                            <div class="col-6" id="typepackagematerial_modal_ftpm_price_row">
+                                <label for="typepackagematerial_modal_ftpm_price" class="form-label" th:text="#{typepackagematerial.ftpm_price}"></label>
+                                <input type="number" step="0.01" class="form-control" id="typepackagematerial_modal_ftpm_price" name="ftpm_price">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-6" id="typepackagematerial_modal_ftpm_price_brand_row">
+                                <label for="typepackagematerial_modal_ftpm_price_brand" class="form-label" th:text="#{typepackagematerial.ftpm_price_brand}"></label>
+                                <input type="number" step="0.01" class="form-control" id="typepackagematerial_modal_ftpm_price_brand" name="ftpm_price_brand">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 2 -->
                     </form>
                 </div><!-- Body -->
                 <div class="modal-footer">
@@ -58,18 +72,26 @@
 // Block And Required Fields
     function block_typepackagematerial_modal_detail() {
         $('#typepackagematerial_modal_ftpm_name').attr('required',true);
+        $('#typepackagematerial_modal_ftpm_price').attr('required',true);
+        $('#typepackagematerial_modal_ftpm_price_brand').attr('required',true);
 
         if($('#typepackagematerial_modal_mode').val() === "0"){
             $('#typepackagematerial_modal_ftpm_id_row').attr('hidden',true);
             $('#typepackagematerial_modal_ftpm_name').removeAttr('disabled');
+            $('#typepackagematerial_modal_ftpm_price').removeAttr('disabled');
+            $('#typepackagematerial_modal_ftpm_price_brand').removeAttr('disabled');
         }
         else if($('#typepackagematerial_modal_mode').val() === "1"){
             $('#typepackagematerial_modal_ftpm_id_row').removeAttr('hidden');
             $('#typepackagematerial_modal_ftpm_name').removeAttr('disabled');
+            $('#typepackagematerial_modal_ftpm_price').removeAttr('disabled');
+            $('#typepackagematerial_modal_ftpm_price_brand').removeAttr('disabled');
         }
         else{
             $('#typepackagematerial_modal_ftpm_id_row').removeAttr('hidden');
             $('#typepackagematerial_modal_ftpm_name').attr('disabled',true);
+            $('#typepackagematerial_modal_ftpm_price').attr('disabled',true);
+            $('#typepackagematerial_modal_ftpm_price_brand').attr('disabled',true);
         }
     }
 
@@ -84,6 +106,8 @@
                     ).then(function () {
                         $('#typepackagematerial_modal_ftpm_id').val(vTypePackageMaterial.rowdata.ftpm_id);
                         $('#typepackagematerial_modal_ftpm_name').val(vTypePackageMaterial.rowdata.ftpm_name);
+                        $('#typepackagematerial_modal_ftpm_price').val(vTypePackageMaterial.rowdata.ftpm_price);
+                        $('#typepackagematerial_modal_ftpm_price_brand').val(vTypePackageMaterial.rowdata.ftpm_price_brand);
 
                         $('#typepackagematerial_modal').modal('show');
                     });
@@ -110,49 +134,39 @@ $('#typepackagematerial_modal_delbtn').on('click', function(){
 });
 
 //Add Client Address
-function addRateType(){
-    let RowID = vTypePackageMaterial.rowdata.ftpm_id;
+function addTypePackageMaterial(){
     $.ajax({
         url: /*[[ @{/typepackagematerial/add_typepackagematerial} ]]*/ "/typepackagematerial/add_typepackagematerial",
         type: 'POST',
-        data: {
-            "ftpm_name": $('#typepackagematerial_modal_ftpm_name').val()
-        },
+        data: $("#typepackagematerial_modal_form").serialize(),
         success: function (result) {
             $('#typepackagematerial_modal').modal('hide');
-            vTypePackageMaterial.rowdata.ftpm_id = RowID;
+            vTypePackageMaterial.rowdata.ftpm_id = result;
             $(vTypePackageMaterial.table).DataTable().ajax.reload(null, false);
         }
     });
 }
 
 //Edit Client Address
-function editRateType(){
-    let RowID = vTypePackageMaterial.rowdata.ftpm_id;
+function editTypePackageMaterial(){
     $.ajax({
         url: /*[[ @{/typepackagematerial/edit_typepackagematerial} ]]*/ "/typepackagematerial/edit_typepackagematerial",
         type: 'POST',
-        data: {
-            "ftpm_id": RowID,
-            "ftpm_name": $('#typepackagematerial_modal_ftpm_name').val()
-        },
+        data: $("#typepackagematerial_modal_form").serialize(),
         success: function (result) {
             $('#typepackagematerial_modal').modal('hide');
-            vTypePackageMaterial.rowdata.ftpm_id = RowID;
+            vTypePackageMaterial.rowdata.ftpm_id = result;
             $(vTypePackageMaterial.table).DataTable().ajax.reload(null, false);
         }
     });
 }
 
 // Delete button script
-function delRateType(){
-    let RowID = vTypePackageMaterial.rowdata.ftpm_id;
+function delTypePackageMaterial(){
     $.ajax({
         url: /*[[ @{/typepackagematerial/del_typepackagematerial} ]]*/ "/typepackagematerial/del_typepackagematerial",
         type: 'POST',
-        data: {
-            "ftpm_id": RowID
-        },
+        data: $("#typepackagematerial_modal_form").serialize(),
         success: function (result) {
             $('#typepackagematerial_modal').modal('hide');
             vTypePackageMaterial.rowdata.ftpm_id = null;
@@ -164,26 +178,28 @@ function delRateType(){
 //Validation Form
 $('#typepackagematerial_modal_form').validate({
     rules: {
-        // amount: {
-        //     //money: true, // not a valid rule
-        //     required: true
-        // },
-        // comment: {
-        //     required: false
-        // }
+        ftpm_name: {
+            required: true
+        },
+        ftpm_price: {
+            required: true
+        },
+        ftpm_price_brand: {
+            required: true
+        }
     },
     errorPlacement: function(error,element) {
         return true;
     },
     submitHandler: function (form) {
         if($('#typepackagematerial_modal_mode').val() === '0') {
-            addRateType();
+            addTypePackageMaterial();
         }
         else if($('#typepackagematerial_modal_mode').val() === '1') {
-            editRateType();
+            editTypePackageMaterial();
         }
         else if($('#typepackagematerial_modal_mode').val() === '2') {
-            delRateType();
+            delTypePackageMaterial();
         }
         return false;
     }

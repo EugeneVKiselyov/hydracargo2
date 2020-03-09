@@ -232,14 +232,21 @@
     };
 
     function box_switchControl(){
+        if (vRequest.rowdata.req_id != null) {
+            $("#box-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-addbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        } else {
+            $("#box-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-addbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+
         if(vBox.rowdata.box_id != null) {
             $("#box-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#box-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
 
             $("#box-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#box-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-        }
-        else{
+        } else {
             $("#box-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#box-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
 
@@ -247,7 +254,7 @@
             $("#box-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
         vBoxContent.rowdata.box_id = vBox.rowdata.box_id;
-        // vBoxContent.rowdata.bc_id = null;
+        if (vBoxContent.rowdata.box_id == null) vBoxContent.rowdata.bc_id = null;
         $(vBoxContent.table).DataTable().ajax.reload(null, false);
     }
 

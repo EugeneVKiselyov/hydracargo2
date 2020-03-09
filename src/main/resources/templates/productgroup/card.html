@@ -24,9 +24,9 @@
 <script th:fragment="cardscript" th:inline="javascript">
     let vDomParam;
 
-    let fpg_id_width, fpg_name_width;
+    let fpg_id_width, fpg_name_width, fpg_price_width, fpg_price_brand_width;
 
-    let fpg_id_class, fpg_name_class;
+    let fpg_id_class, fpg_name_class, fpg_price_class, fpg_price_brand_class;
 
     let smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
     let mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
@@ -38,10 +38,10 @@
             "<'row'<'col-12'tr>>" +
             "<'row'<'col-12'p>>";
 
-        fpg_id_width = "10%";
-        fpg_id_class = "small_size small_head_size small_footer_size";
-        fpg_name_width = "90%";
-        fpg_name_class = "small_size small_head_size small_footer_size";
+        fpg_id_width = "10%"; fpg_id_class = "small_size small_head_size small_footer_size";
+        fpg_name_width = "50%"; fpg_name_class = "small_size small_head_size small_footer_size";
+        fpg_price_width = "20%"; fpg_price_class = "small_size small_head_size small_footer_size";
+        fpg_price_brand_width = "20%"; fpg_price_brand_class = "small_size small_head_size small_footer_size";
 
         $('#productgroup-addbtn').removeClass('btn-sm');
         $('#productgroup-editbtn').removeClass('btn-sm');
@@ -54,17 +54,17 @@
     }
     else if(smallScreenSize){
         vDomParam = "Blfrtip";
-        fpg_id_width = "10%";
-        fpg_id_class = "small_size small_head_size small_footer_size";
-        fpg_name_width = "90%";
-        fpg_name_class = "small_size small_head_size small_footer_size";
+        fpg_id_width = "10%"; fpg_id_class = "small_size small_head_size small_footer_size";
+        fpg_name_width = "50%"; fpg_name_class = "small_size small_head_size small_footer_size";
+        fpg_price_width = "20%"; fpg_price_class = "small_size small_head_size small_footer_size";
+        fpg_price_brand_width = "20%"; fpg_price_brand_class = "small_size small_head_size small_footer_size";
     }
     else{
         vDomParam = "Blfrtip";
-        fpg_id_width = "10%";
-        fpg_id_class = "small_size small_head_size small_footer_size";
-        fpg_name_width = "90%";
-        fpg_name_class = "small_size small_head_size small_footer_size";
+        fpg_id_width = "10%"; fpg_id_class = "small_size small_head_size small_footer_size";
+        fpg_name_width = "50%"; fpg_name_class = "small_size small_head_size small_footer_size";
+        fpg_price_width = "20%"; fpg_price_class = "small_size small_head_size small_footer_size";
+        fpg_price_brand_width = "20%"; fpg_price_brand_class = "small_size small_head_size small_footer_size";
     }
 
     var vProductgroup;
@@ -81,7 +81,9 @@
         switchControl : productgroup_switchControl,
         rowdata:{
             fpg_id : null,
-            fpg_name : null
+            fpg_name : null,
+            fpg_price : null,
+            fpg_price_brand : null
         },
         ordering: true,
         order: [
@@ -93,7 +95,9 @@
         },
         columns : [
             /*0*/{"title": /*[[#{productgroup.fpg_id}]]*/ "fpg_id", "data": "fpg_id", "width": fpg_id_width, "className": fpg_id_class},
-            /*1*/{"title": /*[[#{productgroup.fpg_name}]]*/ "fpg_name", "data": "fpg_name", "width": fpg_name_width, "className": fpg_name_class}
+            /*1*/{"title": /*[[#{productgroup.fpg_name}]]*/ "fpg_name", "data": "fpg_name", "width": fpg_name_width, "className": fpg_name_class},
+            /*2*/{"title": /*[[#{productgroup.fpg_price}]]*/ "fpg_price", "data": "fpg_price", "width": fpg_price_width, "className": fpg_price_class},
+            /*3*/{"title": /*[[#{productgroup.fpg_price_brand}]]*/ "fpg_price_brand", "data": "fpg_price_brand", "width": fpg_price_brand_width, "className": fpg_price_brand_class}
         ],
         pageLength: 25,
         copy_button: true,
@@ -177,7 +181,6 @@
         $('#productgroup_a').addClass('text-primary');
 
         vProductgroup.rowdata.fpg_id = /*[[${fpg_id}]]*/ null;
-
         recreateDataTable(vProductgroup);
     });
 </script>

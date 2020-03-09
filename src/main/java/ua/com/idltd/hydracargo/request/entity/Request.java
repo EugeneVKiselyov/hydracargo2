@@ -64,6 +64,7 @@ public class Request {
 
   @Column(name = "REQ_FEE")
   public Double req_fee;
+
   @Column(name = "REQ_ADDEXPENSES")
   public Double req_addexpenses;
 

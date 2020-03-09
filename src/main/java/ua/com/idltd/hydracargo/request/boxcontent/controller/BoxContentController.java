@@ -74,6 +74,7 @@ public class BoxContentController {
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
         }
         return result;
     }
@@ -115,6 +116,8 @@ public class BoxContentController {
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+
         }
         return result;
     }
@@ -134,6 +137,7 @@ public class BoxContentController {
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
         }
         return result;
     }
