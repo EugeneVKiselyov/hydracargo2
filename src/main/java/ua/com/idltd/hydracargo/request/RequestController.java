@@ -314,4 +314,18 @@ public class RequestController {
         }
         return result;
     }
+
+    @PostMapping("/import")
+    public ResponseEntity<?> import_request(
+            @RequestParam(name = "req_id") Long req_id
+    ) {
+        ResponseEntity<?> result;
+        try{
+            result = ResponseEntity.ok(req_id);
+        }
+        catch (Exception e) {
+            result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return result;
+    }
 }

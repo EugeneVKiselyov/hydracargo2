@@ -16,6 +16,7 @@
             </div>
             <div class="card-body pt-0 collapse show" id="request_div">
                 <div>
+                    <span th:replace="request/exportimport :: fragment_body"></span>
                     <span th:replace="request/filter :: request_filter_body"></span>
                     <span th:replace="request/modal :: request_modal_body"></span>
                     <span th:replace="request/card :: request_body"></span>
@@ -68,6 +69,7 @@
 <script th:replace="request/box/modal :: cardscript"></script>
 <script th:replace="request/box/card :: cardscript"></script>
 
+<script th:replace="request/exportimport :: fragment_script"></script>
 <script th:replace="request/filter :: cardscript"></script>
 <script th:replace="request/modal :: cardscript"></script>
 <script th:replace="request/card :: cardscript"></script>

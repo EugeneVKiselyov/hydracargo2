@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="fragment_body" th:remove="tag">
+    <div class="modal fade was-validated" id="request_modal_import" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="request_modal_import_mode">
+            </div>
+
+            <div class="modal-content" id="request_modal_import_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{general.import}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="request_modal_import_form" name="request_modal_import_form" class="was-validated" novalidate>
+                        <input type="hidden" name="req_id">
+                        <div class="form-row">
+                            <div class="row col-12">
+                                <div class="col-3" th:text="#{general.filename}"></div>
+                                <div class="col-9">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" id="request_modal_import_form_file" name="file" class="custom-file-input request_modal_import_form_control">
+                                            <label class="custom-file-label" for="request_modal_import_form_file" th:text="#{general.choosefile}">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Row 1 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="request_modal_import_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="request_modal_import_impbtn" class="btn btn-outline-primary" th:text="#{general.import}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="reportxls" th:action="@{/report/xls}" method="get">
+        <input name="rep_id" hidden >
+        <input name="filename" hidden >
+        <input name="vREQ_ID" hidden >
+    </form>
+</span>
+
+<script th:fragment="fragment_script" th:inline="javascript">
+    // Export
+    function exportRequest(){
+        $("#reportxls input[name=rep_id]").val(13);
+        $("#reportxls input[name=filename]").val("packing_"+vRequest.rowdata.req_num+".xls");
+        $("#reportxls input[name=vREQ_ID]").val(vRequest.rowdata.req_id);
+        $("#reportxls").submit();
+    }
+
+    // Import
+    $("#request_modal_import_form_file").change(function(event){
+        var fileName = event.target.files[0].name;
+        if (event.target.nextElementSibling!=null){
+            event.target.nextElementSibling.innerText=fileName;
+        }
+    });
+
+    //Validation Form
+    $('#request_modal_import_form').validate({
+        rules: {
+        },
+        errorPlacement: function(error,element) {
+            return true;
+        },
+        submitHandler: function (form) {
+            import_request();
+            return false;
+        }
+    });
+
+    function showImportDialog(){
+        $("#request_modal_import_form input[name=req_id]").val(vRequest.rowdata.req_id);
+        $('#request_modal_import').modal('show');
+    }
+
+    $('#request_modal_import_impbtn').on('click', function(){
+        $('#request_modal_import_form').submit();
+    });
+
+    function import_request() {
+        $.ajax({
+            url: /*[[ @{/request/import} ]]*/ "/request/import",
+            type: 'POST',
+            data: $("#request_modal_import_form").serialize(),
+            success: function (result) {
+                $('#request_modal_import').modal('hide');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
