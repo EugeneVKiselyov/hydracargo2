@@ -76,6 +76,12 @@
                   dropdownParent: $(this).parent()
               });
       });
+      //Validation Form
+      $(".select").select2({
+        minimumResultsForSearch: Infinity,
+        allowClear: true,
+        placeholder : /*[[ #{general.undefined} ]]*/ "Undefined"
+      });
 
       //check session
     var timerId = setTimeout(function tick() {

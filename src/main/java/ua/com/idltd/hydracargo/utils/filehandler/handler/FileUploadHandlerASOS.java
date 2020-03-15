@@ -102,7 +102,7 @@ public class FileUploadHandlerASOS extends IFileUploadHandlerPostImpl {
     @Override
     public void validate() throws UnsupportedFileFormatException {
         //проверяем это поддерживаемый формат файла
-        if (!validatefileformat(fhlb.getFhlb_Body())) throw new UnsupportedFileFormatException(fhlb.getFhlb_Name(),FileTypeEnum.ASOS);;
+        if (!validatefileformat(fhlb.getFhlb_Body())) throw new UnsupportedFileFormatException(fhlb.getFhlb_Name(),FileTypeEnum.ASOS);
     }
 
     @Override

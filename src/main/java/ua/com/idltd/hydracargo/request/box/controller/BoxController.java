@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.idltd.hydracargo.request.box.entity.Box;
 import ua.com.idltd.hydracargo.request.box.repository.BoxRepository;
 import ua.com.idltd.hydracargo.request.box.repository.VBoxRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
@@ -42,6 +43,22 @@ public class BoxController {
         JSONDatatable result = new JSONDatatable();
         if (req_id!=null) result.setData(boxRepository.findByREQ_ID(req_id));
         return result;
+    }
+    @PostMapping("/get_box_default")
+    public ResponseEntity<?> get_box_default(
+            @RequestParam(name = "req_id") Long req_id
+    ) {
+        Box box = new Box();
+        box.req_id = req_id;
+        box.fit_id = 0L;
+        box.box_num = (String) entityManager
+                .createNativeQuery(
+                        "SELECT pkg_box.getNext_Box_num(:vREQ_ID) FROM DUAL"
+                )
+                .setParameter("vREQ_ID", req_id)
+                .getSingleResult();
+
+        return ResponseEntity.ok(box);
     }
     @PostMapping("/add_box")
     public ResponseEntity<?> add_box(

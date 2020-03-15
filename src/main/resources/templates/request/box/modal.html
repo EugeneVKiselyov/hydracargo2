@@ -110,8 +110,8 @@
                         <div class="form-row">
                             <div class="col-6" id="request_modal_fpg_id_row">
                                 <label for="box_modal_fpg_id" class="form-label" th:text="#{box.fpg_name}"></label>
-                                <select type="text" class="form-control select2" data-toggle="select2" id="box_modal_fpg_id" name="fpg_id" >
-                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                <select type="text" class="select custom-select select2" data-toggle="select2" id="box_modal_fpg_id" name="fpg_id" >
+                                    <option value="" th:text="#{general.undefined}">Неизвестно</option>
                                     <option th:each="productGroup : ${productGroupList}"
                                             th:value="${productGroup.fpg_id}"
                                             th:text="${productGroup.fpg_name}"
@@ -123,8 +123,8 @@
                             </div>
                             <div class="col-6 col-md-6" id="request_modal_ftpm_id_dest_row">
                                 <label for="box_modal_ftpm_id" class="form-label" th:text="#{box.ftpm_name}"></label>
-                                <select type="text" class="form-control select2" data-toggle="select2" id="box_modal_ftpm_id" name="ftpm_id" >
-                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                <select type="text" class="select custom-select select2" data-toggle="select2" id="box_modal_ftpm_id" name="ftpm_id" >
+                                    <option value="" th:text="#{general.undefined}">Неизвестно</option>
                                     <option th:each="typePackageMaterial : ${typePackageMaterialList}"
                                             th:value="${typePackageMaterial.ftpm_id}"
                                             th:text="${typePackageMaterial.ftpm_name}"
@@ -350,23 +350,37 @@
         else if(aMode === 0) {
             $.when(
             ).then(function () {
-                $('#box_modal_req_id').val(vRequest.rowdata.req_id);
-                $('#box_modal_dis_id').val(null).change();
-                $('#box_modal_box_brand').val(0).change();
-                $('#box_modal_fpg_id').val(null).change();
-                $('#box_modal_ftpm_id').val(null).change();
-                $('#box_modal_fit_id').val(0).change();
-                $('#box_modal_box_description').val("");
-                $('#box_modal_box_inshipment').val("");
-                $('#box_modal_box_shipment').val("");
-                $('#box_modal_box_outshipment').val("");
-                $('#box_modal_box_carplate').val("");
-                let currentDay = new Date().toLocaleDateString('ru');
-                $('#box_modal_box_packing_date').data('daterangepicker').setStartDate(currentDay);
-                $('#box_modal_box_packing_date').data('daterangepicker').setEndDate(currentDay);
-                $('#box_modal_box_packing_date').trigger("apply.daterangepicker");
+                $.ajax({
+                    "url": /*[[ @{/box/get_box_default} ]]*/ "/box/get_box_default",
+                    "type": 'POST',
+                    "async" : true,
+                    "cache": false,
+                    "data" : { "req_id" : vRequest.rowdata.req_id },
+                    "success": function (result) {
+                        $('#box_modal_req_id').val(result.req_id);
+                        $('#box_modal_box_num').val(result.box_num);
+                        $('#box_modal_dis_id').val(result.dis_id).change();
+                        $('#box_modal_box_brand').val(result.box_brand).change();
+                        $('#box_modal_fpg_id').val(result.fpg_id).change();
+                        $('#box_modal_ftpm_id').val(result.ftpm_id).change();
+                        $('#box_modal_fit_id').val(result.fit_id).change();
+                        $('#box_modal_box_description').val(result.box_description);
+                        $('#box_modal_box_inshipment').val(result.box_inshipment);
+                        $('#box_modal_box_shipment').val(result.box_shipment);
+                        $('#box_modal_box_outshipment').val(result.box_outshipment);
+                        $('#box_modal_box_carplate').val(result.box_carplate);
+                        let currentDay = new Date().toLocaleDateString('ru');
+                        $('#box_modal_box_packing_date').data('daterangepicker').setStartDate(currentDay);
+                        $('#box_modal_box_packing_date').data('daterangepicker').setEndDate(currentDay);
+                        $('#box_modal_box_packing_date').trigger("apply.daterangepicker");
 
-                $('#box_modal').modal('show');
+                        $('#box_modal').modal('show');
+                    },
+                    "error": function (request) {
+                        $("#ErrorMessage").text(request.responseText);
+                        $("#error-modal-dialog").modal('show');
+                    }
+                })
             });
         }
 }
@@ -395,6 +409,12 @@ function addBox(){
             vBox.rowdata.box_id = result;
             vBoxContent.rowdata.bc_id = null;
             $(vRequest.table).DataTable().ajax.reload(null, false);
+        },
+        error: function (request) {
+            $(vRequest.table).DataTable().ajax.reload(null, false);
+            $('#box_modal').modal('hide');
+            $("#ErrorMessage").text(request.responseText);
+            $("#error-modal-dialog").modal('show');
         }
     });
 }
@@ -408,6 +428,12 @@ function editBox(){
         success: function (result) {
             $('#box_modal').modal('hide');
             $(vRequest.table).DataTable().ajax.reload(null, false);
+        },
+        error: function (request) {
+            $(vRequest.table).DataTable().ajax.reload(null, false);
+            $('#box_modal').modal('hide');
+            $("#ErrorMessage").text(request.responseText);
+            $("#error-modal-dialog").modal('show');
         }
     });
 }
@@ -423,6 +449,12 @@ function delBox(){
             vBox.rowdata.box_id = null;
             vBoxContent.rowdata.bc_id = null;
             $(vRequest.table).DataTable().ajax.reload(null, false);
+        },
+        error: function (request) {
+            $(vRequest.table).DataTable().ajax.reload(null, false);
+            $('#box_modal').modal('hide');
+            $("#ErrorMessage").text(request.responseText);
+            $("#error-modal-dialog").modal('show');
         }
     });
 }

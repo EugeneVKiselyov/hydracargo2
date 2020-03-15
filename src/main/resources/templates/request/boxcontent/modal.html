@@ -147,14 +147,27 @@
         else if(aMode === 0) {
             $.when(
             ).then(function () {
-                $('#boxcontent_modal_box_id').val(vBox.rowdata.box_id);
-                $('#boxcontent_modal_bc_num').val('');
-                $('#boxcontent_modal_bc_description').val('');
-                $('#boxcontent_modal_bc_mark').val(0).change();
-                $('#boxcontent_modal_bc_count').val(0);
-                $('#boxcontent_modal_bc_weight').val(0);
-                $('#boxcontent_modal_bc_unitprice').val(0);
-                $('#boxcontent_modal').modal('show');
+                $.ajax({
+                    "url": /*[[ @{/boxcontent/get_boxcontent_default} ]]*/ "/boxcontent/get_boxcontent_default",
+                    "type": 'POST',
+                    "async" : true,
+                    "cache": false,
+                    "data" : { "box_id" : vBox.rowdata.box_id },
+                    "success": function (result) {
+                        $('#boxcontent_modal_box_id').val(result.box_id);
+                        $('#boxcontent_modal_bc_num').val(result.bc_num);
+                        $('#boxcontent_modal_bc_description').val(result.bc_description);
+                        $('#boxcontent_modal_bc_mark').val(result.bc_mark).change();
+                        $('#boxcontent_modal_bc_count').val(result.bc_count);
+                        $('#boxcontent_modal_bc_weight').val(result.bc_weight);
+                        $('#boxcontent_modal_bc_unitprice').val(result.bc_unitprice);
+                        $('#boxcontent_modal').modal('show');
+                    },
+                    "error": function (request) {
+                        $("#ErrorMessage").text(request.responseText);
+                        $("#error-modal-dialog").modal('show');
+                    }
+                })
             });
         }
 }

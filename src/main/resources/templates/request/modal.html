@@ -3,7 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
 <body>
 <span th:fragment="request_modal_body" th:remove="tag">
-    <div class="modal fade was-validated" id="request_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal fade was-validated" id="request_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" novalidate>
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="hidden">
                 <input type="hidden" id="request_modal_mode">
@@ -67,8 +67,8 @@
                         <div class="form-row">
                             <div class="col-12 col-md-12" id="request_modal_cnt_id_row">
                                 <label for="request_modal_cnt_id" class="form-label" th:text="#{request.cnt_name}"></label>
-                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_cnt_id" name="cnt_id" >
-                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                <select type="text" class="select custom-select select2" data-toggle="select2" id="request_modal_cnt_id" name="cnt_id">
+                                    <option value="" th:text="#{general.undefined}">Неизвестно</option>
                                     <option th:each="contragent : ${contragentList}"
                                             th:value="${contragent.cnt_id}"
                                             th:text="${contragent.cnt_code + ' : ' + contragent.cnt_name}"
@@ -82,8 +82,8 @@
                         <div class="form-row">
                             <div class="col-6 col-md-6" id="request_modal_ep_id_row">
                                 <label for="request_modal_ep_id" class="form-label" th:text="#{request.ep_code}"></label>
-                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_ep_id" name="ep_id" >
-                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                <select type="text" class="select custom-select select2" data-toggle="select2" id="request_modal_ep_id" name="ep_id" >
+                                    <option value="" th:text="#{general.undefined}">Неизвестно</option>
                                     <option th:each="entrepot : ${entrepotList}"
                                             th:value="${entrepot.ep_id}"
                                             th:text="${entrepot.ep_code}"
@@ -95,8 +95,8 @@
                             </div>
                             <div class="col-6 col-md-6" id="request_modal_ep_id_dest_row">
                                 <label for="request_modal_ep_id_dest" class="form-label" th:text="#{request.ep_code_dest}"></label>
-                                <select type="text" class="form-control select2" data-toggle="select2" id="request_modal_ep_id_dest" name="ep_id_dest" >
-                                    <option th:value="null" th:text="#{general.undefined}">Неизвестно</option>
+                                <select type="text" class="select custom-select select2" data-toggle="select2" id="request_modal_ep_id_dest" name="ep_id_dest" >
+                                    <option value="" th:text="#{general.undefined}">Неизвестно</option>
                                     <option th:each="entrepot_dest : ${entrepotList}"
                                             th:value="${entrepot_dest.ep_id}"
                                             th:text="${entrepot_dest.ep_code}"
@@ -280,7 +280,7 @@
     $('#request_modal_req_contragent_date_x').on('click', function() {
         $('#request_modal_req_contragent_date').empty().val('');
     });
-// Clear Fields
+    // Clear Fields
     function clear_request_modal_detail() {
         $("#request_modal_detail input[type=text]").val('');
         $("#request_modal_detail input[type=number]").val('');
@@ -288,9 +288,10 @@
         $("#request_modal_detail textarea").val('');
     }
 
-// Block And Required Fields
+    // Block And Required Fields
     function block_request_modal_detail() {
         $('#request_modal_req_num').attr('required',true);
+        $('#request_modal_cnt_id').attr('required',true);
 
         if($('#request_modal_mode').val() === "0"){
             $('#request_modal_req_id_row').attr('hidden',true);
@@ -306,204 +307,210 @@
         }
     }
 
-// Load Function
+    // Load Function
     function fill_request_modal_detail(aMode){
         $('#request_modal_mode').val(aMode);
         clear_request_modal_detail();
         block_request_modal_detail();
-        
+
         if(aMode > 0){
-                    $.when(                        
-                    ).then(function () {
-                        $('#request_modal_req_id').val(vRequest.rowdata.req_id);
-                        $('#request_modal_req_num').val(vRequest.rowdata.req_num);
-                        $('#request_modal_cnt_id').val(vRequest.rowdata.cnt_id).change();
-                        $('#request_modal_bs_id').val(vRequest.rowdata.bs_id).change();
-                        $('#request_modal_rs_id').val(vRequest.rowdata.rs_id).change();
-/*Req Date*/
-                        if (vRequest.rowdata.req_date!=null) {
-                            let vReqDate = (moment(vRequest.rowdata.req_date).format('DD.MM.YYYY'));
-                            $('#request_modal_req_date').data('daterangepicker').setStartDate(vReqDate);
-                            $('#request_modal_req_date').data('daterangepicker').setEndDate(vReqDate);
-                            $('#request_modal_req_date').trigger("apply.daterangepicker");
-                        }
-                        else{$('#request_modal_req_date').empty().val('');}
-
-                        $('#request_modal_ep_id').val(vRequest.rowdata.ep_id).change();
-                        $('#request_modal_ep_id_dest').val(vRequest.rowdata.ep_id_dest).change();
-                        $('#request_modal_req_weight_p').val(vRequest.rowdata.req_weight_p);
-                        $('#request_modal_req_weight_f').val(vRequest.rowdata.req_weight_f);
-                        $('#request_modal_req_seatsnum_p').val(vRequest.rowdata.req_seatsnum_p);
-                        $('#request_modal_req_seatsnum_f').val(vRequest.rowdata.req_seatsnum_f);
-/*Req Arrival Date P*/
-                        if (vRequest.rowdata.req_arrival_date_p!=null) {
-                            let vReqArrivalDateP = moment(vRequest.rowdata.req_arrival_date_p).format('DD.MM.YYYY');
-                            $('#request_modal_req_arrival_date_p').data('daterangepicker').setStartDate(vReqArrivalDateP);
-                            $('#request_modal_req_arrival_date_p').data('daterangepicker').setEndDate(vReqArrivalDateP);
-                            $('#request_modal_req_arrival_date_p').trigger("apply.daterangepicker");
-                        }
-                        else {$('#request_modal_req_arrival_date_p').empty().val('');}
-/*Req Arrival Date F*/
-                        if (vRequest.rowdata.req_arrival_date_f!=null) {
-                            let vReqArrivalDateF = moment(vRequest.rowdata.req_arrival_date_f).format('DD.MM.YYYY');
-                            $('#request_modal_req_arrival_date_f').data('daterangepicker').setStartDate(vReqArrivalDateF);
-                            $('#request_modal_req_arrival_date_f').data('daterangepicker').setEndDate(vReqArrivalDateF);
-                            $('#request_modal_req_arrival_date_f').trigger("apply.daterangepicker");
-                        }
-                        else{$('#request_modal_req_arrival_date_f').empty().val('');}
-/*Req Departure Date*/
-                        if (vRequest.rowdata.req_departure_date!=null) {
-                            let vReqDepartureDate = moment(vRequest.rowdata.req_departure_date).format('DD.MM.YYYY');
-                            $('#request_modal_req_departure_date').data('daterangepicker').setStartDate(vReqDepartureDate);
-                            $('#request_modal_req_departure_date').data('daterangepicker').setEndDate(vReqDepartureDate);
-                            $('#request_modal_req_departure_date').trigger("apply.daterangepicker");
-                        }
-                        else{$('#request_modal_req_departure_date').empty().val('');}
-/*Req Dest Date*/
-                        if (vRequest.rowdata.req_ep_dest_date!=null) {
-                            let vReqDestDate = moment(vRequest.rowdata.req_ep_dest_date).format('DD.MM.YYYY');
-                            $('#request_modal_req_ep_dest_date').data('daterangepicker').setStartDate(vReqDestDate);
-                            $('#request_modal_req_ep_dest_date').data('daterangepicker').setEndDate(vReqDestDate);
-                            $('#request_modal_req_ep_dest_date').trigger("apply.daterangepicker");
-                        }
-                        else {$('#request_modal_req_ep_dest_date').empty().val('');}
-/*Req Contragent Date*/
-                        if (vRequest.rowdata.req_contragent_date!=null) {
-                            let vReqContragentDate = moment(vRequest.rowdata.req_contragent_date).format('DD.MM.YYYY');
-                            $('#request_modal_req_contragent_date').data('daterangepicker').setStartDate(vReqContragentDate);
-                            $('#request_modal_req_contragent_date').data('daterangepicker').setEndDate(vReqContragentDate);
-                            $('#request_modal_req_contragent_date').trigger("apply.daterangepicker");
-                        }else{
-                            $('#request_modal_req_contragent_date').empty().val('');
-                        }
-
-                        $('#request_modal_req_fee').val(vRequest.rowdata.req_fee);
-                        $('#request_modal_req_addexpenses').val(vRequest.rowdata.req_addexpenses);
-
-                        $('#request_modal').modal('show');
-                    });
-        }
-        else if(aMode === 0) {
             $.when(
             ).then(function () {
-                let currentDay = new Date().toLocaleDateString('ru');
-                $('#request_modal_req_date').data('daterangepicker').setStartDate(currentDay);
-                $('#request_modal_req_date').data('daterangepicker').setEndDate(currentDay);
-                $('#request_modal_req_date').trigger("apply.daterangepicker");
+                $('#request_modal_req_id').val(vRequest.rowdata.req_id);
+                $('#request_modal_req_num').val(vRequest.rowdata.req_num);
+                $('#request_modal_cnt_id').val(vRequest.rowdata.cnt_id).change();
+                $('#request_modal_bs_id').val(vRequest.rowdata.bs_id).change();
+                $('#request_modal_rs_id').val(vRequest.rowdata.rs_id).change();
+                /*Req Date*/
+                if (vRequest.rowdata.req_date!=null) {
+                    let vReqDate = (moment(vRequest.rowdata.req_date).format('DD.MM.YYYY'));
+                    $('#request_modal_req_date').data('daterangepicker').setStartDate(vReqDate);
+                    $('#request_modal_req_date').data('daterangepicker').setEndDate(vReqDate);
+                    $('#request_modal_req_date').trigger("apply.daterangepicker");
+                }
+                else{$('#request_modal_req_date').empty().val('');}
 
-                $('#request_modal_req_id').val(null);
-                $('#request_modal_req_num').val(null);
-                $('#request_modal_bs_id').val(0).change();
-                $('#request_modal_rs_id').val(0).change();
-                $('#request_modal_ep_id').val(0).change();
-                $('#request_modal_ep_id_dest').val(0).change();
-                $('#request_modal_req_weight_p').val(null);
-                $('#request_modal_req_weight_f').val(null);
-                $('#request_modal_req_seatsnum_p').val(null);
-                $('#request_modal_req_seatsnum_f').val(null);
+                $('#request_modal_ep_id').val(vRequest.rowdata.ep_id).change();
+                $('#request_modal_ep_id_dest').val(vRequest.rowdata.ep_id_dest).change();
+                $('#request_modal_req_weight_p').val(vRequest.rowdata.req_weight_p);
+                $('#request_modal_req_weight_f').val(vRequest.rowdata.req_weight_f);
+                $('#request_modal_req_seatsnum_p').val(vRequest.rowdata.req_seatsnum_p);
+                $('#request_modal_req_seatsnum_f').val(vRequest.rowdata.req_seatsnum_f);
+                /*Req Arrival Date P*/
+                if (vRequest.rowdata.req_arrival_date_p!=null) {
+                    let vReqArrivalDateP = moment(vRequest.rowdata.req_arrival_date_p).format('DD.MM.YYYY');
+                    $('#request_modal_req_arrival_date_p').data('daterangepicker').setStartDate(vReqArrivalDateP);
+                    $('#request_modal_req_arrival_date_p').data('daterangepicker').setEndDate(vReqArrivalDateP);
+                    $('#request_modal_req_arrival_date_p').trigger("apply.daterangepicker");
+                }
+                else {$('#request_modal_req_arrival_date_p').empty().val('');}
+                /*Req Arrival Date F*/
+                if (vRequest.rowdata.req_arrival_date_f!=null) {
+                    let vReqArrivalDateF = moment(vRequest.rowdata.req_arrival_date_f).format('DD.MM.YYYY');
+                    $('#request_modal_req_arrival_date_f').data('daterangepicker').setStartDate(vReqArrivalDateF);
+                    $('#request_modal_req_arrival_date_f').data('daterangepicker').setEndDate(vReqArrivalDateF);
+                    $('#request_modal_req_arrival_date_f').trigger("apply.daterangepicker");
+                }
+                else{$('#request_modal_req_arrival_date_f').empty().val('');}
+                /*Req Departure Date*/
+                if (vRequest.rowdata.req_departure_date!=null) {
+                    let vReqDepartureDate = moment(vRequest.rowdata.req_departure_date).format('DD.MM.YYYY');
+                    $('#request_modal_req_departure_date').data('daterangepicker').setStartDate(vReqDepartureDate);
+                    $('#request_modal_req_departure_date').data('daterangepicker').setEndDate(vReqDepartureDate);
+                    $('#request_modal_req_departure_date').trigger("apply.daterangepicker");
+                }
+                else{$('#request_modal_req_departure_date').empty().val('');}
+                /*Req Dest Date*/
+                if (vRequest.rowdata.req_ep_dest_date!=null) {
+                    let vReqDestDate = moment(vRequest.rowdata.req_ep_dest_date).format('DD.MM.YYYY');
+                    $('#request_modal_req_ep_dest_date').data('daterangepicker').setStartDate(vReqDestDate);
+                    $('#request_modal_req_ep_dest_date').data('daterangepicker').setEndDate(vReqDestDate);
+                    $('#request_modal_req_ep_dest_date').trigger("apply.daterangepicker");
+                }
+                else {$('#request_modal_req_ep_dest_date').empty().val('');}
+                /*Req Contragent Date*/
+                if (vRequest.rowdata.req_contragent_date!=null) {
+                    let vReqContragentDate = moment(vRequest.rowdata.req_contragent_date).format('DD.MM.YYYY');
+                    $('#request_modal_req_contragent_date').data('daterangepicker').setStartDate(vReqContragentDate);
+                    $('#request_modal_req_contragent_date').data('daterangepicker').setEndDate(vReqContragentDate);
+                    $('#request_modal_req_contragent_date').trigger("apply.daterangepicker");
+                }else{
+                    $('#request_modal_req_contragent_date').empty().val('');
+                }
 
-                $('#request_modal_req_arrival_date_p').val(null).change();
-                $('#request_modal_req_arrival_date_f').val(null).change();
-                $('#request_modal_req_departure_date').val(null).change();
-                $('#request_modal_req_ep_dest_date').val(null).change();
-                $('#request_modal_req_contragent_date').val(null).change();
-
-                $('#request_modal_req_fee').val(0);
-                $('#request_modal_req_addexpenses').val(0);
+                $('#request_modal_req_fee').val(vRequest.rowdata.req_fee);
+                $('#request_modal_req_addexpenses').val(vRequest.rowdata.req_addexpenses);
 
                 $('#request_modal').modal('show');
             });
         }
-}
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $.ajax({
+                    "url": /*[[ @{/request/get_request_default} ]]*/ "/request/get_request_default",
+                    "type": 'POST',
+                    "async" : true,
+                    "cache": false,
+                    "success": function (result) {
+                        let currentDay = new Date().toLocaleDateString('ru');
+                        $('#request_modal_req_date').data('daterangepicker').setStartDate(currentDay);
+                        $('#request_modal_req_date').data('daterangepicker').setEndDate(currentDay);
+                        $('#request_modal_req_date').trigger("apply.daterangepicker");
 
-// Add button script
-$('#request_modal_addbtn').on('click', function(){
-    $('#request_modal_form').submit();
-});
-// Edit button script
-$('#request_modal_editbtn').on('click', function(){
-    $('#request_modal_form').submit();
-});
-// Del button script
-$('#request_modal_delbtn').on('click', function(){
-    $('#request_modal_form').submit();
-});
+                        $('#request_modal_req_id').val(null);
+                        $('#request_modal_req_num').val(result.req_num);
+                        $('#request_modal_bs_id').val(0).change();
+                        $('#request_modal_rs_id').val(0).change();
+                        $('#request_modal_ep_id').val(0).change();
+                        $('#request_modal_ep_id_dest').val(0).change();
+                        $('#request_modal_req_weight_p').val(null);
+                        $('#request_modal_req_weight_f').val(null);
+                        $('#request_modal_req_seatsnum_p').val(null);
+                        $('#request_modal_req_seatsnum_f').val(null);
 
-//Add Client Address
-function addRequest(){
-    $.ajax({
-        url: /*[[ @{/request/add_request} ]]*/ "/request/add_request",
-        type: 'POST',
-        data: $("#request_modal_form").serialize(),
-        success: function (result) {
-            $('#request_modal').modal('hide');
-            vRequest.rowdata.req_id = result;
-            vBox.rowdata.box_id = null;
-            vBoxContent.rowdata.bc_id = null;
-            $(vRequest.table).DataTable().ajax.reload(null, false);
-        }
-    });
-}
+                        $('#request_modal_req_arrival_date_p').val(null).change();
+                        $('#request_modal_req_arrival_date_f').val(null).change();
+                        $('#request_modal_req_departure_date').val(null).change();
+                        $('#request_modal_req_ep_dest_date').val(null).change();
+                        $('#request_modal_req_contragent_date').val(null).change();
 
-//Edit Client Address
-function editRequest(){
-    $.ajax({
-        url: /*[[ @{/request/edit_request} ]]*/ "/request/edit_request",
-        type: 'POST',
-        data: $("#request_modal_form").serialize(),
-        success: function (result) {
-            $('#request_modal').modal('hide');
-            $(vRequest.table).DataTable().ajax.reload(null, false);
-        }
-    });
-}
+                        $('#request_modal_req_fee').val(0);
+                        $('#request_modal_req_addexpenses').val(0);
 
-// Delete button script
-function delRequest(){
-    $.ajax({
-        url: /*[[ @{/request/del_request} ]]*/ "/request/del_request",
-        type: 'POST',
-        data: $("#request_modal_form").serialize(),
-        success: function (result) {
-            $('#request_modal').modal('hide');
-            vRequest.rowdata.req_id = null;
-            vBox.rowdata.box_id = null;
-            vBoxContent.rowdata.bc_id = null;
-            $(vRequest.table).DataTable().ajax.reload(null, false);
+                        $('#request_modal').modal('show');
+                    },
+                    "error": function (request) {
+                        $("#ErrorMessage").text(request.responseText);
+                        $("#error-modal-dialog").modal('show');
+                    }
+                })
+            });
         }
-    });
-}
-
-//Validation Form
-$('#request_modal_form').validate({
-    rules: {
-        cnt_id: {
-            //money: true, // not a valid rule
-            required: true
-        }
-        // comment: {
-        //     required: false
-        // }
-    },
-    errorPlacement: function(error,element) {
-        return true;
-    },
-    submitHandler: function (form) {
-        if($('#request_modal_mode').val() === '0') {
-            addRequest();
-        }
-        else if($('#request_modal_mode').val() === '1') {
-            editRequest();
-        }
-        else if($('#request_modal_mode').val() === '2') {
-            delRequest();
-        }
-        return false;
     }
-});
+
+    // Add button script
+    $('#request_modal_addbtn').on('click', function(){
+        $('#request_modal_form').submit();
+    });
+    // Edit button script
+    $('#request_modal_editbtn').on('click', function(){
+        $('#request_modal_form').submit();
+    });
+    // Del button script
+    $('#request_modal_delbtn').on('click', function(){
+        $('#request_modal_form').submit();
+    });
+
+    //Add Client Address
+    function addRequest(){
+        $.ajax({
+            url: /*[[ @{/request/add_request} ]]*/ "/request/add_request",
+            type: 'POST',
+            data: $("#request_modal_form").serialize(),
+            success: function (result) {
+                $('#request_modal').modal('hide');
+                vRequest.rowdata.req_id = result;
+                vBox.rowdata.box_id = null;
+                vBoxContent.rowdata.bc_id = null;
+                $(vRequest.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    }
+
+    //Edit Client Address
+    function editRequest(){
+        $.ajax({
+            url: /*[[ @{/request/edit_request} ]]*/ "/request/edit_request",
+            type: 'POST',
+            data: $("#request_modal_form").serialize(),
+            success: function (result) {
+                $('#request_modal').modal('hide');
+                $(vRequest.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    }
+
+    // Delete button script
+    function delRequest(){
+        $.ajax({
+            url: /*[[ @{/request/del_request} ]]*/ "/request/del_request",
+            type: 'POST',
+            data: $("#request_modal_form").serialize(),
+            success: function (result) {
+                $('#request_modal').modal('hide');
+                vRequest.rowdata.req_id = null;
+                vBox.rowdata.box_id = null;
+                vBoxContent.rowdata.bc_id = null;
+                $(vRequest.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    }
 
 
-// OnChange Functions
+    $('#request_modal_form').validate({
+        rules: {
+            cnt_id: {
+                required: true
+            }
+        },
+        errorPlacement: function(error,element) {
+            return true;
+        },
+        submitHandler: function (form) {
+            if($('#request_modal_mode').val() === '0') {
+                addRequest();
+            }
+            else if($('#request_modal_mode').val() === '1') {
+                editRequest();
+            }
+            else if($('#request_modal_mode').val() === '2') {
+                delRequest();
+            }
+            return false;
+        }
+    });
+    // OnChange Functions
 </script>
 
 </body>

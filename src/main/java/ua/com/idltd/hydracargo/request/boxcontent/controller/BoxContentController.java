@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ua.com.idltd.hydracargo.request.boxcontent.entity.Boxcontent;
 import ua.com.idltd.hydracargo.request.boxcontent.repository.BoxcontentRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
@@ -140,5 +141,25 @@ public class BoxContentController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @PostMapping("/get_boxcontent_default")
+    public ResponseEntity<?> get_boxcontent_default(
+            @RequestParam(name = "box_id") Long box_id
+    ) {
+        Boxcontent boxcontent = new Boxcontent();
+        boxcontent.box_id = box_id;
+        boxcontent.bc_num = (String) entityManager
+                .createNativeQuery(
+                        "SELECT pkg_content.getNext_BC_num(:vBOX_ID) FROM DUAL"
+                )
+                .setParameter("vBOX_ID", box_id)
+                .getSingleResult();
+        boxcontent.bc_mark=0L;
+        boxcontent.bc_count=1L;
+        boxcontent.bc_description="";
+        boxcontent.bc_weight=new Double(0);
+        boxcontent.bc_unitprice=new Double(0);
+        return ResponseEntity.ok(boxcontent);
     }
 }

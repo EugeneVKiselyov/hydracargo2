@@ -17,7 +17,7 @@
                     </button>
                 </div>
                 <div class="modal-body mb-1">
-                    <form id="request_modal_import_form" name="request_modal_import_form" class="was-validated" novalidate>
+                    <form id="request_modal_import_form" method="post" enctype="multipart/form-data" th:action="@{/request/import}" >
                         <input type="hidden" name="req_id">
                         <div class="form-row">
                             <div class="row col-12">
@@ -35,8 +35,8 @@
                     </form>
                 </div><!-- Body -->
                 <div class="modal-footer">
-                    <button type="button" id="request_modal_import_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
-                    <button type="button" id="request_modal_import_impbtn" class="btn btn-outline-primary" th:text="#{general.import}"></button>
+                    <button type="button" id="request_modal_import_closebtn" class="btn btn-outline-dark mr-1 request_modal_import_form_control" data-dismiss="modal" th:text="#{general.back}"></button>
+                    <button type="button" id="request_modal_import_impbtn" class="btn btn-outline-primary request_modal_import_form_control" th:text="#{general.import}"></button>
                 </div>
             </div>
         </div>
@@ -46,13 +46,44 @@
         <input name="filename" hidden >
         <input name="vREQ_ID" hidden >
     </form>
+
+    <!-- Modal error 500 dispatch-->
+<div class="modal fade" id="error-modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error - 500</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card-body p-3">
+                    <div class="alert" role="alert">
+                        <textarea class="w-100" id="ErrorMessage" rows="10">Ошибка</textarea>
+                    </div>
+                <hr class="my-4" />
+
+                <div class="float-right mt-n1">
+                    <i class="align-middle mr-2 fas fa-boxes"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 </span>
 
 <script th:fragment="fragment_script" th:inline="javascript">
     // Export
     function exportRequest(){
         $("#reportxls input[name=rep_id]").val(13);
-        $("#reportxls input[name=filename]").val("packing_"+vRequest.rowdata.req_num+".xls");
+        $("#reportxls input[name=filename]").val("packing_"+vRequest.rowdata.req_num);
         $("#reportxls input[name=vREQ_ID]").val(vRequest.rowdata.req_id);
         $("#reportxls").submit();
     }
@@ -65,38 +96,48 @@
         }
     });
 
-    //Validation Form
-    $('#request_modal_import_form').validate({
-        rules: {
-        },
-        errorPlacement: function(error,element) {
-            return true;
-        },
-        submitHandler: function (form) {
-            import_request();
-            return false;
-        }
-    });
 
     function showImportDialog(){
         $("#request_modal_import_form input[name=req_id]").val(vRequest.rowdata.req_id);
         $('#request_modal_import').modal('show');
     }
 
-    $('#request_modal_import_impbtn').on('click', function(){
-        $('#request_modal_import_form').submit();
+    $('#request_modal_import_impbtn').on('click', function(e){
+        $('#request_modal_import_form').submit(
+            $.ajax({
+                url: /*[[ @{/request/import} ]]*/ "/request/import",
+                type: 'POST',
+                async : true,
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: new FormData( $("#request_modal_import_form")[0] ),
+                beforeSend : function (data){
+                    $(".request_modal_import_form_control").attr("disabled", true);
+                },
+                success: function (result) {
+                    $(".request_modal_import_form_control").attr("disabled", false);
+                    vBox.rowdata.box_id = null;
+                    $(vRequest.table).DataTable().ajax.reload(null, false);
+                    $('#request_modal_import').modal('hide');
+                },
+                error: function (request) {
+                    vBox.rowdata.box_id = null;
+                    $(vRequest.table).DataTable().ajax.reload(null, false);
+                    $('#request_modal_import').modal('hide');
+                    $(".request_modal_import_form_control").attr("disabled", false);
+
+                    $("#ErrorMessage").text(request.responseText);
+
+                    // vFileHandleAtomLog.rowdata.fhl_id = request.fileUploadResult.fhl_id;
+                    // $(vFileHandleAtomLog.table).DataTable().ajax.reload(null, false);
+
+                    $("#error-modal-dialog").modal('show');
+                }
+            })
+        );
     });
 
-    function import_request() {
-        $.ajax({
-            url: /*[[ @{/request/import} ]]*/ "/request/import",
-            type: 'POST',
-            data: $("#request_modal_import_form").serialize(),
-            success: function (result) {
-                $('#request_modal_import').modal('hide');
-            }
-        });
-    }
 </script>
 
 </body>

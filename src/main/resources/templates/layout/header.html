@@ -135,6 +135,17 @@
 
         th.th-border-black {border-right-width:thin; border-right-color: #0a0c0d;}
         .table tr td.th-border-black {border-right-width:thin; border-right-color: #0a0c0d;}
+
+        .was-validated .custom-select:invalid + .select2 .select2-selection{
+            border-color: #dc3545!important;
+        }
+        .was-validated .custom-select:valid + .select2 .select2-selection{
+            border-color: #28a745!important;
+        }
+        *:focus{
+            outline:0px;
+        }
+
     </style>
 
 <!--    <script th:src="@{/spark/dist/js/settings.js}"></script>-->

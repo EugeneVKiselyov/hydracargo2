@@ -1,9 +1,11 @@
 package ua.com.idltd.hydracargo.request;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.idltd.hydracargo.business.entity.Business;
 import ua.com.idltd.hydracargo.business.repository.BusinessRepository;
@@ -17,12 +19,17 @@ import ua.com.idltd.hydracargo.insurancetype.entity.Fin_Insurance_Type;
 import ua.com.idltd.hydracargo.insurancetype.repository.Fin_Insurance_TypeRepository;
 import ua.com.idltd.hydracargo.productgroup.entity.Fin_ProductGroup;
 import ua.com.idltd.hydracargo.productgroup.repository.Fin_ProductGroupRepository;
+import ua.com.idltd.hydracargo.request.entity.Request;
 import ua.com.idltd.hydracargo.request.repository.VRequestRepository;
 import ua.com.idltd.hydracargo.request_status.entity.Request_status;
 import ua.com.idltd.hydracargo.request_status.repository.Request_statusRepository;
 import ua.com.idltd.hydracargo.typepackagematerial.ratetype.entity.Fin_TypePackageMaterial;
 import ua.com.idltd.hydracargo.typepackagematerial.ratetype.repository.Fin_TypePackageMaterialRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
+import ua.com.idltd.hydracargo.utils.filehandler.FileUploadResult;
+import ua.com.idltd.hydracargo.utils.filehandler.FileUploadService;
+import ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum;
+import ua.com.idltd.hydracargo.utils.filehandler.handler.FileUploadHandlerPackingList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -33,11 +40,15 @@ import java.util.Date;
 
 import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
+import static ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum.PACKING_LIST;
 
 
 @RestController
 @RequestMapping("/request")
 public class RequestController {
+
+    @Autowired
+    private FileUploadService fileUploadService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -148,7 +159,18 @@ public class RequestController {
 
         return result;
     }
+    @PostMapping("/get_request_default")
+    public ResponseEntity<?> get_box_default(
+    ) {
+        Request request = new Request();
+        request.req_num = (String) entityManager
+                .createNativeQuery(
+                        "SELECT pkg_request.getNext_Request_num() FROM DUAL"
+                )
+                .getSingleResult();
 
+        return ResponseEntity.ok(request);
+    }
     @PostMapping("/add_request")
     public ResponseEntity<?> add_request(
             @RequestParam(name = "cnt_id") Long cnt_id,
@@ -317,10 +339,13 @@ public class RequestController {
 
     @PostMapping("/import")
     public ResponseEntity<?> import_request(
-            @RequestParam(name = "req_id") Long req_id
+            @RequestParam(name = "req_id") Long req_id,
+            @RequestParam("file") MultipartFile file
     ) {
         ResponseEntity<?> result;
         try{
+            FileUploadResult ufr =fileUploadService.upload(req_id, PACKING_LIST,file);
+
             result = ResponseEntity.ok(req_id);
         }
         catch (Exception e) {
