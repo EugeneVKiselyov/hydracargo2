@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="boxcontent_body" th:remove="tag">
+        <form id="boxcontent-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="boxcontent-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="boxcontent-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="boxcontent-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="boxcontent-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="boxcontent-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="boxcontent-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="boxcontent-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="boxcontent-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-boxcontent" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomBoxContent;
+
+    let bc_id_width, bc_box_id_width, bc_num_width, bc_description_width, bc_mark_width, bc_count_width, bc_weight_width, bc_unitprice_width;
+
+    let bc_id_class, bc_box_id_class, bc_num_class, bc_description_class, bc_mark_class, bc_count_class, bc_weight_class, bc_unitprice_class;
+
+    let boxcontent_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let boxcontent_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(boxcontent_mobileScreenSize){
+        vDomBoxContent =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+        bc_id_width = "";  bc_id_class = "none";
+        bc_box_id_width = "";  bc_box_id_class = "none";
+        bc_num_width = "5%"; bc_num_class = "small_size small_head_size small_footer_size";
+        bc_description_width = "5%"; bc_description_class = "small_size small_head_size small_footer_size";
+        bc_mark_width = "5%"; bc_mark_class = "small_size small_head_size small_footer_size";
+        bc_count_width = "5%"; bc_count_class = "small_size small_head_size small_footer_size";
+        bc_weight_width = "5%"; bc_weight_class = "small_size small_head_size small_footer_size";
+        bc_unitprice_width = "5%"; bc_unitprice_class = "small_size small_head_size small_footer_size";
+
+        $('#boxcontent-addbtn').removeClass('btn-sm');
+        $('#boxcontent-editbtn').removeClass('btn-sm');
+        $('#boxcontent-delbtn').removeClass('btn-sm');
+
+        $('#boxcontent-addbtn-sx').removeClass('btn-sm');
+        $('#boxcontent-editbtn-sx').removeClass('btn-sm');
+        $('#boxcontent-delbtn-sx').removeClass('btn-sm');
+        $('#boxcontent-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(boxcontent_smallScreenSize){
+        vDomBoxContent = "Blfrtip";
+        bc_id_width = "";  bc_id_class = "none";
+        bc_box_id_width = "";  bc_box_id_class = "none";
+        bc_num_width = "5%"; bc_num_class = "small_size small_head_size small_footer_size";
+        bc_description_width = "5%"; bc_description_class = "small_size small_head_size small_footer_size";
+        bc_mark_width = "5%"; bc_mark_class = "small_size small_head_size small_footer_size";
+        bc_count_width = "5%"; bc_count_class = "small_size small_head_size small_footer_size";
+        bc_weight_width = "5%"; bc_weight_class = "small_size small_head_size small_footer_size";
+        bc_unitprice_width = "5%"; bc_unitprice_class = "small_size small_head_size small_footer_size";
+    }
+    else{
+        vDomBoxContent = "Blfrtip";
+        bc_id_width = "";  bc_id_class = "none";
+        bc_box_id_width = "";  bc_box_id_class = "none";
+        bc_num_width = "5%"; bc_num_class = "small_size small_head_size small_footer_size";
+        bc_description_width = "5%"; bc_description_class = "small_size small_head_size small_footer_size";
+        bc_mark_width = "5%"; bc_mark_class = "small_size small_head_size small_footer_size";
+        bc_count_width = "5%"; bc_count_class = "small_size small_head_size small_footer_size";
+        bc_weight_width = "5%"; bc_weight_class = "small_size small_head_size small_footer_size";
+        bc_unitprice_width = "5%"; bc_unitprice_class = "small_size small_head_size small_footer_size";
+    }
+
+    var vBoxContent;
+    vBoxContent = {
+        table : '#table-boxcontent',
+        button_form: (boxcontent_mobileScreenSize) ? null : "#boxcontent-detail",
+        ajax : {
+            "url": /*[[@{/boxcontent/gettable}]]*/ "boxcontent/gettable",
+            "type": "post",
+            "data": function ( d ) {
+                d.box_id = vBoxContent.rowdata.box_id;
+            }
+        },
+        key : "bc_id",
+        switchControl : boxcontent_switchControl,
+        rowdata:{
+            bc_id : null,
+            box_id : null,
+            bc_num : null,
+            bc_description : null,
+            bc_mark : null,
+            bc_count : null,
+            bc_weight : null,
+            bc_unitprice : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomBoxContent,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columnDefs:[
+            {"targets": [4], render: function (a, b, data, d) {
+                    if(data.bc_mark === 0) { return '<a class=\"btn btn-xs\"><i class=\"align-middle text-danger fas fa-fw fa-times\"></i></a>';}
+                    else{return '<a class=\"btn btn-xs\"><i class=\"align-middle text-success fas fa-fw fa-check\"></i></a>';}
+                }
+            }
+        ],
+        columns : [
+            /*0*/{"title": /*[[#{boxcontent.bc_id}]]*/ "bc_id", "data": "bc_id", "width": bc_id_width, "className": bc_id_class},
+            /*1*/{"title": /*[[#{boxcontent.box_id}]]*/ "box_id", "data": "box_id", "width": bc_box_id_width, "className": bc_box_id_class},
+            /*2*/{"title": /*[[#{boxcontent.bc_num}]]*/ "bc_num", "data": "bc_num", "width": bc_num_width, "className": bc_num_class},
+            /*3*/{"title": /*[[#{boxcontent.bc_description}]]*/ "bc_description", "data": "bc_description", "width": bc_description_width, "className": bc_description_class},
+            /*4*/{"title": /*[[#{boxcontent.bc_mark}]]*/ "bc_mark", "data": "bc_mark", "width": bc_mark_width, "className": bc_mark_class},
+            /*5*/{"title": /*[[#{boxcontent.bc_count}]]*/ "bc_count", "data": "bc_count", "width": bc_count_width, "className": bc_count_class},
+            /*6*/{"title": /*[[#{boxcontent.bc_weight}]]*/ "bc_weight", "data": "bc_weight", "width": bc_weight_width, "className": bc_weight_class},
+            /*7*/{"title": /*[[#{boxcontent.bc_unitprice}]]*/ "bc_unitprice", "data": "bc_unitprice", "width": bc_unitprice_width, "className": bc_unitprice_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function boxcontent_switchControl(){
+        if (vBox.rowdata.box_id != null) {
+            $("#boxcontent-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#boxcontent-addbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        } else {
+            $("#boxcontent-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#boxcontent-addbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+
+        if(vBoxContent.rowdata.bc_id != null) {
+            $("#boxcontent-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#boxcontent-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#boxcontent-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#boxcontent-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#boxcontent-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#boxcontent-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#boxcontent-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#boxcontent-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.boxcontent_btn_control').on('click', function (){
+        $("#boxcontent-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#boxcontent-addbtn').click(function (){
+        $('#boxcontent_modal_addbtn').removeAttr('hidden');
+        $('#boxcontent_modal_editbtn').attr('hidden',true);
+        $('#boxcontent_modal_delbtn').attr('hidden',true);
+        fill_boxcontent_modal_detail(0);
+    });
+
+    $('#boxcontent-addbtn-sx').click(function (){
+        $('#boxcontent_modal_addbtn').removeAttr('hidden');
+        $('#boxcontent_modal_editbtn').attr('hidden',true);
+        $('#boxcontent_modal_delbtn').attr('hidden',true);
+        fill_boxcontent_modal_detail(0);
+    });
+// Edit Button
+    $('#boxcontent-editbtn').click(function (){
+        $('#boxcontent_modal_addbtn').attr('hidden',true);
+        $('#boxcontent_modal_editbtn').removeAttr('hidden');
+        $('#boxcontent_modal_delbtn').attr('hidden',true);
+        fill_boxcontent_modal_detail(1);
+    });
+
+    $('#boxcontent-editbtn-sx').click(function (){
+        $('#boxcontent_modal_addbtn').attr('hidden',true);
+        $('#boxcontent_modal_editbtn').removeAttr('hidden');
+        $('#boxcontent_modal_delbtn').attr('hidden',true);
+        fill_boxcontent_modal_detail(1);
+    });
+// Del Button
+    $('#boxcontent-delbtn').click(function (){
+        $('#boxcontent_modal_addbtn').attr('hidden',true);
+        $('#boxcontent_modal_editbtn').attr('hidden',true);
+        $('#boxcontent_modal_delbtn').removeAttr('hidden');
+        fill_boxcontent_modal_detail(2);
+    });
+
+    $('#boxcontent-delbtn-sx').click(function (){
+        $('#boxcontent_modal_addbtn').attr('hidden',true);
+        $('#boxcontent_modal_editbtn').attr('hidden',true);
+        $('#boxcontent_modal_delbtn').removeAttr('hidden');
+        fill_boxcontent_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+        vBoxContent.rowdata.box_id = /*[[${box_id}]]*/ null;
+        recreateDataTable(vBoxContent);
+    });
+</script>
+
+</body>
+</html>

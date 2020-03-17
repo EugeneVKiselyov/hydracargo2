@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import ua.com.idltd.hydracargo.contragent.contragentdefault.entity.ContragentDefault;
+import ua.com.idltd.hydracargo.contragent.contragentdefault.repository.ContragentDefaultRepository;
 import ua.com.idltd.hydracargo.request.box.entity.Box;
-import ua.com.idltd.hydracargo.request.box.repository.BoxRepository;
 import ua.com.idltd.hydracargo.request.box.repository.VBoxRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
 
@@ -32,9 +32,11 @@ public class BoxController {
     private EntityManager entityManager;
 
     private final VBoxRepository boxRepository;
+    private final ContragentDefaultRepository contragentDefaultRepository;
 
-    public BoxController(VBoxRepository boxRepository) {
+    public BoxController(VBoxRepository boxRepository, ContragentDefaultRepository contragentDefaultRepository) {
         this.boxRepository = boxRepository;
+        this.contragentDefaultRepository = contragentDefaultRepository;
     }
 
 
@@ -57,7 +59,15 @@ public class BoxController {
                 )
                 .setParameter("vREQ_ID", req_id)
                 .getSingleResult();
-
+        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
+        if (contragentDefault != null) {
+            box.box_lenght_p = contragentDefault.cntd_box_lenght;
+            box.box_width_p = contragentDefault.cntd_box_width;
+            box.box_height_p = contragentDefault.cntd_box_height;
+            box.fpg_id = contragentDefault.cntd_fpg_id;
+            box.ftpm_id = contragentDefault.cntd_ftpm_id;
+            box.fit_id = contragentDefault.cntd_fit_id;
+        }
         return ResponseEntity.ok(box);
     }
     @PostMapping("/add_box")

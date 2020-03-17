@@ -44,8 +44,8 @@ import static ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum.PAC
 
 
 @RestController
-@RequestMapping("/request")
-public class RequestController {
+@RequestMapping("/request_pa")
+public class RequestPAController {
 
     @Autowired
     private FileUploadService fileUploadService;
@@ -65,7 +65,7 @@ public class RequestController {
     private final DispatchRepository dispatchRepository;
     private final ContragentDefaultRepository contragentDefaultRepository;
 
-    public RequestController(VRequestRepository requestRepository, ContragentRepository contragentRepository, BusinessRepository businessRepository, Request_statusRepository request_statusRepository, EntrepotRepository entrepotRepository, Fin_ProductGroupRepository fin_productGroupRepository, Fin_TypePackageMaterialRepository fin_typePackageMaterialRepository, Fin_Insurance_TypeRepository fin_insurance_typeRepository, DispatchRepository dispatchRepository, ContragentDefaultRepository contragentDefaultRepository) {
+    public RequestPAController(VRequestRepository requestRepository, ContragentRepository contragentRepository, BusinessRepository businessRepository, Request_statusRepository request_statusRepository, EntrepotRepository entrepotRepository, Fin_ProductGroupRepository fin_productGroupRepository, Fin_TypePackageMaterialRepository fin_typePackageMaterialRepository, Fin_Insurance_TypeRepository fin_insurance_typeRepository, DispatchRepository dispatchRepository, ContragentDefaultRepository contragentDefaultRepository) {
         this.requestRepository = requestRepository;
         this.contragentRepository = contragentRepository;
         this.businessRepository = businessRepository;
@@ -133,16 +133,16 @@ public class RequestController {
         dispatchList =  dispatchRepository.findAll();
         mav.addObject("dispatchList", dispatchList);
 
-        mav.setViewName("/request/cover");
+        mav.setViewName("/request_pa/cover");
         return mav;
     }
 
     private int getfilter_num(Long req_id,Long cnt_id,Long ep_id){
-        int result=0;
-        if (req_id!=null) result=result+1;
-        if (cnt_id!=null) result=result+10;
-        if (ep_id!=null) result=result+100;
-        return result;
+       int result=0;
+       if (req_id!=null) result=result+1;
+       if (cnt_id!=null) result=result+10;
+       if (ep_id!=null) result=result+100;
+       return result;
     }
     @PostMapping("/gettable")
     public JSONDatatable gettable(@RequestParam(name = "req_id", required = false) Long req_id) {

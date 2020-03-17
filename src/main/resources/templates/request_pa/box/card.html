@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="box_body" th:remove="tag">
+        <form id="box-detail" class="mb-2" hidden>
+            <input name="mode" value="0" hidden>
+              <div id="box-btn-large" class="d-none d-sm-block">
+                 <button type="button" id="box-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
+                 <button type="button" id="box-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+                 <button type="button" id="box-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+              </div>
+              <div id="box-btn-small" class="d-block d-sm-none">
+                 <button type="button" id="box-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
+                 <button type="button" id="box-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
+                 <button type="button" id="box-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+              </div>
+        </form>
+        
+        <div><table id="table-box" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    let vDomBox;
+
+    let box_id_width, req_id_width, box_num_width, box_weight_p_width, box_lenght_p_width, box_width_p_width, box_height_p_width, box_volume_weight_p_width,
+        box_packing_date_width, box_dis_id_width, box_dis_num_width, box_cost_width, box_brand_width, fpg_id_width, ftpm_id_width, fit_id_width,
+        box_fee_width, box_description_width, fpg_name_width, ftpm_name_width, fit_name_width, fit_percent_width,
+        box_inshipment_width, box_shipment_width, box_outshipment_width, box_carplate_width;
+
+    let box_id_class, req_id_class, box_num_class, box_weight_p_class, box_lenght_p_class, box_width_p_class, box_height_p_class, box_volume_weight_p_class,
+        box_packing_date_class, box_dis_id_class, box_dis_num_class, box_cost_class, box_brand_class, fpg_id_class, ftpm_id_class, fit_id_class,
+        box_fee_class, box_description_class, fpg_name_class, ftpm_name_class, fit_name_class, fit_percent_class,
+        box_inshipment_class, box_shipment_class, box_outshipment_class, box_carplate_class;
+
+    let box_smallScreenSize = window.screen.width > 1024 && window.screen.height <= 768;
+    let box_mobileScreenSize = window.screen.width < 1024 && window.screen.height < 768;
+
+    if(box_mobileScreenSize){
+        vDomBox =
+            "<'row'<'col-12'B>>"+
+            "<'row'<'col-12 col-sm-3'l><'col-12 col-sm-9'f>>"+
+            "<'row'<'col-12'tr>>" +
+            "<'row'<'col-12'p>>";
+        box_id_width = "";  box_id_class = "none";
+        req_id_width = "";  req_id_class = "none";
+        box_dis_id_width = ""; box_dis_id_class = "none";
+        box_num_width = "5%"; box_num_class = "small_size small_head_size small_footer_size";
+        box_weight_p_width = "5%"; box_weight_p_class = "small_size small_head_size small_footer_size";
+        box_lenght_p_width = ""; box_lenght_p_class = "none";
+        box_width_p_width = ""; box_width_p_class = "none";
+        box_height_p_width = ""; box_height_p_class = "none";
+        box_volume_weight_p_width = ""; box_volume_weight_p_class = "none";
+        box_packing_date_width = ""; box_packing_date_class = "none";
+        dis_num_width = "15%"; dis_num_class = "small_size small_head_size small_footer_size";
+        box_cost_width = "5%"; box_cost_class = "small_size small_head_size small_footer_size";
+        box_brand_width = "5%"; box_brand_class = "small_size small_head_size small_footer_size";
+        fpg_id_width = ""; fpg_id_class = "none";
+        fpg_name_width = "20%"; fpg_name_class = "small_size small_head_size small_footer_size";
+        ftpm_id_width = ""; ftpm_id_class = "none";
+        ftpm_name_width = "20%"; ftpm_name_class = "small_size small_head_size small_footer_size";
+        fit_id_width = ""; fit_id_class = "none";
+        fit_name_width = "10%"; fit_name_class = "small_size small_head_size small_footer_size";
+        fit_percent_width = ""; fit_percent_class = "none";
+        box_fee_width = ""; box_fee_class = "none";
+        box_description_width = ""; box_description_class = "none";
+        box_inshipment_width = ""; box_inshipment_class = "none";
+        box_shipment_width = "15%"; box_shipment_class = "small_size small_head_size small_footer_size";
+        box_outshipment_width = ""; box_outshipment_class = "none";
+        box_carplate_width = ""; box_carplate_class = "none";
+
+        $('#box-addbtn').removeClass('btn-sm');
+        $('#box-editbtn').removeClass('btn-sm');
+        $('#box-delbtn').removeClass('btn-sm');
+
+        $('#box-addbtn-sx').removeClass('btn-sm');
+        $('#box-editbtn-sx').removeClass('btn-sm');
+        $('#box-delbtn-sx').removeClass('btn-sm');
+        $('#box-detail').addClass('text-center').removeAttr('hidden');
+    }
+    else if(box_smallScreenSize){
+        vDomBox = "Blfrtip";
+        box_id_width = "";  box_id_class = "none";
+        req_id_width = "";  req_id_class = "none";
+        box_dis_id_width = ""; box_dis_id_class = "none";
+        box_num_width = "5%"; box_num_class = "small_size small_head_size small_footer_size";
+        box_weight_p_width = "5%"; box_weight_p_class = "small_size small_head_size small_footer_size";
+        box_lenght_p_width = ""; box_lenght_p_class = "none";
+        box_width_p_width = ""; box_width_p_class = "none";
+        box_height_p_width = ""; box_height_p_class = "none";
+        box_volume_weight_p_width = ""; box_volume_weight_p_class = "none";
+        box_packing_date_width = ""; box_packing_date_class = "none";
+        dis_num_width = "15%"; dis_num_class = "small_size small_head_size small_footer_size";
+        box_cost_width = "5%"; box_cost_class = "small_size small_head_size small_footer_size";
+        box_brand_width = "5%"; box_brand_class = "small_size small_head_size small_footer_size";
+        fpg_id_width = ""; fpg_id_class = "none";
+        fpg_name_width = "20%"; fpg_name_class = "small_size small_head_size small_footer_size";
+        ftpm_id_width = ""; ftpm_id_class = "none";
+        ftpm_name_width = "20%"; ftpm_name_class = "small_size small_head_size small_footer_size";
+        fit_id_width = ""; fit_id_class = "none";
+        fit_name_width = "10%"; fit_name_class = "small_size small_head_size small_footer_size";
+        fit_percent_width = ""; fit_percent_class = "none";
+        box_fee_width = ""; box_fee_class = "none";
+        box_description_width = ""; box_description_class = "none";
+        box_inshipment_width = ""; box_inshipment_class = "none";
+        box_shipment_width = "15%"; box_shipment_class = "small_size small_head_size small_footer_size";
+        box_outshipment_width = ""; box_outshipment_class = "none";
+        box_carplate_width = ""; box_carplate_class = "none";
+    }
+    else{
+        vDomBox = "Blfrtip";
+        box_id_width = "";  box_id_class = "none";
+        req_id_width = "";  req_id_class = "none";
+        box_dis_id_width = ""; box_dis_id_class = "none";
+        box_num_width = "5%"; box_num_class = "small_size small_head_size small_footer_size";
+        box_weight_p_width = "5%"; box_weight_p_class = "small_size small_head_size small_footer_size";
+        box_lenght_p_width = ""; box_lenght_p_class = "none";
+        box_width_p_width = ""; box_width_p_class = "none";
+        box_height_p_width = ""; box_height_p_class = "none";
+        box_volume_weight_p_width = ""; box_volume_weight_p_class = "none";
+        box_packing_date_width = ""; box_packing_date_class = "none";
+        dis_num_width = "15%"; dis_num_class = "small_size small_head_size small_footer_size";
+        box_cost_width = "5%"; box_cost_class = "small_size small_head_size small_footer_size";
+        box_brand_width = "5%"; box_brand_class = "small_size small_head_size small_footer_size";
+        fpg_id_width = ""; fpg_id_class = "none";
+        fpg_name_width = "20%"; fpg_name_class = "small_size small_head_size small_footer_size";
+        ftpm_id_width = ""; ftpm_id_class = "none";
+        ftpm_name_width = "20%"; ftpm_name_class = "small_size small_head_size small_footer_size";
+        fit_id_width = ""; fit_id_class = "none";
+        fit_name_width = "10%"; fit_name_class = "small_size small_head_size small_footer_size";
+        fit_percent_width = ""; fit_percent_class = "none";
+        box_fee_width = ""; box_fee_class = "none";
+        box_description_width = ""; box_description_class = "none";
+        box_inshipment_width = ""; box_inshipment_class = "none";
+        box_shipment_width = "15%"; box_shipment_class = "small_size small_head_size small_footer_size";
+        box_outshipment_width = ""; box_outshipment_class = "none";
+        box_carplate_width = ""; box_carplate_class = "none";
+    }
+
+    var vBox;
+    vBox = {
+        table : '#table-box',
+        button_form: (box_mobileScreenSize) ? null : "#box-detail",
+        ajax : {
+            "url": /*[[@{/box/gettable}]]*/ "box/gettable",
+            "type": "post",
+            "data": function ( d ) {
+                d.req_id = vBox.rowdata.req_id;
+            }
+        },
+        key : "box_id",
+        switchControl : box_switchControl,
+        rowdata:{
+            box_id : null,
+            req_id : null,
+            dis_id : null,
+            box_num : null,
+            box_weight_p : null,
+            box_lenght_p : null,
+            box_width_p : null,
+            box_height_p : null,
+            box_volume_weight_p : null,
+            dis_num : null,
+            box_packing_date : null,
+            box_cost : null,
+            box_brand : null,
+            fpg_id : null,
+            fpg_name : null,
+            ftpm_id : null,
+            ftpm_name : null,
+            fit_id : null,
+            fit_name : null,
+            fit_percent : null,
+            box_fee : null,
+            box_description : null,
+            box_inshipment : null,
+            box_shipment : null,
+            box_outshipment : null,
+            box_carplate : null
+        },
+        ordering: true,
+        order: [
+            [3, "asc"]
+        ],
+        scrollX: true,
+        dom: vDomBox,
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columnDefs:[
+            {"targets": [12], render: function (a, b, data, d) {
+                    if(data.box_brand === 0) { return '<a class=\"btn btn-xs\"><i class=\"align-middle text-danger fas fa-fw fa-times\"></i></a>';}
+                    else{return '<a class=\"btn btn-xs\"><i class=\"align-middle text-success fas fa-fw fa-check\"></i></a>';}
+                }
+            },
+            {"targets": [9], render:function(data){ if (data != null ) return moment(data).format('DD.MM.YYYY'); else return null;} }
+
+        ],
+        columns : [
+            /*0*/{"title": /*[[#{box.box_id}]]*/ "box_id", "data": "box_id", "width": box_id_width, "className": box_id_class},
+            /*1*/{"title": /*[[#{box.req_id}]]*/ "req_id", "data": "req_id", "width": req_id_width, "className": req_id_class},
+            /*2*/{"title": /*[[#{box.dis_id}]]*/ "dis_id", "data": "dis_id", "width": box_dis_id_width, "className": box_dis_id_class},
+            /*3*/{"title": /*[[#{box.box_num}]]*/ "box_num", "data": "box_num", "width": box_num_width, "className": box_num_class},
+            /*4*/{"title": /*[[#{box.box_weight_p}]]*/ "box_weight_p", "data": "box_weight_p", "width": box_weight_p_width, "className": box_weight_p_class},
+            /*5*/{"title": /*[[#{box.box_lenght_p}]]*/ "box_lenght_p", "data": "box_lenght_p", "width": box_lenght_p_width, "className": box_lenght_p_class},
+            /*6*/{"title": /*[[#{box.box_width_p}]]*/ "box_width_p", "data": "box_width_p", "width": box_width_p_width, "className": box_width_p_class},
+            /*7*/{"title": /*[[#{box.box_height_p}]]*/ "box_height_p", "data": "box_height_p", "width": box_height_p_width, "className": box_height_p_class},
+            /*8*/{"title": /*[[#{box.box_volume_weight_p}]]*/ "box_volume_weight_p", "data": "box_volume_weight_p", "width": box_volume_weight_p_width, "className": box_volume_weight_p_class},
+            /*9*/{"title": /*[[#{box.box_packing_date}]]*/ "box_packing_date", "data": "box_packing_date", "width": box_packing_date_width, "className": box_packing_date_class},
+            /*10*/{"title": /*[[#{box.dis_num}]]*/ "dis_num", "data": "dis_num", "width": dis_num_width, "className": dis_num_class},
+            /*11*/{"title": /*[[#{box.box_cost}]]*/ "box_cost", "data": "box_cost", "width": box_cost_width, "className": box_cost_class},
+            /*12*/{"title": /*[[#{box.box_brand}]]*/ "box_brand", "data": "box_brand", "width": box_brand_width, "className": box_brand_class},
+            /*13*/{"title": /*[[#{box.fpg_id}]]*/ "fpg_id", "data": "fpg_id", "width": fpg_id_width, "className": fpg_id_class},
+            /*14*/{"title": /*[[#{box.fpg_name}]]*/ "fpg_name", "data": "fpg_name", "width": fpg_name_width, "className": fpg_name_class},
+            /*15*/{"title": /*[[#{box.ftpm_id}]]*/ "ftpm_id", "data": "ftpm_id", "width": ftpm_id_width, "className": ftpm_id_class},
+            /*16*/{"title": /*[[#{box.ftpm_name}]]*/ "ftpm_name", "data": "ftpm_name", "width": ftpm_name_width, "className": ftpm_name_class},
+            /*17*/{"title": /*[[#{box.fit_id}]]*/ "fit_id", "data": "fit_id", "width": fit_id_width, "className": fit_id_class},
+            /*18*/{"title": /*[[#{box.fit_name}]]*/ "fit_name", "data": "fit_name", "width": fit_name_width, "className": fit_name_class},
+            /*19*/{"title": /*[[#{box.fit_percent}]]*/ "fit_percent", "data": "fit_percent", "width": fit_percent_width, "className": fit_percent_class},
+            /*20*/{"title": /*[[#{box.box_fee}]]*/ "box_fee", "data": "box_fee", "width": box_fee_width, "className": box_fee_class},
+            /*21*/{"title": /*[[#{box.box_description}]]*/ "box_description", "data": "box_description", "width": box_description_width, "className": box_description_class},
+            /*22*/{"title": /*[[#{box.box_inshipment}]]*/ "box_inshipment", "data": "box_inshipment", "width": box_inshipment_width, "className": box_inshipment_class},
+            /*23*/{"title": /*[[#{box.box_shipment}]]*/ "box_shipment", "data": "box_shipment", "width": box_shipment_width, "className": box_shipment_class},
+            /*24*/{"title": /*[[#{box.box_outshipment}]]*/ "box_outshipment", "data": "box_outshipment", "width": box_outshipment_width, "className": box_outshipment_class},
+            /*25*/{"title": /*[[#{box.box_carplate}]]*/ "box_carplate", "data": "box_carplate", "width": box_carplate_width, "className": box_carplate_class}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function box_switchControl(){
+        if (vRequest.rowdata.req_id != null) {
+            $("#box-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-addbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        } else {
+            $("#box-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-addbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+
+        if(vBox.rowdata.box_id != null) {
+            $("#box-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#box-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        } else {
+            $("#box-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#box-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+        vBoxContent.rowdata.box_id = vBox.rowdata.box_id;
+        if (vBoxContent.rowdata.box_id == null) vBoxContent.rowdata.bc_id = null;
+        $(vBoxContent.table).DataTable().ajax.reload(null, false);
+    }
+
+    $('.box_btn_control').on('click', function (){
+        $("#box-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#box-addbtn').click(function (){
+        $('#box_modal_addbtn').removeAttr('hidden');
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(0);
+    });
+
+    $('#box-addbtn-sx').click(function (){
+        $('#box_modal_addbtn').removeAttr('hidden');
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(0);
+    });
+// Edit Button
+    $('#box-editbtn').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').removeAttr('hidden');
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(1);
+    });
+
+    $('#box-editbtn-sx').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').removeAttr('hidden');
+        $('#box_modal_delbtn').attr('hidden',true);
+        fill_box_modal_detail(1);
+    });
+// Del Button
+    $('#box-delbtn').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').removeAttr('hidden');
+        fill_box_modal_detail(2);
+    });
+
+    $('#box-delbtn-sx').click(function (){
+        $('#box_modal_addbtn').attr('hidden',true);
+        $('#box_modal_editbtn').attr('hidden',true);
+        $('#box_modal_delbtn').removeAttr('hidden');
+        fill_box_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+        vBox.rowdata.req_id = /*[[${req_id}]]*/ null;
+        recreateDataTable(vBox);
+    });
+</script>
+
+</body>
+</html>

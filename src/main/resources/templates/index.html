@@ -217,6 +217,45 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="container-fluid w-100 h-100 mr-0 ml-0" sec:authorize="hasRole('ROLE_PERSONAL_OFFICE')">
+
+                    <div class="row">
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                            <div class="card flex-fill w-100 mb-2">
+                                <div class="card-header pb-0">
+                                    <div class="card-actions float-right">
+                                        <a href="#request_description_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                                    </div>
+                                    <h5 class="card-title" href="#request_description_div" data-toggle="collapse" th:text="#{request.caption}">Заявки/Заказы</h5>
+                                </div>
+                                <div class="card-body pt-0 collapse show" id="request_description_div">
+                                    <div>
+                                        <p class="card-text" th:text="#{request.description}"></p>
+                                        <a class="card-link" th:href="@{/request_pa}" th:text="#{general.run}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 pl-1 pr-1 col-xl-6 pl-xl-1 pr-xl-1 pt-0">
+                            <div class="card flex-fill w-100 mb-2">
+                                <div class="card-header pb-0">
+                                    <div class="card-actions float-right">
+                                        <a href="#help_description_card" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i></a>
+                                    </div>
+                                    <h5 class="card-title" href="#help_description_card" data-toggle="collapse" th:text="#{help.caption}">Help</h5>
+                                </div>
+                                <div class="card-body pt-0 collapse show" id="help_description_card">
+                                    <div>
+                                        <p class="card-text" th:text="#{help.description}"></p>
+                                        <a class="card-link" th:href="@{/help}" th:text="#{general.run}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row 1 -->
+                </div><!-- ROLE_PERSONAL_OFFICE -->
+
             </main>
         </div>
     </div>

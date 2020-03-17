@@ -46,6 +46,9 @@ public class Request {
   @Column(name = "EP_ID")
   public Long ep_id;
 
+  @Column(name = "EP_ID_DEST")
+  public Long ep_id_dest;
+
   @Column(name = "REQ_SEATSNUM_P")
   public Long req_seatsnum_p;
 

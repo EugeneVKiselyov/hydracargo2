@@ -20,19 +20,19 @@ public class Box {
   public String box_num;
 
   @Column(name = "BOX_WEIGHT_P")
-  public Float box_weight_p;
+  public Double box_weight_p;
 
   @Column(name = "BOX_LENGHT_P")
-  public Float box_lenght_p;
+  public Double box_lenght_p;
 
   @Column(name = "BOX_WIDTH_P")
-  public Float box_width_p;
+  public Double box_width_p;
 
   @Column(name = "BOX_HEIGHT_P")
-  public Float box_height_p;
+  public Double box_height_p;
 
   @Column(name = "BOX_VOLUME_WEIGHT_P")
-  public Float box_volume_weight_p;
+  public Double box_volume_weight_p;
 
   @Column(name = "BOX_PACKING_DATE")
   @Temporal(TemporalType.DATE)

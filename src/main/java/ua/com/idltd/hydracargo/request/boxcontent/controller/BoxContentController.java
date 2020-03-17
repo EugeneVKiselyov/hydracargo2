@@ -1,12 +1,13 @@
 package ua.com.idltd.hydracargo.request.boxcontent.controller;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ua.com.idltd.hydracargo.contragent.contragentdefault.entity.ContragentDefault;
+import ua.com.idltd.hydracargo.contragent.contragentdefault.repository.ContragentDefaultRepository;
 import ua.com.idltd.hydracargo.request.boxcontent.entity.Boxcontent;
 import ua.com.idltd.hydracargo.request.boxcontent.repository.BoxcontentRepository;
 import ua.com.idltd.hydracargo.utils.JSONDatatable;
@@ -15,9 +16,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
-import java.util.Date;
 
 import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
+import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 
 
 @RestController
@@ -28,9 +29,11 @@ public class BoxContentController {
     private EntityManager entityManager;
 
     private final BoxcontentRepository boxcontentRepository;
+    private final ContragentDefaultRepository contragentDefaultRepository;
 
-    public BoxContentController(BoxcontentRepository boxcontentRepository) {
+    public BoxContentController(BoxcontentRepository boxcontentRepository, ContragentDefaultRepository contragentDefaultRepository) {
         this.boxcontentRepository = boxcontentRepository;
+        this.contragentDefaultRepository = contragentDefaultRepository;
     }
 
     @PostMapping("/gettable")
@@ -160,6 +163,10 @@ public class BoxContentController {
         boxcontent.bc_description="";
         boxcontent.bc_weight=new Double(0);
         boxcontent.bc_unitprice=new Double(0);
+        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
+        if (contragentDefault != null) {
+            boxcontent.bc_mark=contragentDefault.cntd_brand;
+        }
         return ResponseEntity.ok(boxcontent);
     }
 }
