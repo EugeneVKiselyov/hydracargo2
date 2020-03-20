@@ -16,4 +16,6 @@ public interface DispatchRepository extends CustomRepository<Dispatch, Long> {
     @Query(nativeQuery = true, value = "select * from Dispatch where dis_id=?1")
     Optional<Dispatch> findByDis_ID(Long dis_id);
 
+    @Query(nativeQuery = true, value = "select * from Dispatch where req_id=?1")
+    Optional<Dispatch> findByReq_ID(Long req_id);
 }

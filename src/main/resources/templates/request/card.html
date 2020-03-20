@@ -12,14 +12,14 @@
                   <button type="button" id="request-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
                   <button type="button" id="request-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
                   <button type="button" id="request-exportbtn" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
-                  <button type="button" id="request-importbtn" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Export</button>
+                  <button type="button" id="request-importbtn" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Import</button>
               </div>
               <div id="request-btn-small" class="d-block d-sm-none">
                   <button type="button" id="request-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
                   <button type="button" id="request-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
                   <button type="button" id="request-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
                   <button type="button" id="request-exportbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
-                  <button type="button" id="request-importbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Export</button>
+                  <button type="button" id="request-importbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Import</button>
               </div>
         </form>
         
@@ -200,11 +200,11 @@
     });
 
     $('#request-importbtn').click(function (){
-        showImportDialog();
+        showImportDialog(1);
     });
 
     $('#request-importbtn-sx').click(function (){
-        showImportDialog();
+        showImportDialog(1);
     });
 
     $(document).ready(function(){

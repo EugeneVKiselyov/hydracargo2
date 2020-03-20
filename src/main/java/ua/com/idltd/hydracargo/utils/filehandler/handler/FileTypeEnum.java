@@ -5,5 +5,6 @@ public enum FileTypeEnum {
     ASOS,
     VEX_DIG,
     VEX_SCAN,
-    PACKING_LIST
+    PACKING_LIST,
+    PACKING_LIST_SMALL
 }

@@ -10,15 +10,27 @@
                  <button type="button" id="box-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
                  <button type="button" id="box-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
                  <button type="button" id="box-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+                 <button type="button" id="box-exportbtn" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
+                 <button type="button" id="box-importbtn" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Import</button>
+                 <button type="button" id="box-labelA4btn" class="btn btn-sm btn-dark" th:text="#{general.printbtnLabelsA4}" disabled>Label A4</button>
               </div>
               <div id="box-btn-small" class="d-block d-sm-none">
                  <button type="button" id="box-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
                  <button type="button" id="box-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
                  <button type="button" id="box-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+                 <button type="button" id="box-exportbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
+                 <button type="button" id="box-importbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Import</button>
+                 <button type="button" id="box-labelA4btn-sx" class="btn btn-sm btn-dark" th:text="#{general.printbtnLabelsA4}" disabled>Label A4</button>
               </div>
         </form>
         
         <div><table id="table-box" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+
+        <form id="reportlabelpdf" th:action="@{/report/pdf}" method="get">
+        <input name="rep_id" hidden >
+        <input name="filename" hidden >
+        <input name="vDC_SHIPMENT" hidden >
+    </form>
 </span>
 
 <script th:fragment="cardscript" th:inline="javascript">
@@ -235,9 +247,20 @@
         if (vRequest.rowdata.req_id != null) {
             $("#box-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#box-addbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#box-exportbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-importbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-exportbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-importbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
         } else {
             $("#box-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#box-addbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#box-exportbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-importbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-exportbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-importbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
 
         if(vBox.rowdata.box_id != null) {
@@ -246,12 +269,18 @@
 
             $("#box-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#box-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+
+            $("#box-labelA4btn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-labelA4btn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
         } else {
             $("#box-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#box-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
 
             $("#box-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#box-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+
+            $("#box-labelA4btn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-labelA4btn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
         vBoxContent.rowdata.box_id = vBox.rowdata.box_id;
         if (vBoxContent.rowdata.box_id == null) vBoxContent.rowdata.bc_id = null;
@@ -303,6 +332,36 @@
         $('#box_modal_editbtn').attr('hidden',true);
         $('#box_modal_delbtn').removeAttr('hidden');
         fill_box_modal_detail(2);
+    });
+
+    $('#box-exportbtn').click(function (){
+        exportBoxRequest();
+    });
+
+    $('#box-exportbtn-sx').click(function (){
+        exportBoxRequest();
+    });
+
+    $('#box-importbtn').click(function (){
+        showImportDialog(2);
+    });
+
+    $('#box-importbtn-sx').click(function (){
+        showImportDialog(2);
+    });
+
+    $('#box-labelA4btn').click(function (){
+        $("#reportlabelpdf input[name=rep_id]").val(15);
+        $("#reportlabelpdf input[name=filename]").val("label_a4_"+vBox.rowdata.box_shipment);
+        $("#reportlabelpdf input[name=vDC_SHIPMENT]").val(vBox.rowdata.box_shipment);
+        $("#reportlabelpdf").submit();
+    });
+
+    $('#box-labelA4btn-sx').click(function (){
+        $("#reportlabelpdf input[name=rep_id]").val(15);
+        $("#reportlabelpdf input[name=filename]").val("label_a4_"+vBox.rowdata.box_shipment);
+        $("#reportlabelpdf input[name=vDC_SHIPMENT]").val(vBox.rowdata.box_shipment);
+        $("#reportlabelpdf").submit();
     });
 
     $(document).ready(function(){

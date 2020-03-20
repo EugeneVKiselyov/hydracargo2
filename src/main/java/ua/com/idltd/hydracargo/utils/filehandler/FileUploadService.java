@@ -2,12 +2,16 @@ package ua.com.idltd.hydracargo.utils.filehandler;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.idltd.hydracargo.contragent.contragentdefault.repository.ContragentDefaultRepository;
 import ua.com.idltd.hydracargo.declaration_cache.repository.Declaration_cacheRepository;
 import ua.com.idltd.hydracargo.dispatch.repository.DispatchRepository;
 import ua.com.idltd.hydracargo.entrepot.repository.EntrepotRepository;
 import ua.com.idltd.hydracargo.exception.DispatchIdNullException;
+import ua.com.idltd.hydracargo.insurancetype.repository.Fin_Insurance_TypeRepository;
+import ua.com.idltd.hydracargo.productgroup.repository.Fin_ProductGroupRepository;
 import ua.com.idltd.hydracargo.request.repository.RequestRepository;
 import ua.com.idltd.hydracargo.scan.repository.Declaration_scanRepository;
+import ua.com.idltd.hydracargo.typepackagematerial.ratetype.repository.Fin_TypePackageMaterialRepository;
 import ua.com.idltd.hydracargo.utils.filehandler.entity.FilehandlerLog;
 import ua.com.idltd.hydracargo.utils.filehandler.exception.UnsupportedFileFormatException;
 import ua.com.idltd.hydracargo.utils.filehandler.exception.UnsupportedFileTypeException;
@@ -35,11 +39,15 @@ public class FileUploadService {
     private final LoadAsosRepository loadAsosRepository;
     private final Declaration_scanRepository declaration_scanRepository;
     private final LoadPackingRepository loadPackingRepository;
+    private final ContragentDefaultRepository contragentDefaultRepository;
+    private final Fin_ProductGroupRepository fin_productGroupRepository;
+    private final Fin_TypePackageMaterialRepository fin_typePackageMaterialRepository;
+    private final Fin_Insurance_TypeRepository fin_insurance_typeRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public FileUploadService(FileHandlerBufferRepository fileHandlerBufferRepository, FileHandlerLogRepository fileHandlerLogRepository, FileHandlerDetailLogRepository fileHandlerDetailLogRepository, FileHandlerAtomLogRepository fileHandlerAtomLogRepository, RequestRepository requestRepository, DispatchRepository dispatchRepository, Declaration_cacheRepository declaration_cacheRepository, EntrepotRepository entrepotRepository, LoadAsosRepository loadAsosRepository, Declaration_scanRepository declaration_scanRepository, LoadPackingRepository loadPackingRepository) {
+    public FileUploadService(FileHandlerBufferRepository fileHandlerBufferRepository, FileHandlerLogRepository fileHandlerLogRepository, FileHandlerDetailLogRepository fileHandlerDetailLogRepository, FileHandlerAtomLogRepository fileHandlerAtomLogRepository, RequestRepository requestRepository, DispatchRepository dispatchRepository, Declaration_cacheRepository declaration_cacheRepository, EntrepotRepository entrepotRepository, LoadAsosRepository loadAsosRepository, Declaration_scanRepository declaration_scanRepository, LoadPackingRepository loadPackingRepository, ContragentDefaultRepository contragentDefaultRepository, Fin_ProductGroupRepository fin_productGroupRepository, Fin_TypePackageMaterialRepository fin_typePackageMaterialRepository, Fin_Insurance_TypeRepository fin_insurance_typeRepository) {
         this.fileHandlerBufferRepository = fileHandlerBufferRepository;
         this.fileHandlerLogRepository = fileHandlerLogRepository;
         this.fileHandlerDetailLogRepository = fileHandlerDetailLogRepository;
@@ -51,6 +59,10 @@ public class FileUploadService {
         this.loadAsosRepository = loadAsosRepository;
         this.declaration_scanRepository = declaration_scanRepository;
         this.loadPackingRepository = loadPackingRepository;
+        this.contragentDefaultRepository = contragentDefaultRepository;
+        this.fin_productGroupRepository = fin_productGroupRepository;
+        this.fin_typePackageMaterialRepository = fin_typePackageMaterialRepository;
+        this.fin_insurance_typeRepository = fin_insurance_typeRepository;
     }
 
     private void savelog(FilehandlerLog fhl, FileLogStatusEnum flse, String body){
@@ -135,8 +147,13 @@ public class FileUploadService {
 
             IFileUploadHandler fuh = null;
             //    Проверка на формат файла и возвращаем обработчик
-
-            fuh=new FileUploadHandlerPackingList(fte,fhl,file,fileHandlerBufferRepository,fileHandlerLogRepository,fileHandlerDetailLogRepository,fileHandlerAtomLogRepository, entityManager, req_id, loadPackingRepository);
+            switch (fte) {
+                case PACKING_LIST: fuh=new FileUploadHandlerPackingList(fte,fhl,file,fileHandlerBufferRepository,fileHandlerLogRepository,fileHandlerDetailLogRepository,fileHandlerAtomLogRepository, entityManager, req_id, loadPackingRepository);
+                    break;
+                case PACKING_LIST_SMALL: fuh=new FileUploadHandlerPackingListSmall(fte,fhl,file,fileHandlerBufferRepository,fileHandlerLogRepository,fileHandlerDetailLogRepository,fileHandlerAtomLogRepository, entityManager, req_id, loadPackingRepository, contragentDefaultRepository, fin_productGroupRepository, fin_typePackageMaterialRepository, fin_insurance_typeRepository, dispatchRepository);
+                    break;
+                default:    throw new UnsupportedFileTypeException(fte);
+            }
 
             //разбираем и загружаем посылки
             result = fuh.upload();

@@ -41,6 +41,7 @@ import java.util.Date;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 import static ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum.PACKING_LIST;
+import static ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum.PACKING_LIST_SMALL;
 
 
 @RestController
@@ -246,7 +247,27 @@ public class RequestController {
                     .setParameter(18, req_addexpenses)
                     ;
             AddProductQuery.execute();
-            result = ResponseEntity.ok(AddProductQuery.getOutputParameterValue(19));
+
+            Long req_id =(Long) AddProductQuery.getOutputParameterValue(19);
+
+            ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
+            //создаем депешу если ее нет
+            Dispatch dispatch = dispatchRepository.findByReq_ID(req_id).orElse(new Dispatch());
+            dispatch.setReq_id(req_id);
+            dispatch.rs_id=0L;
+            dispatch.ep_id=contragentDefault.cntd_ep_source;
+            if (dispatch.dis_num==null) {
+                dispatch.dis_num = (String) entityManager
+                        .createNativeQuery(
+                                "select pkg_post.gen_dispatchforuser(:username, :ep_id) from dual"
+                        )
+                        .setParameter("username", GetUserName())
+                        .setParameter("ep_id", contragentDefault.cntd_ep_source)
+                        .getSingleResult();
+            }
+            dispatchRepository.save(dispatch);
+
+            result = ResponseEntity.ok(req_id);
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -351,11 +372,27 @@ public class RequestController {
     @PostMapping("/import")
     public ResponseEntity<?> import_request(
             @RequestParam(name = "req_id") Long req_id,
+            @RequestParam(name = "imp_type") Long imp_type,
             @RequestParam("file") MultipartFile file
     ) {
         ResponseEntity<?> result;
         try{
-            FileUploadResult ufr =fileUploadService.upload(req_id, PACKING_LIST,file);
+            FileUploadResult ufr;
+            switch (imp_type.intValue()) {
+                case 1:
+                    ufr = fileUploadService.upload(req_id, PACKING_LIST, file); break;
+                case 2:
+                    ufr = fileUploadService.upload(req_id, PACKING_LIST_SMALL, file); break;
+            }
+            //Создать декларации
+            StoredProcedureQuery storedProcedureQuery = entityManager
+                    .createStoredProcedureQuery("PKG_REQUEST.addDeclaration")
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, Long.class, ParameterMode.IN)
+                    .setParameter(1, GetUserName())
+                    .setParameter(2, req_id)
+                    ;
+            storedProcedureQuery.execute();
 
             result = ResponseEntity.ok(req_id);
         }

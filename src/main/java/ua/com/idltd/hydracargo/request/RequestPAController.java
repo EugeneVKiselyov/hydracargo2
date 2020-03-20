@@ -41,6 +41,7 @@ import java.util.Date;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.ConvertTraceExceptionToText;
 import static ua.com.idltd.hydracargo.utils.StaticUtils.GetUserName;
 import static ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum.PACKING_LIST;
+import static ua.com.idltd.hydracargo.utils.filehandler.handler.FileTypeEnum.PACKING_LIST_SMALL;
 
 
 @RestController
@@ -351,12 +352,18 @@ public class RequestPAController {
     @PostMapping("/import")
     public ResponseEntity<?> import_request(
             @RequestParam(name = "req_id") Long req_id,
+            @RequestParam(name = "imp_type") Long imp_type,
             @RequestParam("file") MultipartFile file
     ) {
         ResponseEntity<?> result;
         try{
-            FileUploadResult ufr =fileUploadService.upload(req_id, PACKING_LIST,file);
-
+            FileUploadResult ufr;
+            switch (imp_type.intValue()) {
+                case 1:
+                    ufr = fileUploadService.upload(req_id, PACKING_LIST, file); break;
+                case 2:
+                    ufr = fileUploadService.upload(req_id, PACKING_LIST_SMALL, file); break;
+            }
             result = ResponseEntity.ok(req_id);
         }
         catch (Exception e) {
@@ -364,4 +371,5 @@ public class RequestPAController {
         }
         return result;
     }
+
 }

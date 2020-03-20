@@ -12,5 +12,7 @@ public interface BoxRepository extends CrudRepository<Box, Long> {
 
     @Query(nativeQuery = true, value = "select * from Box where req_id=:req_id")
     Iterable<Box> findByREQ_ID(@Param("req_id") final Long req_id);
+    @Query(nativeQuery = true, value = "select * from Box where req_id=:req_id and box_num=:box_num")
+    Long countByREQ_IDandBox_num(@Param("req_id") final Long req_id, @Param("box_num") final String box_num);
 
 }

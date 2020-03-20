@@ -10,11 +10,15 @@
                  <button type="button" id="box-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
                  <button type="button" id="box-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
                  <button type="button" id="box-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+                 <button type="button" id="box-exportbtn" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
+                 <button type="button" id="box-importbtn" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Import</button>
               </div>
               <div id="box-btn-small" class="d-block d-sm-none">
                  <button type="button" id="box-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
                  <button type="button" id="box-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
                  <button type="button" id="box-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
+                 <button type="button" id="box-exportbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
+                 <button type="button" id="box-importbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Import</button>
               </div>
         </form>
         
@@ -235,9 +239,17 @@
         if (vRequest.rowdata.req_id != null) {
             $("#box-addbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
             $("#box-addbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-exportbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-importbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-exportbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#box-importbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
         } else {
             $("#box-addbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
             $("#box-addbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-exportbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-importbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-exportbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#box-importbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
 
         if(vBox.rowdata.box_id != null) {
@@ -303,6 +315,22 @@
         $('#box_modal_editbtn').attr('hidden',true);
         $('#box_modal_delbtn').removeAttr('hidden');
         fill_box_modal_detail(2);
+    });
+
+    $('#box-exportbtn').click(function (){
+        exportBoxRequest();
+    });
+
+    $('#box-exportbtn-sx').click(function (){
+        exportBoxRequest();
+    });
+
+    $('#box-importbtn').click(function (){
+        showImportDialog(2);
+    });
+
+    $('#box-importbtn-sx').click(function (){
+        showImportDialog(2);
     });
 
     $(document).ready(function(){
