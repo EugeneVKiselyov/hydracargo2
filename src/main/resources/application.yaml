@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: giba
+    active: vex
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     properties.hibernate.proc.param_null_passing : true

@@ -88,10 +88,12 @@ public class FileUploadHandlerPackingList extends IFileUploadHandlerImpl {
 
             StoredProcedureQuery create_request = entityManager
                     .createStoredProcedureQuery("PKG_REQUEST.parceAndLoad")
-                    .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, Long.class, ParameterMode.IN)
-                    .setParameter(1, req_id)
-                    .setParameter(2, lt_part);
+                    .registerStoredProcedureParameter(3, Long.class, ParameterMode.IN)
+                    .setParameter(1, GetUserName())
+                    .setParameter(2, req_id)
+                    .setParameter(3, lt_part);
             create_request.execute();
 
             savelog(FileLogStatusEnum.SUCCESS, MessageFormat.format("End parce and load file {0}", fhlb.getFhlb_Name()));
@@ -114,16 +116,16 @@ public class FileUploadHandlerPackingList extends IFileUploadHandlerImpl {
         try {
             loadPacking.setLp_box_num(formatter.formatCellValue(row.getCell(0)));
             loadPacking.setLp_box_description(formatter.formatCellValue(row.getCell(1)));
-            loadPacking.setLp_box_weight(formatter.formatCellValue(row.getCell(2)));
-            loadPacking.setLp_box_lenght(formatter.formatCellValue(row.getCell(3)));
-            loadPacking.setLp_box_height(formatter.formatCellValue(row.getCell(4)));
-            loadPacking.setLp_box_width(formatter.formatCellValue(row.getCell(5)));
-            loadPacking.setLp_box_volume_weight(formatter.formatCellValue(row.getCell(6)));
+            loadPacking.setLp_box_weight(convertExelStringToDouble(formatter.formatCellValue(row.getCell(2))));
+            loadPacking.setLp_box_lenght(convertExelStringToDouble(formatter.formatCellValue(row.getCell(3))));
+            loadPacking.setLp_box_height(convertExelStringToDouble(formatter.formatCellValue(row.getCell(4))));
+            loadPacking.setLp_box_width(convertExelStringToDouble(formatter.formatCellValue(row.getCell(5))));
+            loadPacking.setLp_box_volume_weight(convertExelStringToDouble(formatter.formatCellValue(row.getCell(6))));
             loadPacking.setLp_bc_description(formatter.formatCellValue(row.getCell(7)));
-            loadPacking.setLp_bc_count(formatter.formatCellValue(row.getCell(8)));
-            loadPacking.setLp_bc_unitprice(formatter.formatCellValue(row.getCell(9)));
-            loadPacking.setLp_totalcost(formatter.formatCellValue(row.getCell(10)));
-            loadPacking.setLp_bc_mark(formatter.formatCellValue(row.getCell(11)));
+            loadPacking.setLp_bc_count(Long.parseLong(formatter.formatCellValue(row.getCell(8))));
+            loadPacking.setLp_bc_unitprice(convertExelStringToDouble(formatter.formatCellValue(row.getCell(9))));
+            loadPacking.setLp_totalcost(convertExelStringToDouble(formatter.formatCellValue(row.getCell(10))));
+            loadPacking.setLp_bc_mark(Long.parseLong(formatter.formatCellValue(row.getCell(11))));
             loadPacking.setLp_box_inshipment(formatter.formatCellValue(row.getCell(12)));
             loadPacking.setLp_box_carplate(formatter.formatCellValue(row.getCell(13)));
             loadPacking.setLp_fpg_name(formatter.formatCellValue(row.getCell(14)));

@@ -23,25 +23,25 @@ public class LoadPacking {
     @Column(name = "LP_BOX_DESCRIPTION")
     private String lp_box_description;
     @Column(name = "LP_BOX_WEIGHT")
-    private String lp_box_weight;
+    private Double lp_box_weight;
     @Column(name = "LP_BOX_LENGHT")
-    private String lp_box_lenght;
+    private Double lp_box_lenght;
     @Column(name = "LP_BOX_WIDTH")
-    private String lp_box_width;
+    private Double lp_box_width;
     @Column(name = "LP_BOX_HEIGHT")
-    private String lp_box_height;
+    private Double lp_box_height;
     @Column(name = "LP_BOX_VOLUME_WEIGHT")
-    private String lp_box_volume_weight;
+    private Double lp_box_volume_weight;
     @Column(name = "LP_BC_DESCRIPTION")
     private String lp_bc_description;
     @Column(name = "LP_BC_COUNT")
-    private String lp_bc_count;
+    private Long lp_bc_count;
     @Column(name = "LP_BC_UNITPRICE")
-    private String lp_bc_unitprice;
+    private Double lp_bc_unitprice;
     @Column(name = "LP_TOTALCOST")
-    private String lp_totalcost;
+    private Double lp_totalcost;
     @Column(name = "LP_BC_MARK")
-    private String lp_bc_mark;
+    private Long lp_bc_mark;
     @Column(name = "LP_BOX_INSHIPMENT")
     private String lp_box_inshipment;
     @Column(name = "LP_BOX_CARPLATE")
@@ -52,6 +52,7 @@ public class LoadPacking {
     private String lp_ftpm_name;
     @Column(name = "LP_FIT_NAME")
     private String lp_fit_name;
+
     public long getLp_id() {
         return lp_id;
     }
@@ -100,43 +101,43 @@ public class LoadPacking {
         this.lp_box_description = lp_box_description;
     }
 
-    public String getLp_box_weight() {
+    public Double getLp_box_weight() {
         return lp_box_weight;
     }
 
-    public void setLp_box_weight(String lp_box_weight) {
+    public void setLp_box_weight(Double lp_box_weight) {
         this.lp_box_weight = lp_box_weight;
     }
 
-    public String getLp_box_lenght() {
+    public Double getLp_box_lenght() {
         return lp_box_lenght;
     }
 
-    public void setLp_box_lenght(String lp_box_lenght) {
+    public void setLp_box_lenght(Double lp_box_lenght) {
         this.lp_box_lenght = lp_box_lenght;
     }
 
-    public String getLp_box_width() {
+    public Double getLp_box_width() {
         return lp_box_width;
     }
 
-    public void setLp_box_width(String lp_box_width) {
+    public void setLp_box_width(Double lp_box_width) {
         this.lp_box_width = lp_box_width;
     }
 
-    public String getLp_box_height() {
+    public Double getLp_box_height() {
         return lp_box_height;
     }
 
-    public void setLp_box_height(String lp_box_height) {
+    public void setLp_box_height(Double lp_box_height) {
         this.lp_box_height = lp_box_height;
     }
 
-    public String getLp_box_volume_weight() {
+    public Double getLp_box_volume_weight() {
         return lp_box_volume_weight;
     }
 
-    public void setLp_box_volume_weight(String lp_box_volume_weight) {
+    public void setLp_box_volume_weight(Double lp_box_volume_weight) {
         this.lp_box_volume_weight = lp_box_volume_weight;
     }
 
@@ -148,35 +149,35 @@ public class LoadPacking {
         this.lp_bc_description = lp_bc_description;
     }
 
-    public String getLp_bc_count() {
+    public Long getLp_bc_count() {
         return lp_bc_count;
     }
 
-    public void setLp_bc_count(String lp_bc_count) {
+    public void setLp_bc_count(Long lp_bc_count) {
         this.lp_bc_count = lp_bc_count;
     }
 
-    public String getLp_bc_unitprice() {
+    public Double getLp_bc_unitprice() {
         return lp_bc_unitprice;
     }
 
-    public void setLp_bc_unitprice(String lp_bc_unitprice) {
+    public void setLp_bc_unitprice(Double lp_bc_unitprice) {
         this.lp_bc_unitprice = lp_bc_unitprice;
     }
 
-    public String getLp_totalcost() {
+    public Double getLp_totalcost() {
         return lp_totalcost;
     }
 
-    public void setLp_totalcost(String lp_totalcost) {
+    public void setLp_totalcost(Double lp_totalcost) {
         this.lp_totalcost = lp_totalcost;
     }
 
-    public String getLp_bc_mark() {
+    public Long getLp_bc_mark() {
         return lp_bc_mark;
     }
 
-    public void setLp_bc_mark(String lp_bc_mark) {
+    public void setLp_bc_mark(Long lp_bc_mark) {
         this.lp_bc_mark = lp_bc_mark;
     }
 

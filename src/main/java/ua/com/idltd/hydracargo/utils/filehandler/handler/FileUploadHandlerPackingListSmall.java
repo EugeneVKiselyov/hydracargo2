@@ -140,20 +140,24 @@ public class FileUploadHandlerPackingListSmall extends IFileUploadHandlerImpl {
         loadPacking.setLt_part(lt_part);
         loadPacking.setLp_create_user(GetUserName());
 
+        String s;
         try {
             loadPacking.setLp_box_num(formatter.formatCellValue(row.getCell(0)));
             loadPacking.setLp_box_description(formatter.formatCellValue(row.getCell(1)));
-            loadPacking.setLp_box_weight(formatter.formatCellValue(row.getCell(2)).replace(",","."));
+            loadPacking.setLp_box_weight(convertExelStringToDouble(formatter.formatCellValue(row.getCell(2))));
             loadPacking.setLp_bc_description(formatter.formatCellValue(row.getCell(3)));
-            loadPacking.setLp_bc_count(formatter.formatCellValue(row.getCell(4)));
-            loadPacking.setLp_bc_unitprice(formatter.formatCellValue(row.getCell(5)).replace(",","."));
-            loadPacking.setLp_bc_mark(formatter.formatCellValue(row.getCell(6)));
+            loadPacking.setLp_bc_count(Long.parseLong(formatter.formatCellValue(row.getCell(4))));
+            loadPacking.setLp_bc_unitprice(convertExelStringToDouble(formatter.formatCellValue(row.getCell(5))));
+
+            s=formatter.formatCellValue(row.getCell(6)); if (s.equalsIgnoreCase("")) s="0";
+            loadPacking.setLp_bc_mark(Long.parseLong(s));
+
             loadPacking.setLp_fpg_name(formatter.formatCellValue(row.getCell(7)));
             loadPacking.setLp_ftpm_name(formatter.formatCellValue(row.getCell(8)));
             loadPacking.setLp_fit_name(formatter.formatCellValue(row.getCell(9)));
-            loadPacking.setLp_box_lenght(formatter.formatCellValue(row.getCell(10)).replace(",","."));
-            loadPacking.setLp_box_height(formatter.formatCellValue(row.getCell(11)).replace(",","."));
-            loadPacking.setLp_box_width(formatter.formatCellValue(row.getCell(12)).replace(",","."));
+            loadPacking.setLp_box_lenght(convertExelStringToDouble(formatter.formatCellValue(row.getCell(10))));
+            loadPacking.setLp_box_height(convertExelStringToDouble(formatter.formatCellValue(row.getCell(11))));
+            loadPacking.setLp_box_width(convertExelStringToDouble(formatter.formatCellValue(row.getCell(12))));
 
             //проверяем на заполненность полей если каких то не хватает то берем изнастроек клиента
             if (loadPacking.getLp_box_num()==null) throw new Exception("Номер коробки пустой");
@@ -162,6 +166,8 @@ public class FileUploadHandlerPackingListSmall extends IFileUploadHandlerImpl {
             if (loadPacking.getLp_bc_description()==null) throw new Exception("Номер описание вложения пустое");
             if (loadPacking.getLp_bc_count()==null) throw new Exception("Поле количество пустое");
             if (loadPacking.getLp_bc_unitprice()==null) throw new Exception("Поле цена за единицу пустое");
+
+            if (loadPacking.getLp_bc_mark()==null) loadPacking.setLp_bc_mark(0L);
 
             if (contragentDefault != null) {
                 if (loadPacking.getLp_fpg_name().equalsIgnoreCase("")) {
@@ -176,14 +182,14 @@ public class FileUploadHandlerPackingListSmall extends IFileUploadHandlerImpl {
                     Fin_Insurance_Type fin_insurance_type =fin_insurance_typeRepository.findById(contragentDefault.cntd_fit_id).orElse(new Fin_Insurance_Type());
                     loadPacking.setLp_fit_name(fin_insurance_type.getFit_name());
                 }
-                if (loadPacking.getLp_box_lenght().equalsIgnoreCase("")) {
-                    loadPacking.setLp_box_lenght(contragentDefault.cntd_box_lenght.toString().replace(",","."));
+                if (loadPacking.getLp_box_lenght()==null) {
+                    loadPacking.setLp_box_lenght(contragentDefault.cntd_box_lenght);
                 }
-                if (loadPacking.getLp_box_width().equalsIgnoreCase("")) {
-                    loadPacking.setLp_box_width(contragentDefault.cntd_box_width.toString().replace(",","."));
+                if (loadPacking.getLp_box_width()==null) {
+                    loadPacking.setLp_box_width(contragentDefault.cntd_box_width);
                 }
-                if (loadPacking.getLp_box_height().equalsIgnoreCase("")) {
-                    loadPacking.setLp_box_height(contragentDefault.cntd_box_height.toString().replace(",","."));
+                if (loadPacking.getLp_box_height()==null) {
+                    loadPacking.setLp_box_height(contragentDefault.cntd_box_height);
                 }
             }
             if (loadPacking.getLp_bc_unitprice()==null) throw new Exception("Поле цена за единицу пустое");

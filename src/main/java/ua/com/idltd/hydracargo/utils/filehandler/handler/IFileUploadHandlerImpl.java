@@ -90,4 +90,11 @@ public abstract class IFileUploadHandlerImpl implements IFileUploadHandler {
         fileHandlerAtomLogRepository.save(fhal);
     }
 
+    protected static Double convertExelStringToDouble(String exelStr){
+        Double result=null;
+        if (!exelStr.equalsIgnoreCase("")) {
+            result =Double.parseDouble(exelStr.replace(",","."));
+        }
+        return result;
+    }
 }
