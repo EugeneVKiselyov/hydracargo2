@@ -379,6 +379,9 @@ public class DashboardRequestController {
                     case 4 :
                         ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.VEX_DIG,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
                         break;
+                    case 5 :
+                        ufr.fileUploadResult=fileUploadService.upload(FileTypeEnum.BASE,dis_id,serv_id, type_id, scountry_iso2, rcountry_iso2,file);
+                        break;
                     default :
                         throw new Exception("I do not know format_id ="+format_id);
                 }

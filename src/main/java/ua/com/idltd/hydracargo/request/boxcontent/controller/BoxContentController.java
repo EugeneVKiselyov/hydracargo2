@@ -150,6 +150,8 @@ public class BoxContentController {
     public ResponseEntity<?> get_boxcontent_default(
             @RequestParam(name = "box_id") Long box_id
     ) {
+        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName()).orElse(new ContragentDefault());
+
         Boxcontent boxcontent = new Boxcontent();
         boxcontent.box_id = box_id;
         boxcontent.bc_num = (String) entityManager
@@ -158,15 +160,12 @@ public class BoxContentController {
                 )
                 .setParameter("vBOX_ID", box_id)
                 .getSingleResult();
-        boxcontent.bc_mark=0L;
         boxcontent.bc_count=1L;
         boxcontent.bc_description="";
         boxcontent.bc_weight=new Double(0);
         boxcontent.bc_unitprice=new Double(0);
-        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
-        if (contragentDefault != null) {
-            boxcontent.bc_mark=contragentDefault.cntd_brand;
-        }
+        boxcontent.bc_mark=contragentDefault.cntd_brand;
+
         return ResponseEntity.ok(boxcontent);
     }
 }

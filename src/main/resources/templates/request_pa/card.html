@@ -10,16 +10,10 @@
               <div id="request-btn-large" class="d-none d-sm-block">
                   <button type="button" id="request-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>
                   <button type="button" id="request-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
-                  <button type="button" id="request-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
-                  <button type="button" id="request-exportbtn" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
-                  <button type="button" id="request-importbtn" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Export</button>
               </div>
               <div id="request-btn-small" class="d-block d-sm-none">
                   <button type="button" id="request-addbtn-sx" class="btn btn-sm btn-primary"><i data-feather="plus"></i></button>
                   <button type="button" id="request-editbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="edit-2"></i></button>
-                  <button type="button" id="request-delbtn-sx" class="btn btn-sm btn-dark" disabled><i data-feather="trash-2"></i></button>
-                  <button type="button" id="request-exportbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.export}" disabled>Export</button>
-                  <button type="button" id="request-importbtn-sx" class="btn btn-sm btn-dark" th:text="#{general.import}" disabled>Export</button>
               </div>
         </form>
         
@@ -69,7 +63,7 @@
         },
         ordering: true,
         order: [
-            [0, "asc"]
+            [0, "desc"]
         ],
         scrollX: true,
         dom: "Blfrtip",
@@ -119,25 +113,12 @@
     function request_switchControl(){
         if(vRequest.rowdata.req_id != null) {
             $("#request-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-            $("#request-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-            $("#request-exportbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-            $("#request-importbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-
             $("#request-editbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-            $("#request-delbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-            $("#request-exportbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
-            $("#request-importbtn-sx").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
         }
         else{
             $("#request-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
-            $("#request-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
-            $("#request-exportbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
-            $("#request-importbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
 
             $("#request-editbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
-            $("#request-delbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
-            $("#request-exportbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
-            $("#request-importbtn-sx").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
         }
         vBox.rowdata.req_id = vRequest.rowdata.req_id;
         if (vBox.rowdata.req_id == null) vBox.rowdata.box_id = null;
@@ -152,59 +133,37 @@
     $('#request-addbtn').click(function (){
         $('#request_modal_addbtn').removeAttr('hidden');
         $('#request_modal_editbtn').attr('hidden',true);
-        $('#request_modal_delbtn').attr('hidden',true);
         fill_request_modal_detail(0);
     });
 
     $('#request-addbtn-sx').click(function (){
         $('#request_modal_addbtn').removeAttr('hidden');
         $('#request_modal_editbtn').attr('hidden',true);
-        $('#request_modal_delbtn').attr('hidden',true);
         fill_request_modal_detail(0);
     });
 // Edit Button
     $('#request-editbtn').click(function (){
         $('#request_modal_addbtn').attr('hidden',true);
         $('#request_modal_editbtn').removeAttr('hidden');
-        $('#request_modal_delbtn').attr('hidden',true);
         fill_request_modal_detail(1);
     });
 
     $('#request-editbtn-sx').click(function (){
         $('#request_modal_addbtn').attr('hidden',true);
         $('#request_modal_editbtn').removeAttr('hidden');
-        $('#request_modal_delbtn').attr('hidden',true);
         fill_request_modal_detail(1);
     });
 // Del Button
     $('#request-delbtn').click(function (){
         $('#request_modal_addbtn').attr('hidden',true);
         $('#request_modal_editbtn').attr('hidden',true);
-        $('#request_modal_delbtn').removeAttr('hidden');
         fill_request_modal_detail(2);
     });
 
     $('#request-delbtn-sx').click(function (){
         $('#request_modal_addbtn').attr('hidden',true);
         $('#request_modal_editbtn').attr('hidden',true);
-        $('#request_modal_delbtn').removeAttr('hidden');
         fill_request_modal_detail(2);
-    });
-
-    $('#request-exportbtn').click(function (){
-        exportRequest();
-    });
-
-    $('#request-exportbtn-sx').click(function (){
-        exportRequest();
-    });
-
-    $('#request-importbtn').click(function (){
-        showImportDialog(1);
-    });
-
-    $('#request-importbtn-sx').click(function (){
-        showImportDialog(1);
     });
 
     $(document).ready(function(){

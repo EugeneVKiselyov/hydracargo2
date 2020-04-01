@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ua.com.idltd.hydracargo.contragent.contragentdefault.entity.ContragentDefault;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ContragentDefaultRepository extends CrudRepository<ContragentDefault, Long> {
@@ -19,5 +20,5 @@ public interface ContragentDefaultRepository extends CrudRepository<ContragentDe
                                         "u.USER_USERNAME=:username \n" +
                                         "and c.cnt_id=u.CNT_ID\n" +
                                         "and c.cnt_id = PKG_RIGHT.GETCNT_ID( c.cnt_id, :username )")
-    ContragentDefault getDefaultByUsername(@Param("username") String usename);
+    Optional<ContragentDefault> getDefaultByUsername(@Param("username") String usename);
 }

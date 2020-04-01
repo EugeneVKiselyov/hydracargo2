@@ -43,7 +43,7 @@ public class ContragentDefault {
   public Long cntd_fit_id;
 
   @Column(name = "CNTD_BRAND")
-  public Long cntd_brand;
+  public Long cntd_brand=0L;
 
   @Column(name = "CNTD_BOX_LENGHT")
   public Double cntd_box_lenght;
@@ -61,10 +61,10 @@ public class ContragentDefault {
   public Long cntd_type_id;
 
   @Column(name = "CNTD_EP_SOURCE")
-  public Long cntd_ep_source;
+  public Long cntd_ep_source=0L;
 
   @Column(name = "CNTD_EP_DEST")
-  public Long cntd_ep_dest;
+  public Long cntd_ep_dest=0L;
 
   @Column(name = "CNTD_BS_ID")
   public Long cntd_bs_id;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="A4 Lable" pageWidth="595" pageHeight="842" columnWidth="585" columnSpacing="1" leftMargin="5" rightMargin="5" topMargin="10" bottomMargin="10" uuid="4598a69f-dc61-4ad2-81c5-ea698e62306a">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -242,7 +242,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SNAME}]]></textFieldExpression>
 				</textField>
@@ -262,7 +262,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SADDRESS}]]></textFieldExpression>
 				</textField>
@@ -285,7 +285,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SCITY}]]></textFieldExpression>
 				</textField>
@@ -306,7 +306,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SZIP}]]></textFieldExpression>
 				</textField>
@@ -327,7 +327,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SCOUNTRYNAME}]]></textFieldExpression>
 				</textField>
@@ -348,7 +348,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SPHONE}]]></textFieldExpression>
 				</textField>
@@ -370,7 +370,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{SNAME}]]></textFieldExpression>
 				</textField>
@@ -476,7 +476,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RNAME}]]></textFieldExpression>
 				</textField>
@@ -496,7 +496,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RADDRESS}]]></textFieldExpression>
 				</textField>
@@ -519,7 +519,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RCITY}]]></textFieldExpression>
 				</textField>
@@ -531,7 +531,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RZIP}]]></textFieldExpression>
 				</textField>
@@ -551,7 +551,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RCOUNTRYNAME}]]></textFieldExpression>
 				</textField>
@@ -573,7 +573,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RPHONE}]]></textFieldExpression>
 				</textField>
@@ -596,7 +596,7 @@
 						<bottomPen lineWidth="0.75"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{RNAME}]]></textFieldExpression>
 				</textField>
@@ -862,6 +862,9 @@
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="5" y="16" width="270" height="19" uuid="aa3335ec-5c4f-4094-a367-69be2d4aaa0e"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{DC_ADDINFORM}]]></textFieldExpression>
 				</textField>
 			</frame>

@@ -72,7 +72,7 @@ public class FileUploadHandlerPackingListSmall extends IFileUploadHandlerImpl {
                         "select LOAD_PACKING_PART_SEQ.nextval from dual"
                 )
                 .getSingleResult()).longValue();
-        contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
+        contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName()).orElse(new ContragentDefault());
     }
 
 

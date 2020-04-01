@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.column" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.row" value="2"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Giba.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BootFiles\DataAdapter.xml"/>
 	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 	<parameter name="vREQ_ID" class="java.lang.String"/>
 	<queryString language="plsql">
@@ -101,7 +101,7 @@
 				<text><![CDATA[Вес, кг]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1855" y="0" width="178" height="15" uuid="bf34b697-d8e5-4a86-bdc4-c4d11cff5b20">
+				<reportElement x="1854" y="0" width="179" height="15" uuid="bf34b697-d8e5-4a86-bdc4-c4d11cff5b20">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d947f43c-67b7-45f1-922d-510b90da786d"/>
 				</reportElement>
 				<box>
@@ -268,7 +268,7 @@
 				<textFieldExpression><![CDATA[$F{BOX_WEIGHT_P}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="1855" y="0" width="178" height="15" uuid="d1f5c948-801d-44c3-8439-125856baab52">
+				<reportElement mode="Transparent" x="1854" y="0" width="179" height="15" uuid="d1f5c948-801d-44c3-8439-125856baab52">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d947f43c-67b7-45f1-922d-510b90da786d"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>

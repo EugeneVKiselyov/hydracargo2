@@ -171,16 +171,14 @@ public class RequestController {
                         "SELECT pkg_request.getNext_Request_num() FROM DUAL"
                 )
                 .getSingleResult();
-        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
-        if (contragentDefault != null) {
-            request.cnt_id = contragentDefault.cnt_id;
-            request.ep_id = contragentDefault.cntd_ep_source;
-            request.ep_id_dest = contragentDefault.cntd_ep_dest;
-            request.bs_id = contragentDefault.cntd_bs_id;
-            request.rs_id = 0L;
-            request.req_weight_p = new Double(0);
-            request.req_weight_f = new Double(0);
-        }
+        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName()).orElse(new ContragentDefault());
+        request.cnt_id = contragentDefault.cnt_id;
+        request.ep_id = contragentDefault.cntd_ep_source;
+        request.ep_id_dest = contragentDefault.cntd_ep_dest;
+        request.bs_id = contragentDefault.cntd_bs_id;
+        request.rs_id = 0L;
+        request.req_weight_p = new Double(0);
+        request.req_weight_f = new Double(0);
         return ResponseEntity.ok(request);
     }
     @PostMapping("/add_request")
@@ -250,7 +248,7 @@ public class RequestController {
 
             Long req_id =(Long) AddProductQuery.getOutputParameterValue(19);
 
-            ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
+            ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName()).orElse(new ContragentDefault());
             //создаем депешу если ее нет
             Dispatch dispatch = dispatchRepository.findByReq_ID(req_id).orElse(new Dispatch());
             dispatch.setReq_id(req_id);
@@ -271,6 +269,7 @@ public class RequestController {
         }
         catch (Exception e) {
             result = new ResponseEntity<>(ConvertTraceExceptionToText(e), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
         }
         return result;
     }

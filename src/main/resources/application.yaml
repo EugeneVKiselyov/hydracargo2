@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: vex
+    active: ipex
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     properties.hibernate.proc.param_null_passing : true
@@ -28,6 +28,12 @@ scheduler:
     fixedRate:
       in:
         milliseconds: 10000
+  justin:
+    enable: true
+    fixedRate:
+      in:
+        milliseconds: 3600000
+
 
 server :
   compression :
@@ -181,7 +187,7 @@ telegram :
           datasource:
             type: com.zaxxer.hikari.HikariDataSource
             dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-            url: jdbc:oracle:thin:@//localhost/ORCLPDB2
+            url: jdbc:oracle:thin:@//localhost/ORCLPDB1
             username: HCARGO
             password: qazzaq
             hikari:

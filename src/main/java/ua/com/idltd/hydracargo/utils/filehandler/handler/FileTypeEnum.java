@@ -6,5 +6,6 @@ public enum FileTypeEnum {
     VEX_DIG,
     VEX_SCAN,
     PACKING_LIST,
-    PACKING_LIST_SMALL
+    PACKING_LIST_SMALL,
+    BASE
 }

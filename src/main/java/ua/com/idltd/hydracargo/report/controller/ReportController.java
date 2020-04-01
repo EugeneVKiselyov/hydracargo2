@@ -62,7 +62,7 @@ public class ReportController {
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, conn);
 
             response.setContentType("application/x-pdf");
-            response.setHeader("Content-disposition", "inline; filename=" + filename + ".pdf");
+            response.setHeader("Content-disposition", "download; filename=" + filename + ".pdf");
 
             final OutputStream outStream = response.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
@@ -165,6 +165,8 @@ public class ReportController {
             case 13 : report = "/static/report/13_packing_list.jasper"; break;
             case 14 : report = "/static/report/14_packing_list.jasper"; break;
             case 15 : report = "/static/report/15_label_A4.jasper"; break;
+            case 16 : report = "/static/report/16_label10x14.jasper"; break;
+            case 17 : report = "/static/report/17_box_label10x14.jasper"; break;
         }
         return report;
     }

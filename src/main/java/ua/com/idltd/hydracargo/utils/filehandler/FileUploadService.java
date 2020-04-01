@@ -95,6 +95,10 @@ public class FileUploadService {
             IFileUploadHandler fuh = null;
             //    Проверка на формат файла и возвращаем обработчик
             switch (fte) {
+                case BASE :  fuh=new FileUploadHandlerBase(fhl,file,fileHandlerBufferRepository,fileHandlerLogRepository,fileHandlerDetailLogRepository,fileHandlerAtomLogRepository,
+                        dis_id,service_id,type_id,scountry_iso2,rcountry_iso2,
+                        requestRepository, dispatchRepository, declaration_cacheRepository, entrepotRepository);
+                    break;
                 case VEX :  fuh=new FileUploadHandlerVEX(fhl,file,fileHandlerBufferRepository,fileHandlerLogRepository,fileHandlerDetailLogRepository,fileHandlerAtomLogRepository,
                                                          dis_id,service_id,type_id,scountry_iso2,rcountry_iso2,
                                                          requestRepository, dispatchRepository, declaration_cacheRepository, entrepotRepository);

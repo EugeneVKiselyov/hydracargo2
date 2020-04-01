@@ -59,7 +59,7 @@ public class BoxController {
                 )
                 .setParameter("vREQ_ID", req_id)
                 .getSingleResult();
-        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName());
+        ContragentDefault contragentDefault = contragentDefaultRepository.getDefaultByUsername(GetUserName()).orElse(new ContragentDefault());
         if (contragentDefault != null) {
             box.box_lenght_p = contragentDefault.cntd_box_lenght;
             box.box_width_p = contragentDefault.cntd_box_width;

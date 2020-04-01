@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boot File Xls" pageWidth="2500" pageHeight="595" orientation="Landscape" columnWidth="2500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="523328c3-282f-4e96-ba09-dfbd73c4b027">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boot File Xls" pageWidth="3000" pageHeight="595" orientation="Landscape" columnWidth="3000" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="523328c3-282f-4e96-ba09-dfbd73c4b027">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.column" value=""/>
 	<property name="net.sf.jasperreports.export.xls.freeze.row" value="2"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BootFiles\DataAdapter.xml"/>
 	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 	<parameter name="vDIS_ID" class="java.lang.String"/>
 	<queryString language="plsql">
@@ -96,6 +87,12 @@
 	</field>
 	<field name="CURRENCY" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="CURRENCY"/>
+	</field>
+	<field name="DC_SCOUNTRY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_SCOUNTRY"/>
+	</field>
+	<field name="DC_RCOUNTRY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DC_RCOUNTRY"/>
 	</field>
 	<columnHeader>
 		<band height="15" splitType="Stretch">
@@ -502,6 +499,36 @@
 				</textElement>
 				<text><![CDATA[CURRENCY]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="2400" y="0" width="100" height="15" uuid="666ffd4d-b69e-4398-9d4f-7235e4044f3e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb190c97-b9a7-4a1f-9c94-67e359ab6b09"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SCOUNTRY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2500" y="0" width="100" height="15" uuid="3d426243-08b0-4e06-871d-ddf8daebf6d3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c07246d-a0e9-4f09-a630-f64397432632"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Serif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RCOUNTRY]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -893,6 +920,36 @@
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2400" y="0" width="100" height="15" uuid="abeb038b-10b1-440d-b129-858e5a68faba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb190c97-b9a7-4a1f-9c94-67e359ab6b09"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_SCOUNTRY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="2500" y="0" width="100" height="15" uuid="1cc37ccd-2fa5-4e11-859e-3aa84ed8e92e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c07246d-a0e9-4f09-a630-f64397432632"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DC_RCOUNTRY}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
