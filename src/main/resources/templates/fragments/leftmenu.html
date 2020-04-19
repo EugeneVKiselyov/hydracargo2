@@ -22,6 +22,11 @@
                         <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span class="align-middle" th:text="#{general.dashboard}">Dashboard</span>
                     </a>
                 </li>
+                <li class="sidebar-item active" id="posttracking_li">
+                    <a class="sidebar-link" th:href="@{/posttracking}">
+                        <i class="align-middle mr-2 fas fa-fw fa-search"></i> <span class="align-middle" th:text="#{posttracking.caption}">Search</span>
+                    </a>
+                </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HUBMANAGER')" class="sidebar-item active" id="main_dashboardrequest_li">
                     <a class="sidebar-link" th:href="@{/dashboardrequest}">
                         <i class="align-middle mr-2 fas fa-fw fa-box"></i> <span class="align-middle" th:text="#{dashboardrequest.caption}">Dashboard card</span>

@@ -34,6 +34,14 @@ scheduler:
       in:
         milliseconds: 3600000
 
+post:
+  request:
+    declaration:
+      create:
+        enable: true
+    dispatch:
+      create:
+        enable: true
 
 server :
   compression :
@@ -49,7 +57,7 @@ server :
 ---
 
 spring:
-  profiles: dev
+  profiles: vex_test
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     dataSourceClassName : oracle.jdbc.pool.OracleDataSource
@@ -73,6 +81,13 @@ telegram :
   BOT_TOKEN : 606957316:AAH1ySWFd1gGTCh4DBzITIG3qJbobOjCJ3Y
   BOT_USERNAME : eeExpress_TestBot
   INFO: ee.express.info
+
+scheduler:
+  justin:
+    enable: false
+    fixedRate:
+      in:
+        milliseconds: 3600000
 
 ---
 
@@ -159,7 +174,7 @@ telegram :
         datasource:
           type: com.zaxxer.hikari.HikariDataSource
           dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-          url: jdbc:oracle:thin:@//localhost:1526/ORCLPDB2
+          url: jdbc:oracle:thin:@//localhost:1530/ORCLPDB1
           username: HCARGO
           password: qazzaq
           hikari:
@@ -170,8 +185,6 @@ telegram :
 
       server:
         port: 8081
-        servlet:
-          context-path: /giba
 
       telegram:
         BOT_CREATOR_ID: 363275968
@@ -179,6 +192,15 @@ telegram :
         BOT_TOKEN: 1089235418:AAGaTGDmBcl5a9ikbMKcP05_k_0XOE0jFVg
         BOT_USERNAME: gibalogisticbot
         INFO: giba.info
+
+      post:
+        request:
+          declaration:
+            create:
+              enable: false
+          dispatch:
+            create:
+              enable: false
 
 ---
 
@@ -207,3 +229,12 @@ telegram :
           BOT_TOKEN: 958005997:AAFYcIOpFPOH28RCtcjpSB7k-zE3rwWfbHc
           BOT_USERNAME: g8user_bot
           INFO: giba.info
+
+        post:
+          request:
+            declaration:
+              create:
+                enable: false
+            dispatch:
+              create:
+                enable: false

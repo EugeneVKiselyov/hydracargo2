@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="shipmentfind" th:remove="tag">
+        <div class="form-group">
+            <input type="text" id="shipment" th:value="${shipment}" class="form-control" th:placeholder="#{general.search}" title="shipment">
+        </div>
+        <button type="button" id="serchbtn" class="btn btn-primary" th:text="#{general.search}">Search</button>
+
+</span>
+
+<span th:fragment="cardbody" th:remove="tag">
+    <div><table id="table-posttracking" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+    $("#serchbtn").on("click", function (  ){
+        $(posttracking.table).DataTable().ajax.reload();
+    });
+
+var posttracking = {
+    "table" : '#table-posttracking',
+    "ajax": {
+        "url": /*[[@{/posttracking/gettable}]]*/ "posttracking/gettable",
+        "type": "post",
+        "data" : function ( d ) { d.shipment = $("#shipment").val() }
+    },
+    "key" : "trc_id",
+    dom: "Blfrtip",
+    rowdata : {
+        trc_id: null,
+        trc_shipment : null,
+        trc_event : null,
+        trc_eventtime : null
+    },
+    columns : [
+        /*0*/{"title": /*[[#{posttracking.trc_shipment}]]*/ "trc_shipment", "data": "trc_shipment", "width": "20%", "className": "small_size small_head_size small_footer_size" },
+        /*1*/{"title": /*[[#{posttracking.trc_tracnum}]]*/ "trc_tracnum", "data": "trc_tracnum", "width": "20%", "className": "small_size small_head_size small_footer_size" },
+        /*2*/{"title": /*[[#{posttracking.trc_event}]]*/ "trc_event", "data": "trc_event", "width": "20%", "className": "small_size small_head_size small_footer_size" },
+        /*3*/{"title": /*[[#{posttracking.trc_eventtime}]]*/ "trc_eventtime", "data": "trc_eventtime", "width": "20%", "className": "small_size small_head_size small_footer_size" }
+    ]
+};
+
+$(document).ready(function() {
+    recreateDataTable( posttracking );
+});
+
+</script>
+
+</body>
+</html>

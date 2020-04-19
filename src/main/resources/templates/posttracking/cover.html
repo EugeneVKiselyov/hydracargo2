@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{posttracking.caption})"></head>
+
+<body> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#posttracking_shipmentfind_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#contragent_div" data-toggle="collapse" th:text="#{posttracking.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="posttracking_shipmentfind_div">
+                <div>
+                    <span th:replace="posttracking/card :: shipmentfind"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#posttracking_cardbody_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#posttracking_cardbody_div" data-toggle="collapse" th:text="#{posttracking.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="posttracking_cardbody_div">
+                <div>
+                    <span th:replace="posttracking/card :: cardbody"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<script th:replace="posttracking/card :: cardscript"></script>
+
+</body>
+</html>

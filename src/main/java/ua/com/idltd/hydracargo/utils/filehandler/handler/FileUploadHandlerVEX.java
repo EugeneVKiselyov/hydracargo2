@@ -175,11 +175,6 @@ public class FileUploadHandlerVEX extends IFileUploadHandlerPostImpl {
                 declaration_cache.dc_currency = formatter.formatCellValue(row.getCell(25));
             else declaration_cache.dc_currency = "USD";
 
-            if ((row.getCell(26)!=null) && !isCellEmpty(row.getCell(26)))
-                if (DateUtil.isCellDateFormatted(row.getCell(26))) declaration_cache.dc_createdate = row.getCell(26).getDateCellValue();
-                else declaration_cache.dc_createdate = new Date(System.currentTimeMillis());
-            else declaration_cache.dc_createdate = new Date(System.currentTimeMillis());
-
             declaration_cache.dc_user_name = GetUserName();
             declaration_cache.dc_scountry = scountry_iso2;
             declaration_cache.dc_rcountry = rcountry_iso2;
