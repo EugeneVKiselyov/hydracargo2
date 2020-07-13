@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<span th:fragment="po_user_modal_body" th:remove="tag">
+    <div class="modal fade was-validated" id="po_user_modal" data-toggle="validator" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" novalidate>
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="hidden">
+                <input type="hidden" id="po_user_modal_mode">
+            </div>
+
+            <div class="modal-content" id="po_user_modal_detail">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{po_user.caption}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-1">
+                    <form id="po_user_modal_form" name="po_user_modal_form" class="was-validated" novalidate>
+                        <div class="form-row">
+                            <input type="number" class="form-control" id="po_user_modal_po_id" name="po_id" hidden>
+
+                            <div class="col-4" id="po_user_modal_po_active_row">
+                                <label for="po_user_modal_po_active" class="form-label" th:text="#{po_user.po_active}"></label>
+                                <select class="form-control select2" style="width:100%; float:left;" data-toggle="select2" id="po_user_modal_po_active" name="po_active">
+                                    <option th:value="0" th:text="#{general.no}" >Нет</option>
+                                    <option th:value="1" th:text="#{general.yes}" >Да</option>
+                                </select>
+                            </div>
+
+                        </div><!-- Row 1 -->
+                        <div class="form-row">
+                            <div class="col-4" id="po_user_modal_cnt_code_row">
+                                <label for="po_user_modal_cnt_code" class="form-label" th:text="#{contragent.cnt_code}"></label>
+                                <input type="text" class="form-control" id="po_user_modal_cnt_code" name="cnt_code">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                            <div class="col-8" id="po_user_modal_cnt_name_row">
+                                <label for="po_user_modal_cnt_name" class="form-label" th:text="#{contragent.cnt_name}"></label>
+                                <input type="text" maxlength="120" class="form-control" id="po_user_modal_cnt_name" name="cnt_name">
+                                <div class="valid-feedback" th:text="#{general.field_fill}"> Looks good! </div>
+                                <div class="invalid-feedback" th:text="#{general.filed_unfilled}"> Bad! </div>
+                            </div>
+                        </div><!-- Row 2 -->
+                    </form>
+                </div><!-- Body -->
+                <div class="modal-footer">
+                    <button type="button" id="po_user_modal_closebtn" class="btn btn-outline-dark mr-1" data-dismiss="modal" th:text="#{general.back}"></button>
+<!--                    <button type="button" id="po_user_modal_addbtn" class="btn btn-outline-primary" th:text="#{general.addbtn}" hidden></button>-->
+                    <button type="button" id="po_user_modal_editbtn" class="btn btn-outline-primary" th:text="#{general.editbtn}" hidden></button>
+                    <button type="button" id="po_user_modal_delbtn" class="btn btn-outline-primary" th:text="#{general.delbtn}" hidden></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+    // Clear Fields
+    function clear_po_user_modal_detail() {
+        $("#po_user_modal_detail input[type=text]").val('');
+        $("#po_user_modal_detail input[type=number]").val('');
+        $("#po_user_modal_detail select").val(null);
+        $("#po_user_modal_detail textarea").val('');
+    }
+
+    // Block And Required Fields
+    function block_po_user_modal_detail() {
+        if($('#po_user_modal_mode').val() === "0"){
+            $('#po_user_modal_po_id_row').attr('hidden',true);
+        }
+        else if($('#po_user_modal_mode').val() === "1"){
+            $('#po_user_modal_po_id_row').removeAttr('hidden');
+        }
+        else{
+            $('#po_user_modal_po_id_row').removeAttr('hidden');
+        }
+    }
+
+    // Load Function
+    function fill_po_user_modal_detail(aMode){
+        $('#po_user_modal_mode').val(aMode);
+        clear_po_user_modal_detail();
+        block_po_user_modal_detail();
+
+        if(aMode > 0){
+            $.when(
+            ).then(function () {
+                $('#po_user_modal_po_id').val(vPo_user.rowdata.po_id);
+                $('#po_user_modal_po_active').val(vPo_user.rowdata.po_active);
+
+                $('#po_user_modal_cnt_code').val(vPo_user.rowdata.po_username);
+                $('#po_user_modal_cnt_name').val(vPo_user.rowdata.po_firstname+' '+vPo_user.rowdata.po_firstname);
+
+                $('#po_user_modal').modal('show');
+            });
+        }
+        else if(aMode === 0) {
+            $.when(
+            ).then(function () {
+                $('#po_user_modal_po_id').val(vPo_user.rowdata.po_id);
+                $('#po_user_modal_po_active').val(0);
+
+                $('#po_user_modal').modal('show');
+            });
+        }
+    }
+
+    // Add button script
+    $('#po_user_modal_addbtn').on('click', function(){
+        $('#po_user_modal_form').submit();
+    });
+    // Edit button script
+    $('#po_user_modal_editbtn').on('click', function(){
+        $('#po_user_modal_form').submit();
+    });
+    // Del button script
+    $('#po_user_modal_delbtn').on('click', function(){
+        $('#po_user_modal_form').submit();
+    });
+
+    //Add Client Address
+    function addRequest(){
+        $.ajax({
+            url: /*[[ @{/po_user/add_user} ]]*/ "/po_user/add_user",
+            type: 'POST',
+            data: $("#po_user_modal_form").serialize(),
+            success: function (result) {
+                $('#po_user_modal').modal('hide');
+                vPo_user.rowdata.po_id = result;
+                $(vPo_user.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    }
+
+    //Edit Client Address
+    function editRequest(){
+        $.ajax({
+            url: /*[[ @{/po_user/edit_user} ]]*/ "/po_user/edit_user",
+            type: 'POST',
+            data: $("#po_user_modal_form").serialize(),
+            success: function (result) {
+                $('#po_user_modal').modal('hide');
+                $(vPo_user.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    }
+
+    // Delete button script
+    function delRequest(){
+        $.ajax({
+            url: /*[[ @{/po_user/del_user} ]]*/ "/po_user/del_user",
+            type: 'POST',
+            data: $("#po_user_modal_form").serialize(),
+            success: function (result) {
+                $('#po_user_modal').modal('hide');
+                vPo_user.rowdata.po_id = null;
+                $(vPo_user.table).DataTable().ajax.reload(null, false);
+            }
+        });
+    }
+
+
+    $('#po_user_modal_form').validate({
+        rules: {
+            po_id: {
+                required: true
+            }
+        },
+        errorPlacement: function(error,element) {
+            return true;
+        },
+        submitHandler: function (form) {
+            if($('#po_user_modal_mode').val() === '0') {
+                addRequest();
+            }
+            else if($('#po_user_modal_mode').val() === '1') {
+                editRequest();
+            }
+            else if($('#po_user_modal_mode').val() === '2') {
+                delRequest();
+            }
+            return false;
+        }
+    });
+    // OnChange Functions
+</script>
+
+</body>
+</html>

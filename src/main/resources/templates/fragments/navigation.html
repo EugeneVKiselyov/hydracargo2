@@ -28,6 +28,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" th:href="@{/login}" th:if="${#authorization.expression('!isAuthenticated()')}"><i class="align-middle mr-1 fas fa-fw fa-arrow-alt-circle-left"></i><span th:text="#{general.login}" th:remove="tag">Sign in</span></a>
                     <a class="dropdown-item" th:href="@{/logout}" th:if="${#authorization.expression('isAuthenticated()')}"><i class="align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right"></i><span th:text="#{general.logout}" th:remove="tag">Sign out</span></a>
+                    <a class="dropdown-item" th:href="@{/registration}" th:if="${#authorization.expression('!isAuthenticated()')}"><i class="align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right"></i><span  th:remove="tag">Регистрация</span></a>
                 </div>
             </li>
             <li class="nav-item dropdown ml-lg-2">

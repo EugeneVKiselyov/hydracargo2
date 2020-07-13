@@ -123,6 +123,7 @@
             $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='delete_clear']").attr("hidden",(!(card.rs_id == 0)));
             $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='dispatchclear']").attr("hidden",(!(card.rs_id == 0 && card.countShipment != 0)));
             $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='dispatchdelete']").attr("hidden",(!(card.rs_id == 0)));
+            $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][btn='transfertooutside']").attr("hidden",(!(card.rs_id == 0 && card.countShipment != 0)));
             //перемещение в другую колонку если поменялся статус
             var statusList = document.querySelector('#dashboardColumn-'+card.rs_id);
             var card = $("[dis_id=" + card.dis_id + "][req_id=" + card.req_id + "][obj='card']");
@@ -218,6 +219,10 @@
         $(document).on("click", ".cart-dispatch-scan", function (e) {
             $("#scanDownload-form input[name=dis_id]").val($(this).attr("dis_id"));
         });
+        $(document).on("click", ".cart-dispatch-transfertoukrpost", function (e) {
+            $("#transfertoukrpost-form input[name=dis_id]").val($(this).attr("dis_id"));
+        });
+
         $('#savecard').on('click', function (e) {
                 $.ajax({
                     url: /*[[@{/dashboardrequest/updatecard}]]*/ "dashboardrequest/updatecard",
@@ -342,6 +347,27 @@
                     card.remove();
                     $('#dispatchDelete-modal').modal('hide');
                     $(".dispatchDelete_control").attr("disabled", false);
+                }
+            });
+        });
+
+        $('#btn-transfertoukrpostRun').on('click', function (e) {
+            $.ajax({
+                url: /*[[@{/dashboardrequest/transfertoukrpost}]]*/ "dashboardrequest/transfertoukrpost",
+                type: 'POST',
+                dataType: "json",
+                async: true,
+                data: {
+                    dis_id: $("#transfertoukrpost-form input[name=dis_id]").val()
+                },
+                beforeSend : function (data){
+                    $(".transfertoukrpost_control").attr("disabled", true);
+                },
+                success: function (data, textStatus) {
+                    // var card = $("[dis_id=" + data.dis_id + "][req_id=" + data.req_id + "][obj='card']");
+                    setCard(data);
+                    $('#transfertoukrpost-modal').modal('hide');
+                    $(".transfertoukrpost_control").attr("disabled", false);
                 }
             });
         });

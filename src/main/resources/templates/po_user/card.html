@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="po_user_body" th:remove="tag">
+
+    <form id="po_user-detail" class="mb-2" hidden>
+        <input name="mode" value="0" hidden>
+        <div id="po_user-btn-large" class="d-none d-sm-block">
+<!--          <button type="button" id="po_user-addbtn" class="btn btn-sm btn-primary" th:text="#{general.addbtn}">Add</button>-->
+          <button type="button" id="po_user-editbtn" class="btn btn-sm btn-dark" th:text="#{general.editbtn}" disabled>Edit</button>
+          <button type="button" id="po_user-delbtn" class="btn btn-sm btn-dark" th:text="#{general.delbtn}" disabled>Delete</button>
+        </div>
+    </form>
+        
+    <div><table id="table-po_user" class="table table-striped table-sm table-bordered" cellspacing="0" style="width:100%;"></table></div>
+</span>
+
+
+<script th:fragment="cardscript" th:inline="javascript">
+
+    var vPo_user;
+    vPo_user = {
+        table : '#table-po_user',
+        button_form: "#po_user-detail",
+        ajax : {
+            "url": /*[[@{/po_user/gettable}]]*/ "po_user/gettable",
+            "type": "post",
+            "data": {
+            }
+        },
+        key : "po_id",
+        switchControl : po_user_switchControl,
+        rowdata:{
+            po_id : null,
+            po_username : null,
+            po_password : null,
+            po_email : null,
+            po_phone : null,
+            po_firstname : null,
+            po_lastname : null,
+            po_country : null,
+            po_zipcode : null,
+            po_city : null,
+            po_street : null,
+            po_house : null,
+            po_apartment : null,
+            po_active : null
+        },
+        ordering: true,
+        order: [
+            [0, "asc"]
+        ],
+        scrollX: true,
+        dom: "Blfrtip",
+        createdRow: function( row, data, dataIndex ) {
+        },
+        columns : [
+            /*0*/{"title": /*[[#{po_user.po_id}]]*/ "po_id", "data": "po_id", "width": "", "className": "none"},
+            /*1*/{"title": /*[[#{po_user.po_username}]]*/ "po_username", "data": "po_username", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*2*/{"title": /*[[#{po_user.po_password}]]*/ "po_password", "data": "po_password", "width": "", "className": "none"},
+            /*3*/{"title": /*[[#{po_user.po_email}]]*/ "po_email", "data": "po_email", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*4*/{"title": /*[[#{po_user.po_phone}]]*/ "po_phone", "data": "po_phone", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*5*/{"title": /*[[#{po_user.po_firstname}]]*/ "po_firstname", "data": "po_firstname", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*6*/{"title": /*[[#{po_user.po_lastname}]]*/ "po_lastname", "data": "po_lastname", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*7*/{"title": /*[[#{po_user.po_country}]]*/ "po_country", "data": "po_country", "width": "5%", "className": "small_size small_head_size small_footer_size"},
+            /*8*/{"title": /*[[#{po_user.po_zipcode}]]*/ "po_zipcode", "data": "po_zipcode", "width": "5%", "className": "small_size small_head_size small_footer_size"},
+            /*9*/{"title": /*[[#{po_user.po_city}]]*/ "po_city", "data": "po_city", "width": "5%", "className": "small_size small_head_size small_footer_size"},
+            /*10*/{"title": /*[[#{po_user.po_street}]]*/ "po_street", "data": "po_street", "width": "10%", "className": "small_size small_head_size small_footer_size"},
+            /*11*/{"title": /*[[#{po_user.po_house}]]*/ "po_house", "data": "po_house", "width": "5%", "className": "small_size small_head_size small_footer_size"},
+            /*12*/{"title": /*[[#{po_user.po_apartment}]]*/ "po_apartment", "data": "po_apartment", "width": "5%", "className": "small_size small_head_size small_footer_size"},
+            /*13*/{"title": /*[[#{po_user.po_active}]]*/ "po_active", "data": "po_active", "width": "5%", "className": "small_size small_head_size small_footer_size"}
+        ],
+        pageLength: 25,
+        copy_button: true,
+        excel_button: true,
+        pdf_button: true,
+        print_button: true
+    };
+
+    function po_user_switchControl(){
+        if(vPo_user.rowdata.po_id != null) {
+            $("#po_user-editbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+            $("#po_user-delbtn").prop('disabled',false).removeClass('btn-dark').addClass('btn-primary');
+        }
+        else{
+            $("#po_user-editbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+            $("#po_user-delbtn").prop('disabled',true).addClass('btn-dark').removeClass('btn-primary');
+        }
+    }
+
+    $('.po_user_btn_control').on('click', function (){
+        $("#po_user-detail input[name=mode]").val($(this).attr("mode"));
+    });
+
+// Add Button
+    $('#po_user-addbtn').click(function (){
+        $('#po_user_modal_addbtn').removeAttr('hidden');
+        $('#po_user_modal_editbtn').attr('hidden',true);
+        $('#po_user_modal_delbtn').attr('hidden',true);
+        fill_po_user_modal_detail(0);
+    });
+
+// Edit Button
+    $('#po_user-editbtn').click(function (){
+        $('#po_user_modal_addbtn').attr('hidden',true);
+        $('#po_user_modal_editbtn').removeAttr('hidden');
+        $('#po_user_modal_delbtn').attr('hidden',true);
+        fill_po_user_modal_detail(1);
+    });
+
+// Del Button
+    $('#po_user-delbtn').click(function (){
+        $('#po_user_modal_addbtn').attr('hidden',true);
+        $('#po_user_modal_editbtn').attr('hidden',true);
+        $('#po_user_modal_delbtn').removeAttr('hidden');
+        fill_po_user_modal_detail(2);
+    });
+
+    $(document).ready(function(){
+<!-- Highlight menu -->
+        $('#main_li').removeClass('active');
+
+        $('#po_user_li').addClass('active').removeClass('collapsed');
+        $('#po_user_a').attr('aria-expanded',true);
+        $('#po_user').addClass('show');
+        $('#po_user_a').addClass('text-primary');
+
+        vPo_user.rowdata.po_id = /*[[${po_id}]]*/ null;
+        recreateDataTable(vPo_user);
+    });
+</script>
+
+</body>
+</html>

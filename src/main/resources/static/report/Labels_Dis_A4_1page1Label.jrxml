@@ -204,6 +204,9 @@
 	<field name="DC_ADDINFORM" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="DC_ADDINFORM"/>
 	</field>
+	<field name="DIS_DOCUMENTDATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="DIS_DOCUMENTDATE"/>
+	</field>
 	<detail>
 		<band height="400" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1052,7 +1055,7 @@
 				</componentElement>
 			</frame>
 			<staticText>
-				<reportElement x="4" y="365" width="568" height="27" uuid="1beacc59-24f9-4482-b083-fbeb8b019a76"/>
+				<reportElement x="4" y="380" width="568" height="12" uuid="1beacc59-24f9-4482-b083-fbeb8b019a76"/>
 				<box>
 					<bottomPen lineWidth="1.25" lineStyle="Dashed"/>
 				</box>
@@ -1237,9 +1240,32 @@
 					<text><![CDATA[Other]]></text>
 				</staticText>
 			</frame>
+			<staticText>
+				<reportElement x="124" y="362" width="354" height="12" uuid="4bd51028-8146-4840-8475-0b7792f2d92a"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Одержано з комп'ютерної мережі відстеження проходження МЕВ Date:]]></text>
+			</staticText>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="477" y="362" width="96" height="12" uuid="f27df4d3-96ff-485b-8f19-c9e93012cc90"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{DIS_DOCUMENTDATE} != null)?$F{DIS_DOCUMENTDATE}:new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="362" width="120" height="12" uuid="16495b9b-3d68-47fb-878a-e6384b4e4b46"/>
+				<box leftPadding="2" rightPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shipper signature:]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="50"/>
+		<band height="42"/>
 	</pageFooter>
 </jasperReport>

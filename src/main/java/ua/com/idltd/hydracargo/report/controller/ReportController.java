@@ -167,6 +167,8 @@ public class ReportController {
             case 15 : report = "/static/report/15_label_A4.jasper"; break;
             case 16 : report = "/static/report/16_label10x14.jasper"; break;
             case 17 : report = "/static/report/17_box_label10x14.jasper"; break;
+            case 18 : report = "/static/report/18_label10x10.jasper"; break;
+            case 19 : report = "/static/report/19_dis_label10x10.jasper"; break;
         }
         return report;
     }

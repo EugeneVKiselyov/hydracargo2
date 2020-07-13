@@ -171,7 +171,7 @@ public class RequestController {
         return result;
     }
     @PostMapping("/get_request_default")
-    public ResponseEntity<?> get_box_default(
+    public ResponseEntity<?> get_request_default(
     ) {
         Request request = new Request();
         request.req_num = (String) entityManager

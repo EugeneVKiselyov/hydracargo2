@@ -14,25 +14,30 @@ spring:
 
 scheduler:
   common:
-    enable : true
+    enable : false
     fixedRate:
       in:
         milliseconds: 10000
   telegram:
-    enable : true
+    enable : false
     fixedRate:
       in:
         milliseconds: 10000
   rolehandler:
-    enable : true
+    enable : false
     fixedRate:
       in:
         milliseconds: 10000
   justin:
-    enable: true
+    enable: false
     fixedRate:
       in:
         milliseconds: 3600000
+  ukrpost:
+    enable: true
+    fixedRate:
+      in:
+        milliseconds: 7200000
 
 post:
   request:

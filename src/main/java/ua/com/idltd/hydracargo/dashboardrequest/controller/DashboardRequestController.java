@@ -419,4 +419,22 @@ public class DashboardRequestController {
         DashboardRequestDTO result=constructDashboardRequestDTO(dispatchRequestContragentViewRepository.queryByDis_idandReq_id(dispatch.dis_id,request.req_id,GetUserName()));
         return result;
     }
+
+    @PostMapping("/transfertoukrpost")
+    public DashboardRequestDTO transfertoukrpost(@RequestParam(value="dis_id") Long dis_id
+    ) {
+        //отправляем посылки из депеши в укрпочту
+        StoredProcedureQuery storageproc = entityManager
+                .createStoredProcedureQuery("PKG_UKRPOST.DISPATCH_TRANSFER")
+                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN) //username
+                .registerStoredProcedureParameter(2, Long.class, ParameterMode.IN) //dis_id
+                .setParameter(1, GetUserName())
+                .setParameter(2, dis_id);
+        storageproc.execute();
+
+        Dispatch dispatch = dispatchRepository.findById(dis_id).orElse(null);
+        Request request = requestRepository.findById(dispatch.req_id).orElse(null);
+        DashboardRequestDTO result=constructDashboardRequestDTO(dispatchRequestContragentViewRepository.queryByDis_idandReq_id(dispatch.dis_id,request.req_id,GetUserName()));
+        return result;
+    }
 }

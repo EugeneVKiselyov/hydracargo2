@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @RequestMapping("/posttracking")
 public class PostTrackingController {
 
-final Trace_cacheRepository trace_cacheRepository;
+    private final Trace_cacheRepository trace_cacheRepository;
 
     public PostTrackingController(Trace_cacheRepository trace_cacheRepository) {
         this.trace_cacheRepository = trace_cacheRepository;
@@ -25,7 +25,6 @@ final Trace_cacheRepository trace_cacheRepository;
         return model;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/gettable",method = { RequestMethod.GET, RequestMethod.POST})
     public JSONDatatable gettable(@RequestParam(value="shipment", required=false) String shipment) {
         JSONDatatable result = new JSONDatatable(new ArrayList<>());

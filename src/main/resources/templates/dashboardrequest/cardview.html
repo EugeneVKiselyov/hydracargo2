@@ -92,6 +92,7 @@
                     <a class="dropdown-item" th:href="@{/report/pdf(rep_id=1,filename='Labels_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_1',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.printbtnLabelsA4}">Labels A4</a>
                     <a class="dropdown-item" th:href="@{/report/pdf(rep_id=4,filename='Labels_10x14_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_4',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.label10x14}">Labels 10X14</a>
                     <a class="dropdown-item" th:href="@{/report/pdf(rep_id=2,filename='LabelsAndInvoice_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_2',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.labelA4andinvoice}">Label A4 and invoice</a>
+                    <a class="dropdown-item" th:href="@{/report/pdf(rep_id=19,filename='Labels_10x10_'+${dispatch.dis_num},vDIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_19',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.label10x10}">Labels 10X10</a>
                 <div class="dropdown-divider"></div>
                     <a class="dropdown-item" th:href="@{/report/pdf(rep_id=11,filename='Manifest_'+${dispatch.dis_num},DIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_11',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.Manifest_11}">Manifest_11</a>
                     <a class="dropdown-item" th:href="@{/report/xls(rep_id=7,filename='Reestry_7_'+${dispatch.dis_num},DIS_ID=${dispatch.dis_id})}" th:hidden="${dispatch.countShipment == 0}" th:attr="btn='report_7',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:text="#{general.reestry_7}">Reestr 7</a>
@@ -110,6 +111,12 @@
                 <a class="dropdown-item cart-dispatch-delete" href="#" data-toggle="modal" data-target="#dispatchDelete-modal" th:attr="btn='dispatchdelete',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:hidden="${!(dispatch.rs_id == 0) }">Delete Dispatch</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item cart-dispatch-scan-clear" href="#" data-toggle="modal" data-target="#dispatchScanClear-modal" th:attr="btn='dispatchscanclear',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" >Clear Scan</a>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm mb-1 btn-primary dropdown-toggle" id="transfertooutside" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:hidden="${!(dispatch.rs_id == 0) }" th:attr="btn='transfertooutside',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}">Передать</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item cart-dispatch-transfertoukrpost" href="#" data-toggle="modal" data-target="#transfertoukrpost-modal" th:attr="btn='transfertoukrpost',dis_id=${dispatch.dis_id},req_id=${dispatch.req_id}" th:hidden="${!(dispatch.rs_id == 0 && dispatch.countShipment != 0)}">Передать в Укрпочту</a>
             </div>
         </div>
     </div>

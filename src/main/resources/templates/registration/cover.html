@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/header :: header(title = #{registration.caption})"></head>
+
+<body> <!-- right-to-left -->
+<span th:replace="fragments/layout_v1.html :: top">top</span>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card flex-fill w-100 mb-2">
+            <div class="card-header">
+                <div class="card-actions float-right">
+                    <a href="#registration_div" data-toggle="collapse"><i class="align-middle" data-feather="minus"></i> </a>
+                </div>
+                <h5 class="card-title mb-0" href="#registration_div" data-toggle="collapse" th:text="#{registration.caption}"></h5>
+            </div>
+            <div class="card-body pt-0 collapse show" id="registration_div">
+                <div>
+                    <form id="smartwizard-validation" class="wizard wizard-primary" action="javascript:void(0)">
+                        <ul>
+                            <li><a href="#validation-step-1">Регистрация Пользователя<br /><small>Учетные данные</small></a></li>
+                            <li><a href="#validation-step-2">Данные Пользователя<br /><small>Данные Пользователя</small></a></li>
+                        </ul>
+                        <div>
+                            <div id="validation-step-1">
+                                <div class="form-group">
+                                    <label class="form-label" th:text=" #{registration.username}">User name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="username" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" th:text=" #{registration.password}">Password
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="password" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label">Confirm Password
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="wizard-confirm" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" th:text=" #{registration.email}">Email
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="email" type="text" class="form-control required email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" th:text=" #{registration.phone}">Email
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="phone" type="text" class="form-control required phone">
+                                </div>
+                            </div>
+                            <div id="validation-step-2">
+                                <div class="form-group">
+                                    <label class="form-label" th:text=" #{registration.first_name}">First name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="firstname" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" th:text=" #{registration.last_name}">Last name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input name="lastname" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label" th:text=" #{registration.country}">Country</label>
+                                    <input name="country" type="text" class="form-control" value="UA">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label" th:text=" #{registration.zipcode}">Zip</label>
+                                    <input name="zipcode" type="text" class="form-control">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label" th:text=" #{registration.city}">City</label>
+                                    <input name="city" type="text" class="form-control">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label" th:text=" #{registration.street}">Street</label>
+                                    <input name="street" type="text" class="form-control">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label" th:text=" #{registration.house}">House</label>
+                                    <input name="house" type="text" class="form-control">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="form-label" th:text=" #{registration.apartment}">Apartment</label>
+                                    <input name="apartment" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="login" th:action="@{/login}" >
+</form>
+
+<span th:replace="fragments/layout_v1.html :: bottom">bottom</span>
+
+<script th:inline="javascript">
+    $(document).ready(function(){
+
+        // Validation
+        var $validationForm = $("#smartwizard-validation");
+        $validationForm.validate({
+            errorPlacement: function errorPlacement(error, element) {
+                $(element).parents(".form-group").append(
+                    error.addClass("invalid-feedback small d-block")
+                )
+            },
+            highlight: function(element) {
+                $(element).addClass("is-invalid");
+            },
+            unhighlight: function(element) {
+                $(element).removeClass("is-invalid");
+            },
+            rules: {
+                "wizard-confirm": {
+                    equalTo: "input[name=\"password\"]"
+                }
+            }
+        });
+        $validationForm
+            .smartWizard({
+                autoAdjustHeight: false,
+                backButtonSupport: false,
+                useURLhash: false,
+                showStepURLhash: false,
+                toolbarSettings: {
+                    toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"button\">Finish</button>")]
+                }
+            })
+            .on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                if (stepDirection === "forward") {
+                    return $validationForm.valid();
+                }
+                return true;
+            });
+        $validationForm.find(".btn-submit").on("click", function() {
+            if (!$validationForm.valid()) {
+                return;
+            }
+            // alert("Great! The form is valid and ready to submit.");
+            $.ajax({
+                url: /*[[ @{/registration/newuser} ]]*/ "/registration/newuser",
+                type: 'POST',
+                data: $validationForm.serialize(),
+                success: function (result) {
+                    $("#login").submit();
+                },
+                error: function (result) {
+                    alert("Error:"+result);
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
