@@ -2,6 +2,8 @@ package ua.com.idltd.hydracargo.ukrpost.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UPSenderClient {
 
@@ -12,6 +14,24 @@ public class UPSenderClient {
     private String email;
     private String tin;
     private String edrpou;
+    private String type;
+    private List<Addresses> addresses;
+
+    public List<Addresses> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Addresses> addresses) {
+        this.addresses = addresses;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getName() {
         return name;

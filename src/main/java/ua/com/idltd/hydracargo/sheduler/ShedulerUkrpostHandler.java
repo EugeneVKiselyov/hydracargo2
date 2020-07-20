@@ -10,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import ua.com.idltd.hydracargo.ukrpost.UkrpostProccessing;
 import ua.com.idltd.hydracargo.ukrpost.dto.*;
 import ua.com.idltd.hydracargo.ukrpost.entity.Ukrpost_transfer;
 import ua.com.idltd.hydracargo.ukrpost.repository.Ukrpost_transerRepository;
@@ -59,6 +60,8 @@ public class ShedulerUkrpostHandler {
                 String queryClient=String.format("https://ukrposhta.ua/ecom/0.0.1/clients?token=%s",apiSupportCounterPartyAdminToken);
                 String queryShipment=String.format("https://ukrposhta.ua/ecom/0.0.1/shipments?token=%s",apiSupportCounterPartyAdminToken);
 
+                UkrpostProccessing up= new UkrpostProccessing();
+
                 //создаем адреса
                 List<Ukrpost_transfer> ukrpost_transferAddressList = ukrpost_transerRepository.getForAddressProcessing();
                 for (Ukrpost_transfer ut : ukrpost_transferAddressList) {
@@ -68,14 +71,22 @@ public class ShedulerUkrpostHandler {
                             //добавляем адрес отправителя
 
                             //формируем запрос на создание адреса отправителя Ukrpost
-                            UPInternationalAddress uPInternationalAddress = new UPInternationalAddress();
-                            uPInternationalAddress.setCountry(ut.ut_scountry);
-                            uPInternationalAddress.setCity(ut.ut_scity);
-                            uPInternationalAddress.setRegion(ut.ut_sregion);
-                            uPInternationalAddress.setForeignStreetHouseApartment(ut.ut_sforeignstreethouseapartment);
-                            uPInternationalAddress.setPostcode(ut.ut_spostcode);
+//                            UPInternationalAddress uPInternationalAddress = new UPInternationalAddress();
+//                            uPInternationalAddress.setCountry(ut.ut_scountry);
+//                            uPInternationalAddress.setCity(ut.ut_scity);
+//                            uPInternationalAddress.setRegion(ut.ut_sregion);
+//                            uPInternationalAddress.setForeignStreetHouseApartment(ut.ut_sforeignstreethouseapartment);
+//                            uPInternationalAddress.setPostcode(ut.ut_spostcode);
 
-                            ResponseEntity<UPInternationalAddressResponse> response = restTemplate.exchange(queryAddress, HttpMethod.POST, new HttpEntity<>(uPInternationalAddress, headers), UPInternationalAddressResponse.class);
+                            UPAddress upAddress = new UPAddress();
+                            upAddress.setCountry(ut.ut_scountry);
+                            upAddress.setCity(ut.ut_scity);
+                            upAddress.setRegion(ut.ut_sregion);
+                            upAddress.setStreet("вул. Євгенія Харченка");
+                            upAddress.setHouseNumber("55-А");
+                            upAddress.setPostcode(ut.ut_spostcode);
+
+                            ResponseEntity<UPInternationalAddressResponse> response = restTemplate.exchange(queryAddress, HttpMethod.POST, new HttpEntity<>(upAddress, headers), UPInternationalAddressResponse.class);
                             UPInternationalAddressResponse upInternationalAddressResponse = response.getBody();
 
                             //записываем id укрпочты адреса отправителя
@@ -109,25 +120,26 @@ public class ShedulerUkrpostHandler {
                             //добавляем отправителя
 
                             //формируем запрос на создание адреса отправителя Ukrpost
-    //                        UPSenderClient upSenderClient = new UPSenderClient();
-    //                        upSenderClient.setAddressId(ut.ut_sadderssid);
-    //                        upSenderClient.setName(ut.ut_sname);
-    //                        upSenderClient.setPhoneNumber(ut.ut_sphonenumber);
-    //                        upSenderClient.setEmail(ut.ut_semail);
-    //                        upSenderClient.setEdrpou(ut.ut_sedrpou);
-                            UPInternationalSenderClient upInternationalSenderClient=new UPInternationalSenderClient();
-                            upInternationalSenderClient.setLatinName(ut.ut_sname);
-                            upInternationalSenderClient.setEmail(ut.ut_semail);
-                            upInternationalSenderClient.setType("COMPANY");
-                            upInternationalSenderClient.setPhoneNumber(ut.ut_sphonenumber);
+                            UPSenderClient upSenderClient = new UPSenderClient();
+//                            upSenderClient.setAddressId(ut.ut_sadderssid);
+                            upSenderClient.setName(ut.ut_sname);
+                            upSenderClient.setPhoneNumber(ut.ut_sphonenumber);
+                            upSenderClient.setEmail(ut.ut_semail);
+                            upSenderClient.setEdrpou("42123797");
+                            upSenderClient.setType("COMPANY");
+//                            UPInternationalSenderClient upInternationalSenderClient=new UPInternationalSenderClient();
+//                            upInternationalSenderClient.setLatinName(ut.ut_sname);
+//                            upInternationalSenderClient.setEmail(ut.ut_semail);
+//                            upInternationalSenderClient.setType("COMPANY");
+//                            upInternationalSenderClient.setPhoneNumber(ut.ut_sphonenumber);
                             Addresses addresses=new Addresses();
                             addresses.setAddressId(ut.ut_sadderssid);
                             addresses.setMain(true);
                             List addressesList=new ArrayList();
                             addressesList.add(addresses);
-                            upInternationalSenderClient.setAddresses(addressesList);
+                            upSenderClient.setAddresses(addressesList);
 
-                            ResponseEntity<UPClientResponse> response = restTemplate.exchange(queryClient, HttpMethod.POST, new HttpEntity<>(upInternationalSenderClient, headers), UPClientResponse.class);
+                            ResponseEntity<UPClientResponse> response = restTemplate.exchange(queryClient, HttpMethod.POST, new HttpEntity<>(upSenderClient, headers), UPClientResponse.class);
                             UPClientResponse upSenderClientResponse = response.getBody();
 
                             //записываем id укрпочты адреса получателя
