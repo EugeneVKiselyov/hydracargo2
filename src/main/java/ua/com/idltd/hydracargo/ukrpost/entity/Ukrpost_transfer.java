@@ -1,6 +1,7 @@
 package ua.com.idltd.hydracargo.ukrpost.entity;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.Date;
 
 @Entity
@@ -162,5 +163,30 @@ public class Ukrpost_transfer {
 
   @Column(name = "UT_SHIPMENTRESPONSE")
   public String ut_shipmentresponse;
+
+  @Column(name = "UT_SADDRESS")
+  public String ut_saddress;
+
+  @Column(name = "UT_RADDRESS")
+  public String ut_raddress;
+
+  @Column(name = "UT_SCLIENT")
+  public String ut_sclient;
+
+  @Column(name = "UT_RCLIENT")
+  public String ut_rclient;
+
+  @Column(name = "UT_STYPE")
+  public String ut_stype;
+
+  @Column(name = "UT_SHIPMENT")
+  public String ut_shipment;
+
+  @Lob
+  @Column(name = "UT_LABEL")
+  public Blob ut_label;
+
+  @Column(name = "UT_ONFAILRECEIVETYPE")
+  public String ut_onfailreceivetype;
 
 }

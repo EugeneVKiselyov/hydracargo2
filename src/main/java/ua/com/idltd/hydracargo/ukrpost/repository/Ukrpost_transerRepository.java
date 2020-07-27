@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface Ukrpost_transerRepository extends CrudRepository<Ukrpost_transfer, Long> {
 
-    @Query(nativeQuery = true, value = "select * from UKRPOST_TRANSFER where UT_STATUS is null")
+    @Query(nativeQuery = true, value = "select * from UKRPOST_TRANSFER where UT_STATUS is null or UT_STATUS in (0,3)")
     List<Ukrpost_transfer> getForAddressProcessing();
 
     @Query(nativeQuery = true, value = "select * from UKRPOST_TRANSFER where UT_STATUS=0")
