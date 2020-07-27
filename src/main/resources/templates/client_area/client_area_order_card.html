@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+
+<span th:fragment="client_area_order_card_body" th:remove="tag">
+    <div class="col-12 pr-0 pl-0">
+            <form id="smartwizard-validation" class="wizard wizard-primary" action="javascript:void(0)">
+            <ul>
+                <li><a href="#validation-step-1">Товары<br/><small>Список товаров вашего заказа</small></a></li>
+                <li><a href="#validation-step-2">Доставка<br/><small>Выбор способа доставки</small></a></li>
+                <li><a href="#validation-step-3">Стоимость<br/><small>Расчет стоимости доставки</small></a></li>
+                <li><a href="#validation-step-4">Оформление<br/><small>Завершение оформления заказа</small></a></li>
+            </ul>
+            <div>
+                <div id="validation-step-1">
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-3" id="payment_type_row">
+                            <label for="payment_type_id" class="form-label mb-0" th:text="#{client_area.orders.payment_type}"></label>
+                            <select class="custom-select" id="payment_type_id" name="payment_type_id">
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6" id="good_link_row">
+                            <label for="good_link" class="form-label mb-0" th:text=" #{client_area.orders.good_link}">Link
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input id="good_link" name="good_link" type="text" class="form-control required">
+                        </div>
+                    </div><!-- Step 1 Row 1 -->
+
+                    <div class="row mb-1" id="warehouse_row">
+                        <div class="col-12 col-md-3" id="good_tracking_num_row">
+                            <label for="good_tracking_num" class="form-label mb-0" th:text=" #{client_area.orders.good_tracking_num}"></label>
+                            <input id="good_tracking_num" name="good_tracking_num" type="text" class="form-control required">
+                        </div>
+
+                        <div class="col-12 col-md-6" id="default_warehouse_row">
+                            <label for="default_warehouse" class="form-label mb-0" th:text=" #{client_area.orders.default_warehouse}"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span id="default_warehouse_sign" class="input-group-text"><i class="fa fa-warehouse text-primary"></i></span>
+                                </div>
+                                <input type="text" id="default_warehouse" name="default_warehouse" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-3" id="good_name_row">
+                            <label for="good_name" class="form-label mb-0" th:text=" #{client_area.orders.good_name}">Name</label>
+                            <input id="good_name" name="good_name" type="text" class="form-control">
+                        </div>
+
+                        <div class="col-12 col-md-2" id="good_costs_row">
+                            <label for="good_costs" class="form-label mb-0" th:text=" #{client_area.orders.good_costs}"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text text-primary">$</span>
+                                    <span class="input-group-text text-primary">0.00</span>
+                                </div>
+                                <input type="text" id="good_costs" name="good_costs" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2" id="good_weight_row">
+                            <label for="good_weight" class="form-label mb-0" th:text=" #{client_area.orders.good_weight}"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text text-primary">Кг</span>
+                                    <span class="input-group-text text-primary">0.00</span>
+                                </div>
+                                <input type="text" id="good_weight" name="good_weight" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2">
+                            <div class="form-group mb-0" id="good_count_row">
+                                <label for="good_weight" class="form-label mb-0" th:text=" #{client_area.orders.good_count}"></label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <button class="btn btn-primary text-white" id="good_count_minus" type="button"><i class="fa fa-minus"></i></button>
+                                    </span>
+                                    <input type="number" min="1" class="form-control" id="good_count" name="good_count">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary text-white" id="good_count_plus" type="button"><i class="fa fa-plus"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Step 1 Row 2 -->
+
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-5" id="req_work_note_row">
+                            <label for="good_notes" class="form-label mb-0" th:text="#{client_area.orders.good_notes}"></label>
+                            <textarea class="form-control" rows="5" maxlength="612" style="resize:none;" id="good_notes" name="good_notes">
+                            </textarea>
+                        </div>
+
+                        <div class="col-12 col-md-2">
+                            <label class="form-label mb-0" th:text="#{client_area.orders.good_other_customs}"></label>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="good_other_customs_1">
+                                <label class="custom-control-label" for="good_other_customs_1" id="good_other_customs_1_text"></label>
+                            </div>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="good_other_customs_2">
+                                <label class="custom-control-label" for="good_other_customs_2" id="good_other_customs_2_text"></label>
+                            </div>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="good_other_customs_3">
+                                <label class="custom-control-label" for="good_other_customs_3" id="good_other_customs_3_text"></label>
+                            </div>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="good_other_customs_4">
+                                <label class="custom-control-label" for="good_other_customs_4" id="good_other_customs_4_text"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <label class="form-label mb-0" th:text="#{client_area.orders.good_prepaid_customs}"></label>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="good_prepaid_customs_1" disabled checked>
+                                <label class="custom-control-label" for="good_prepaid_customs_1" id="good_prepaid_customs_1_text"></label>
+                            </div>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="good_prepaid_customs_2" disabled checked>
+                                <label class="custom-control-label" for="good_prepaid_customs_2" id="good_prepaid_customs_2_text"></label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="good_prepaid_customs_3" disabled checked>
+                                <label class="custom-control-label" for="good_prepaid_customs_3" id="good_prepaid_customs_3_text"></label>
+                            </div>
+                        </div>
+                    </div><!-- Step 1 Row 3 -->
+                </div><!-- Step 1 -->
+                <div id="validation-step-2">
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-3" id="delivery_type_row">
+                            <label for="delivery_type_id" class="form-label mb-0" th:text="#{client_area.orders.delivery_type}"></label>
+                            <select class="custom-select" id="delivery_type_id" name="delivery_type_id">
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6" id="delivery_notes_row">
+                            <label for="delivery_type_id" class="form-label mb-0"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span id="delivery_notes_sigh" class="input-group-text"><i class="fa fa-plane text-primary"></i></span>
+                                </div>
+                                <input type="text" id="delivery_notes" name="delivery_notes" class="form-control">
+                            </div>
+                        </div>
+                    </div><!-- Step 2 Row 1 -->
+
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-3" id="delivery_type_select_row">
+                            <div id="delivery_type_check_list">
+                                <label class="custom-control custom-radio">
+                                    <input name="custom-radio" type="radio" class="custom-control-input" id="self_delivery" value="1" checked>
+                                    <span class="custom-control-label" id="self_delivery_text"></span>
+                                </label>
+                                <label class="custom-control custom-radio">
+                                    <input name="custom-radio" type="radio" class="custom-control-input" id="capital_delivery" value="2">
+                                    <span class="custom-control-label" id="capital_delivery_text"></span>
+                                </label>
+                                <label class="custom-control custom-radio">
+                                    <input name="custom-radio" type="radio" class="custom-control-input" id="region_delivery" value="3">
+                                    <span class="custom-control-label" id="region_delivery_text"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="row mb-1" id="regions_delivery_area_row">
+                                <div class="col-12 col-md-3" id="regions_delivery_region_row">
+                                    <label for="regions_delivery_region_id" class="form-label mb-0" th:text="#{client_area.orders.regions_delivery_region_name}"></label>
+                                    <select class="custom-select" id="regions_delivery_region_id" name="regions_delivery_region_id">
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-3" id="regions_delivery_city_row">
+                                    <label for="regions_delivery_city_id" class="form-label mb-0" th:text="#{client_area.orders.regions_delivery_city_name}"></label>
+                                    <select class="custom-select" id="regions_delivery_city_id" name="regions_delivery_city_id">
+                                    </select>
+                                </div>
+                            </div><!-- Region Delivery Row 1 -->
+
+                            <div class="row mb-1" id="regions_delivery_branch_row">
+                                <div class="col-12 col-md-6" id="regions_delivery_branch_name_row">
+                                    <label for="regions_delivery_branch_id" class="form-label mb-0" th:text="#{client_area.orders.regions_delivery_branch_name}"></label>
+                                    <select class="custom-select" id="regions_delivery_branch_id" name="regions_delivery_branch_id">
+                                    </select>
+                                </div>
+                            </div><!-- Region Delivery Row 2 -->
+
+                            <div class="row mb-1" id="capital_delivery_city_row">
+                                <div class="col-12 col-md-3" id="capital_delivery_city_name">
+                                    <label for="capital_delivery_city_id" class="form-label mb-0" th:text="#{client_area.orders.capital_delivery_city_name}"></label>
+                                    <select class="custom-select" id="capital_delivery_city_id" name="capital_delivery_city_id">
+                                    </select>
+                                </div>
+                            </div><!-- Capital Delivery Row 1 -->
+
+                            <div class="row mb-1" id="capital_delivery_address_row">
+                                <div class="col-12 col-md-3" id="capital_delivery_street_row">
+                                    <label for="capital_delivery_street_id" class="form-label mb-0" th:text="#{client_area.orders.capital_delivery_street_name}"></label>
+                                    <select class="custom-select" id="capital_delivery_street_id" name="capital_delivery_street_id">
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-3" id="capital_delivery_house_row">
+                                    <label for="capital_delivery_house" class="form-label mb-0" th:text=" #{client_area.orders.capital_delivery_house}">Name</label>
+                                    <input id="capital_delivery_house" name="capital_delivery_house" type="text" class="form-control">
+                                </div>
+
+                                <div class="col-12 col-md-3" id="capital_delivery_flat_row">
+                                    <label for="capital_delivery_flat" class="form-label mb-0" th:text=" #{client_area.orders.capital_delivery_flat}">Name</label>
+                                    <input id="capital_delivery_flat" name="capital_delivery_flat" type="text" class="form-control">
+                                </div>
+                            </div><!-- Capital Delivery Row 2 -->
+
+                            <div class="row mb-1" id="self_delivery_city_row">
+                                <div class="col-12 col-md-3" id="self_delivery_city_name">
+                                    <label for="self_delivery_city_id" class="form-label mb-0" th:text="#{client_area.orders.self_delivery_city_name}"></label>
+                                    <select class="custom-select" id="self_delivery_city_id" name="self_delivery_city_id">
+                                    </select>
+                                </div>
+                            </div><!-- Self Delivery Row 1 -->
+
+                            <div class="row mb-1" id="self_delivery_address_row">
+                                <div class="col-12 col-md-8" id="self_delivery_street_row">
+                                    <label for="self_delivery_address_name" class="form-label mb-0" th:text="#{client_area.orders.self_delivery_address_name}"></label>
+                                    <input id="self_delivery_address_name" name="self_delivery_address_name" type="text" class="form-control">
+                                </div>
+                            </div><!-- Self Delivery Row 2 -->
+                        </div>
+                    </div><!-- Step 2 Row 2 -->
+                </div><!-- Step 2 -->
+                <div id="validation-step-3">
+                    <div class="row mb-1" id="delivery_cost_row">
+                        <div id="delivery_cost_card_div" class="col-12 col-sm-6 col-md-3 col-xl-3 d-flex pt-md-0 mb-0">
+                            <div id="delivery_cost_card" class="card flex-fill bg-primary-light text-white">
+                                <div class="card-header">
+                                    <h5 id="delivery_cost_header" class="card-title text-white mb-0">Стоимость доставки</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters">
+                                        <div class="col-6 align-self-center text-left">
+                                            <h4 id="delivery_cost_cource_text" class="text-white">Курс USD/UAH:</h4>
+                                            <h3 id="delivery_cost_main_text" class="text-white">Всего в USD:</h3>
+                                            <h6 id="delivery_cost_second_text" class="text-white">Всего в UAH:</h6>
+                                        </div>
+                                        <div class="col-6 align-self-center text-right">
+                                            <p class="text-white mb-1" id="action_text_p"></p>
+                                            <h4 id="delivery_cource_text" class="text-white">27.85</h4>
+                                            <h3 id="delivery_cost_text" class="text-white">0.00</h3>
+                                            <h6 id="delivery_cost_priv_text" class="text-white">0.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="good_cost_card_div" class="col-12 col-sm-6 col-md-3 col-xl-3 d-flex pt-md-0 mb-0">
+                            <div id="good_cost_card" class="card flex-fill bg-secondary-light text-white">
+                                <div class="card-header">
+                                    <h5 id="good_cost_header" class="card-title text-white mb-0">Стоимость товаров</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters">
+                                        <div class="col-6 align-self-center text-left">
+                                            <h4 id="good_cost_cource_text" class="text-white"></h4>
+                                            <h3 id="good_cost_main_text" class="text-white">Всего в USD:</h3>
+                                            <h6 id="good_cost_second_text" class="text-white">Всего в UAH:</h6>
+                                        </div>
+                                        <div class="col-6 align-self-center text-right">
+                                            <p class="text-white mb-1" id="good_text_p"></p>
+                                            <h4 id="good_cource_text" class="text-white"></h4>
+                                            <h3 id="good_cost_text" class="text-white">0.00</h3>
+                                            <h6 id="good_cost_priv_text" class="text-white">0.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6 pt-md-0 mb-0" id="cost_text_row">
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span id="cost_text_1_sign" class="input-group-text"><i class="fa fa-calculator text-primary"></i></span>
+                                        </div>
+                                        <input type="text" id="cost_text_1" name="cost_text_1" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span id="cost_text_2_sign" class="input-group-text"><i class="fa fa-business-time text-primary"></i></span>
+                                        </div>
+                                        <input type="text" id="cost_text_2" name="cost_text_2" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span id="cost_text_3_sign" class="input-group-text"><i class="fa fa-shield-alt text-primary"></i></span>
+                                        </div>
+                                        <input type="text" id="cost_text_3" name="cost_text_2" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Step 3 Row 1 -->
+
+                    <div class="row mb-1" id="delivery_cost_message_row">
+                        <div class="col-12">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <div class="alert-icon align-self-center">
+                                    <i class="far fa-fw fa-bell"></i>
+                                </div>
+                                <div class="alert-message">
+                                    <strong>Внимание!</strong> Стоимость оплаты по прибытию вашего заказа может отличаться от начальной, в зависимости от фактического веса заказа.
+                                    Доплату можно осуществить электронным переводом, или оплатой на банковскую карту.
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Step 3 Row 2 -->
+                </div><!-- Step 3 -->
+                <div id="validation-step-4">
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-3">
+                            <label for="receiver_lastname" class="form-label mb-0" th:text=" #{client_area.orders.receiver_lastname}"></label>
+                            <input id="receiver_lastname" name="receiver_lastname" type="text" class="form-control">
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <label for="receiver_firstname" class="form-label mb-0" th:text=" #{client_area.orders.receiver_firstname}"></label>
+                            <input id="receiver_firstname" name="receiver_firstname" type="text" class="form-control">
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <label for="receiver_middlename" class="form-label mb-0" th:text=" #{client_area.orders.receiver_middlename}"></label>
+                            <input id="receiver_middlename" name="receiver_middlename" type="text" class="form-control">
+                        </div>
+                    </div><!-- Step 4 Row 1 -->
+
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-3">
+                            <label for="receiver_phone" class="form-label mb-0" th:text=" #{client_area.orders.receiver_phone}"></label>
+                            <input id="receiver_phone" name="receiver_phone" type="text" class="form-control">
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="receiver_email" class="form-label mb-0" th:text=" #{client_area.orders.receiver_email}"></label>
+                            <input id="receiver_email" name="receiver_email" type="email" class="form-control">
+                        </div>
+                    </div><!-- Step 4 Row 2 -->
+
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-2" id="receiver_zipcode_row">
+                            <label for="receiver_zipcode" class="form-label mb-0" th:text=" #{client_area.orders.receiver_zipcode}"></label>
+                            <input id="receiver_zipcode" name="receiver_zipcode" type="text" class="form-control" data-mask="00000">
+                        </div>
+
+                        <div class="col-12 col-md-3" id="receiver_region_row">
+                            <label for="receiver_region" class="form-label mb-0" th:text="#{client_area.orders.receiver_region}"></label>
+                            <select class="custom-select" id="receiver_region" name="receiver_region">
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-3" id="receiver_city_row">
+                            <label for="receiver_city" class="form-label mb-0" th:text="#{client_area.orders.receiver_city}"></label>
+                            <select class="custom-select" id="receiver_city" name="receiver_city">
+                            </select>
+                        </div>
+                    </div><!-- Step 4 Row 3 -->
+
+                    <div class="row mb-1">
+                        <div class="col-12 col-md-5" id="receiver_street_row">
+                            <label for="receiver_street" class="form-label mb-0" th:text="#{client_area.orders.receiver_street}"></label>
+                            <select class="custom-select" id="receiver_street" name="receiver_street">
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-2" id="receiver_house_row">
+                            <label for="receiver_house" class="form-label mb-0" th:text=" #{client_area.orders.receiver_house}"></label>
+                            <input id="receiver_house" name="receiver_house" type="text" class="form-control">
+                        </div>
+
+                        <div class="col-12 col-md-2" id="receiver_flat_row">
+                            <label for="receiver_flat" class="form-label mb-0" th:text=" #{client_area.orders.receiver_flat}"></label>
+                            <input id="receiver_flat" name="receiver_flat" type="text" class="form-control">
+                        </div>
+                    </div><!-- Step 4 Row 4 -->
+                </div><!-- Step 4 -->
+            </div>
+            </form>
+        </div>
+</span>
+
+<script th:fragment="cardscript" th:inline="javascript">
+    function client_area_new_order_fill(){
+//Step 1
+        $('#payment_type_id').empty();
+        $("select[name='payment_type_id']").find('option').end().append("<option value='1' selected>Оплачиваете IPEX</option>");
+        $("select[name='payment_type_id']").find('option').end().append("<option value='2'>Оплачиваю сам</option>");
+
+        $('#good_costs').val('0.01');
+        $('#good_weight').val('0.01');
+        $('#good_count').val('1');
+
+        $('#good_tracking_num').val('');
+
+        $('#warehouse_row').prop('hidden', true);
+        $('#default_warehouse').val('6 Merry Lane || East Hanover || NJ 07936, USA || Tel: +1.862.701.5727');
+        $('#default_warehouse').attr('readonly', true);
+        $('#default_warehouse_sign').attr('disabled', true);
+//Step 2
+        $('#delivery_type_id').empty();
+        $("select[name='delivery_type_id']").find('option').end().append("<option value='1' selected>Авиа</option>");
+        $('#delivery_notes').val('Доставка Авиа со склада в США до Украины от 5 до 12 дней').attr('readonly', true);
+
+        $('#self_delivery').prop('checked', true);
+        $('#self_delivery_city_row').prop('hidden', false);
+        $('#self_delivery_city_id').empty();
+        $("select[name='self_delivery_city_id']").find('option').end().append("<option value='1' selected>Киев</option>");
+        $('#self_delivery_address_row').prop('hidden', false);
+        $('#self_delivery_address_name').attr('readonly', true).val('пр-т Степана Бандеры, 23, ТЦ "ГородОК", 1 этаж');
+
+        $('#capital_delivery').prop('checked', false);
+        $('#capital_delivery_city_row').prop('hidden', true);
+        $('#capital_delivery_city_id').empty();
+        $("select[name='capital_delivery_city_id']").find('option').end().append("<option value='1' selected>Киев</option>");
+        $('#capital_delivery_address_row').prop('hidden', true);
+
+        $('#region_delivery').prop('checked', false);
+        $('#regions_delivery_area_row').prop('hidden', true);
+        $('#regions_delivery_branch_row').prop('hidden', true);
+
+        $('#good_other_customs_1_text').text('Проверка товара');
+        $('#good_other_customs_2_text').text('Разделение посылки');
+        $('#good_other_customs_3_text').text('Проверка на соответствие');
+        $('#good_other_customs_4_text').text('Страховка товара');
+
+        $('#good_prepaid_customs_1_text').text('Прием посылки на складе в США');
+        $('#good_prepaid_customs_2_text').text('Таможенное оформление');
+        $('#good_prepaid_customs_3_text').text('Предоставление адреса в США');
+
+        $('#self_delivery_text').text('Самовывоз (Киев)');
+        $('#capital_delivery_text').text('Курьерская доставка (Киев)');
+        $('#region_delivery_text').text('Новая почта (Другие города)');
+//Step 3
+        $('#cost_text_1').attr('readonly', true).val('БЕСПЛАТНАЯ доставка заказов по Украине');
+        $('#cost_text_2').attr('readonly', true).val('Доставка от 5 дней (со склада в США)');
+        $('#cost_text_3').attr('readonly', true).val('Страховка всех посылок');
+    }
+
+    $(document).ready(function(){
+        // Validation
+        var $validationForm = $("#smartwizard-validation");
+        $validationForm.validate({
+            errorPlacement: function errorPlacement(error, element) {
+                $(element).parents(".form-group").append(
+                    error.addClass("invalid-feedback small d-block")
+                )
+            },
+            highlight: function(element) {
+                $(element).addClass("is-invalid");
+            },
+            unhighlight: function(element) {
+                $(element).removeClass("is-invalid");
+            },
+            rules: {
+                "wizard-confirm": {
+                    equalTo: "input[name=\"password\"]"
+                }
+            }
+        });
+
+        $validationForm
+            .smartWizard({
+                autoAdjustHeight: false,
+                backButtonSupport: false,
+                useURLhash: false,
+                theme: "arrows",
+                showStepURLhash: false,
+                toolbarButtonPosition: "center",
+                toolbarSettings: {
+                    toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-success\" type=\"button\">Завершить</button>")]
+                },
+                keyboardSettings: {
+                    keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                    keyLeft: [37], // Left key code
+                    keyRight: [39] // Right key code
+                },
+                lang: { // Language variables for button
+                    next: 'Далее',
+                    previous: 'Назад'
+                },
+            })
+            .on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                if (stepDirection === "forward") {
+                    return $validationForm.valid();
+                }
+                return true;
+            });
+        $validationForm.find(".btn-submit").on("click", function() {
+            if (!$validationForm.valid()) {
+                return;
+            }
+            // alert("Great! The form is valid and ready to submit.");
+            $.ajax({
+                url: /*[[ @{/registration/newuser} ]]*/ "/registration/newuser",
+                type: 'POST',
+                data: $validationForm.serialize(),
+                success: function (result) {
+                    $("#login").submit();
+                },
+                error: function (result) {
+                    alert("Error:"+result);
+                }
+            });
+            return false;
+        });
+
+        client_area_new_order_fill();
+    });
+//On change functions
+    $('#payment_type_id').on('change', function () {
+        if($('#payment_type_id').val() === '2'){
+            $('#warehouse_row').prop('hidden', false);
+        }
+        else{
+            $('#warehouse_row').prop('hidden', true);
+        }
+    });
+
+    $('#good_count_plus').on('click', function () {
+        let goodCountPlusValue = parseInt($('#good_count').val());
+        $('#good_count').val(goodCountPlusValue + 1);
+    });
+
+    $('#good_count_minus').on('click', function () {
+        let goodCountMinusValue = parseInt($('#good_count').val());
+        if(goodCountMinusValue > 1) {
+            $('#good_count').val(goodCountMinusValue - 1);
+        }
+    });
+
+    $('#delivery_type_check_list').on('change', function () {
+        let DeliveryCheckID = $('#delivery_type_check_list input:radio:checked').val();
+
+        if(DeliveryCheckID === '1'){
+            $('#self_delivery_city_row').prop('hidden', false);
+            $('#self_delivery_address_row').prop('hidden', false);
+
+            $('#capital_delivery_city_row').prop('hidden', true);
+            $('#capital_delivery_address_row').prop('hidden', true);
+
+            $('#regions_delivery_area_row').prop('hidden', true);
+            $('#regions_delivery_branch_row').prop('hidden', true);
+        }
+        else if(DeliveryCheckID === '2'){
+            $('#self_delivery_city_row').prop('hidden', true);
+            $('#self_delivery_address_row').prop('hidden', true);
+
+            $('#capital_delivery_city_row').prop('hidden', false);
+            $('#capital_delivery_address_row').prop('hidden', false);
+
+            $('#regions_delivery_area_row').prop('hidden', true);
+            $('#regions_delivery_branch_row').prop('hidden', true);
+        }
+        else if(DeliveryCheckID === '3'){
+            $('#self_delivery_city_row').prop('hidden', true);
+            $('#self_delivery_address_row').prop('hidden', true);
+
+            $('#capital_delivery_city_row').prop('hidden', true);
+            $('#capital_delivery_address_row').prop('hidden', true);
+
+            $('#regions_delivery_area_row').prop('hidden', false);
+            $('#regions_delivery_branch_row').prop('hidden', false);
+        }
+    });
+</script>
+
+</body>
+</html>

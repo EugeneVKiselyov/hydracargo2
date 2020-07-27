@@ -80,6 +80,14 @@
                         <li class="sidebar-item"><a class="sidebar-link" th:href="@{/help}" th:text="#{help.caption}">Help</a></li>
                     </ul>
                 </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')" class="sidebar-item" id="store_li">
+                    <a href="#store" id="store_a" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-store"></i> <span class="align-middle" th:text="#{store.caption}">Store</span>
+                    </a>
+                    <ul id="store" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" th:href="@{/client_area}" th:text="#{client_area.caption}">Client Area</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
 </nav>
