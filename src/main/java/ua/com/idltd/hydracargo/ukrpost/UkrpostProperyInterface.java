@@ -4,6 +4,10 @@ public interface UkrpostProperyInterface {
 
     public String getBEARER();
     public String getAPISUPPORTCOUNTERPARTYADMINTOKEN();
+    public String getCLIENTUUID();
+    public String getADDRESSUUID();
+    public Long getADDRESSID();
+    public boolean isOneSender();
     public String getCOUNTRY();
     public String getSITY();
     public String getREGION();

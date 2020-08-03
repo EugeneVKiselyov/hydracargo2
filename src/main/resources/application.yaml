@@ -153,7 +153,7 @@ telegram :
       datasource:
         type: com.zaxxer.hikari.HikariDataSource
         dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-        url: jdbc:oracle:thin:@//localhost:1528/ORCLPDB1
+        url: jdbc:oracle:thin:@//localhost:1526/ORCLPDB1
         username: HCARGO
         password: qazzaq
         hikari:

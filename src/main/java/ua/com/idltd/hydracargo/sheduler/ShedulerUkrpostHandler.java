@@ -29,8 +29,6 @@ public class ShedulerUkrpostHandler {
     private final DataSource dataSource;
     private final Ukrpost_transerRepository ukrpost_transerRepository;
 
-    private final RestTemplate restTemplate = new RestTemplate();
-
     @Autowired
     public ShedulerUkrpostHandler(@Qualifier("dataSource") DataSource dataSource, Ukrpost_transerRepository ukrpost_transerRepository) {
         this.dataSource = dataSource;

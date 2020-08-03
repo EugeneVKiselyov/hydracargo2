@@ -19,15 +19,14 @@ public class UkrpostProccessing {
     private String queryClient;
     private String queryShipment;
     private String queryShipmentLabel;
+    private String queryShipmentGroup;
 
     private static HttpHeaders headers = new HttpHeaders();
 
-    private final Ukrpost_transerRepository ukrpost_transerRepository;
     private final RestTemplate restTemplate;
 
     public UkrpostProccessing(UkrpostProperyInterface property, Ukrpost_transerRepository ukrpost_transerRepository) {
         this.property=property;
-        this.ukrpost_transerRepository = ukrpost_transerRepository;
         this.restTemplate = new RestTemplate();
 
         headers.set("Authorization", "Bearer " + property.getBEARER());
@@ -37,12 +36,16 @@ public class UkrpostProccessing {
         queryClient=String.format("https://ukrposhta.ua/ecom/0.0.1/clients?token=%s",property.getAPISUPPORTCOUNTERPARTYADMINTOKEN());
         queryShipment=String.format("https://ukrposhta.ua/ecom/0.0.1/shipments?token=%s",property.getAPISUPPORTCOUNTERPARTYADMINTOKEN());
         queryShipmentLabel="https://ukrposhta.ua/ecom/0.0.1/shipments/%s/sticker?token="+property.getAPISUPPORTCOUNTERPARTYADMINTOKEN();
+        queryShipmentGroup="https://ukrposhta.ua/ecom/0.0.1/shipment-groups/?token="+property.getAPISUPPORTCOUNTERPARTYADMINTOKEN();
 
     }
 
     public UPInternationalAddressResponse addSenderAddress(Ukrpost_transfer ut){
         //записываем или ищем адрес отправителя, отправляем от одного отправителя, возвращаем id адреса укрпочты
-        UPAddress upAddress = new UPAddress();
+        UPInternationalAddressResponse upInternationalAddressResponse = null;
+
+
+            UPAddress upAddress = new UPAddress();
             upAddress.setCountry(property.getCOUNTRY());
             upAddress.setCity(property.getSITY());
             upAddress.setRegion(property.getREGION());
@@ -50,23 +53,28 @@ public class UkrpostProccessing {
             upAddress.setHouseNumber(property.getHOUSENUMBER());
             upAddress.setPostcode(IpexProperty.POSTCODE);
 
-        UPInternationalAddressResponse upInternationalAddressResponse = null;
-        try {
+            try {
 
-            ut.ut_saddress= new JSONObject(upAddress).toString();
+                ut.ut_saddress = new JSONObject(upAddress).toString();
 
-            ResponseEntity<UPInternationalAddressResponse> response = restTemplate.exchange(queryAddress, HttpMethod.POST, new HttpEntity<>(upAddress, headers), UPInternationalAddressResponse.class);
-            upInternationalAddressResponse = response.getBody();
+                if (!property.isOneSender()) {
+                    //если адрес оправителя не наш
 
-            ut.ut_sadderssid = upInternationalAddressResponse.getId();
-            ut.ut_saddressresponse = new JSONObject(upInternationalAddressResponse).toString();
+                    ResponseEntity<UPInternationalAddressResponse> response = restTemplate.exchange(queryAddress, HttpMethod.POST, new HttpEntity<>(upAddress, headers), UPInternationalAddressResponse.class);
+                    upInternationalAddressResponse = response.getBody();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            ut.ut_status = -1L;
-            ut.ut_error = e.getMessage();
-        }
+                    ut.ut_sadderssid = upInternationalAddressResponse.getId();
+                    ut.ut_saddressresponse = new JSONObject(upInternationalAddressResponse).toString();
+                } else {
+                    ut.ut_sadderssid = property.getADDRESSID();
+                }
 
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                ut.ut_status = -1L;
+                ut.ut_error = e.getMessage();
+            }
         return upInternationalAddressResponse;
     }
 
@@ -107,7 +115,14 @@ public class UkrpostProccessing {
     public UPClientResponse addSender(Ukrpost_transfer ut){
         //добавляем отправителя
         //формируем запрос на создание отправителя Ukrpost
-        UPSenderClient upSenderClient = new UPSenderClient();
+        UPClientResponse upSenderClientResponse = null;
+
+        if (property.isOneSender()) {
+            //если все отправляем от одного клиента нас как компании
+            ut.ut_suuid = property.getCLIENTUUID();
+        } else {
+            //если отправляем от клиента прописанного в отправителе
+            UPSenderClient upSenderClient = new UPSenderClient();
 //                            upSenderClient.setAddressId(ut.ut_sadderssid);
             upSenderClient.setName(ut.ut_sname);
             upSenderClient.setPhoneNumber(ut.ut_sphonenumber);
@@ -115,30 +130,29 @@ public class UkrpostProccessing {
             upSenderClient.setEdrpou(ut.ut_sedrpou);
             upSenderClient.setType(ut.ut_stype);
 
-        Addresses addresses=new Addresses();
+            Addresses addresses = new Addresses();
             addresses.setAddressId(ut.ut_sadderssid);
             addresses.setMain(true);
 
-        List addressesList=new ArrayList();
+            List addressesList = new ArrayList();
             addressesList.add(addresses);
-        upSenderClient.setAddresses(addressesList);
+            upSenderClient.setAddresses(addressesList);
 
-        UPClientResponse upSenderClientResponse = null;
-        try{
-            ut.ut_sclient=new JSONObject(upSenderClient).toString();
+            try {
+                ut.ut_sclient = new JSONObject(upSenderClient).toString();
 
-            ResponseEntity<UPClientResponse> response = restTemplate.exchange(queryClient, HttpMethod.POST, new HttpEntity<>(upSenderClient, headers), UPClientResponse.class);
-            upSenderClientResponse = response.getBody();
+                ResponseEntity<UPClientResponse> response = restTemplate.exchange(queryClient, HttpMethod.POST, new HttpEntity<>(upSenderClient, headers), UPClientResponse.class);
+                upSenderClientResponse = response.getBody();
 
-            ut.ut_suuid =upSenderClientResponse.getUuid();
-            ut.ut_sclientresponse = new JSONObject(upSenderClientResponse).toString();
+                ut.ut_suuid = upSenderClientResponse.getUuid();
+                ut.ut_sclientresponse = new JSONObject(upSenderClientResponse).toString();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            ut.ut_status = -1L;
-            ut.ut_error = e.getMessage();
+            } catch (Exception e) {
+                e.printStackTrace();
+                ut.ut_status = -1L;
+                ut.ut_error = e.getMessage();
+            }
         }
-
         return upSenderClientResponse;
     }
 
@@ -241,5 +255,15 @@ public class UkrpostProccessing {
         }
 
         return labelResponse;
+    }
+
+    public UkrpostShipmentGroup addShipmentGroup(String name){
+        UkrpostShipmentGroup ukrpostShipmentGroup = new UkrpostShipmentGroup();
+        ukrpostShipmentGroup.setName(name);
+        ukrpostShipmentGroup.setClientUuid(property.getCLIENTUUID());
+
+        ResponseEntity<UkrpostShipmentGroup> response = restTemplate.exchange(queryShipmentGroup, HttpMethod.GET, new HttpEntity<>(ukrpostShipmentGroup, headers), UkrpostShipmentGroup.class);
+
+        return response.getBody();
     }
 }
