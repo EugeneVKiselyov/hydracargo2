@@ -67,10 +67,10 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     dataSourceClassName : oracle.jdbc.pool.OracleDataSource
 #    driver-class-name : oracle.jdbc.OracleDriver
-    #url: jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
+    url: jdbc:oracle:thin:@//localhost:1523/ORCLPDB1
     username : HCARGO
     password : qazzaq
-    url : jdbc:oracle:thin:@//localhost:1521/ORCLPDB1
+#    url : jdbc:oracle:thin:@//localhost:1521/ORCLPDB1
     hikari:
       connection-init-sql: alter session set current_schema=HCARGO
       minimum-idle: 2
